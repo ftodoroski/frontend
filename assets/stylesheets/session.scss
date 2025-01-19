@@ -1,0 +1,219 @@
+.session-form-background {
+    background-color: #000;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 3;
+}
+
+.session-form-container {
+    min-height: 660px;
+    width: 450px;
+    border: #141414 1px solid;
+    margin: 91px auto 0px;
+    background-color: rgba(0, 0, 0, .75);
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding: 61px 63px 40px;
+}
+
+.session-form-container h2 {
+    font-size: 32px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    margin-bottom: 28px;
+}
+
+.session-form {
+    padding-top: 13px;
+    width: 100%;
+    height: 471px;  
+}
+
+.session-error {
+    background: #e87c03;
+    border-radius: 4px;
+    padding: 10px 20px;
+    margin: 0 0 16px;
+    font-size: 14px;
+    letter-spacing: 0.6px;
+    line-height: normal;
+}
+
+.session-error span u:hover {
+    cursor: pointer;
+}
+
+.form-group-container {
+    padding-bottom: 16px;
+}
+
+.form-group-container p.active {
+    display: block;
+    color: #e87c03;
+    margin-bottom: -6px;
+    padding: 6px 3px;
+    font-size: 13px;
+}
+
+.form-group-container p.deactivated {
+    display: none;
+}
+
+div.active::after {
+    border-bottom: 2px solid #e87c03;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    bottom: 0;
+    content: "";
+    display: block;
+    height: 6px;
+    left: 0;
+    pointer-events: none;
+    position: absolute;
+    width: 100%;
+}
+
+.form-group {
+    width: 100%;
+    height: 50px;
+    position: relative;
+}
+
+.session-form > p {
+    width: 100%;
+}
+
+.form-group input {
+    height: 100%;
+    width: 100%;
+    background-color: #333;
+    border: none;
+    border-radius: 0.3rem;
+    padding: 16px 20px 0;
+    box-sizing: border-box;
+    outline: none;
+    color: #fff;
+    font-size: 16px;
+}
+
+.form-group input:focus {
+    background-color: #454545;
+}
+
+.form-group label {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    color: #8c8c8c;
+    pointer-events: none;
+    transition: 200ms ease-in-out transform, 200ms ease-in-out font-size;
+}
+
+.form-group input:focus~label,
+.form-group input:valid~label {
+    transform: translateY(-1.25rem);
+    font-size: 11px;
+}
+
+.session-auth-button {
+    color: white;
+    font-size: 16px;
+    background-color: #E50914;
+    display: block;
+    width: 100%;
+    height: 50px;
+    outline: none;
+    border: none;
+    border-radius: 4px;
+    margin: 24px 0 12px;
+    text-align: center;
+}
+
+.session-demo-button {
+    color: white;
+    font-size: 16px;
+    background-color: #E50914;
+    display: block;
+    width: 100%;
+    height: 50px;
+    outline: none;
+    border: none;
+    border-radius: 4px;
+    margin: 16px 0 12px;
+    text-align: center;
+}
+
+.session-auth-button, .session-demo-button {
+    cursor: pointer;
+}
+
+.remember-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.remember {
+    display: flex;
+}
+
+.remember svg {
+    fill: #686868;
+    display: block;
+    margin: auto;
+}
+
+.remember-me {
+    margin-left: 9px;
+}
+
+.remember-me, .need-help {
+    color: #b3b3b3;
+    font-size: 13px;
+}
+
+.need-help:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.redirect {
+    display: flex;
+    color: #737373;
+    margin-top: 16px;
+}
+
+#form-redirect {
+    margin-left: 5px;
+    color: white;
+}
+
+#form-redirect:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.captcha-section {
+    font-size: 13px;
+    color: #8c8c8c;
+    margin: 13px 0px;
+}
+
+.learn-more {
+    color: #0071eb;
+}
+
+.learn-more:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+
+
+// - add the cursor to the buttons
+// - fix the error message ui pushing down on elements

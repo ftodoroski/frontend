@@ -1,0 +1,318 @@
+.nav {
+    background: transparent;
+    position: absolute;
+    z-index: 12;
+    width: 100%;
+    height: 70px;
+}
+
+.nav-content {
+    height: 41px;
+    background-image: linear-gradient(180deg, rgba(0, 0, 0, .7) 10%, transparent);
+    
+    font-size: 14px;
+    color: #e5e5e5;
+    display: flex;
+    align-items: center;
+    padding: 0 4%;
+    padding-top: 2px;
+    
+    transition: height 2s, font-size 2s;
+
+    position: relative;
+}
+
+.nav-logo {
+    display: block;
+    height: 22px;
+    margin-right: 5px;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.primary-nav {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+}
+
+.nav-tab {
+    margin-left: 18px;
+    transition: margin-left 2s;
+    transition: color .4s;
+    color: #e5e5e5;
+
+    &:hover {
+        color: #b3b3b3;
+        cursor: pointer;
+    }
+}
+
+.current {
+    margin-left: 18px;
+    font-weight: 500;
+    color: #fff;
+}
+
+.secondary-nav {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    flex-grow: 1;
+    position: absolute;
+    right: 4%;
+    top: 0;
+}
+
+@keyframes open-input {
+    from {
+        width: 0;
+    }
+    to {
+        width: 212px;
+    }
+}
+
+.searchbox {
+    display: flex;
+    align-items: center;
+    background: rgba(0, 0, 0, .75);
+    border: 1px solid hsla(0, 0%, 100%, .85);
+    height: 37px;
+
+    .search-icon {
+        padding: 0 6px;
+        margin-left: 1px;
+        width: 24px;
+    }
+
+    .search-input {
+        height: 34px;
+        opacity: 1;
+        color: #fff;
+        font-size: 15px;
+        background: transparent;
+        border: none;
+        box-sizing: border-box;
+        outline: none;
+        padding: 7px 14px 7px 7px;
+        width: 212px;
+
+        animation: open-input 300ms;
+
+        &::placeholder {
+            color: #8D8D8D;
+            letter-spacing: .1px;
+        }
+    }
+
+    .close {
+        fill: white;
+        height: 24px;
+        width: 24px;
+        margin-right: 3px;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}
+
+.search-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.search-icon-focus {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    background: transparent;
+    border: none;
+    outline: none;
+
+    &:focus img {
+        width: 25.5px;
+        height: 25.5px;
+    }
+}
+
+.secondary-nav-element {
+
+    &:not(:last-child) {
+        margin-right: 15px;
+    }
+}
+
+.nav-element-hover{
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.account-menu-container {
+    position: relative;
+
+}
+
+.account-menu-container, .account-dropdown-buttons {
+    display: flex;
+    align-items: center;
+}
+
+.profile-menu-icon {
+    height: 32px;
+    width: 32px;
+    border-radius: 4px;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.caret {
+    border-color: #fff transparent transparent;
+    border-style: solid;
+    border-width: 5px 5px 0;
+    height: 0;
+    margin-left: 10px;
+    transition: transform 367ms;
+}
+
+@media screen and (min-width: 950px) {
+
+    .nav-content {
+        height: 68px;
+        font-size: 15.5px;
+    }
+    
+    .nav-tab {
+        margin-left: 20px;
+    }
+
+    .nav-logo {
+        height: 28px;
+    }
+}
+
+
+.menu {
+    position: absolute;
+    width: 235px;
+    height: auto;
+    background-color: rgba(0, 0, 0, .9);
+    right: 0;
+    top: 52px;
+    border: 1px solid hsla(0, 0%, 100%, .15);
+}
+
+
+.dropdown-menu-profiles {
+    padding: 12px 0px 5px;
+    height: auto;
+}
+
+.dropdown-profile {
+    display: flex;
+    align-items: center;
+
+    padding: 5px 10px;
+    font-size: 13px;
+
+    img {
+        height: 35px;
+        width: 35px;
+        margin-right: 10px;
+        border-radius: 4px;
+
+        &:hover {
+            cursor: pointer;
+        }
+
+        &:hover ~ p {
+            text-decoration: underline;
+        }
+    }
+
+    p {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        width: 100px;
+
+        &:hover {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    }
+}
+
+.sub-menu-list {
+    list-style-type: none;
+    font-size: 13px;
+    padding-bottom: 10px;
+    margin-top: 3px;
+
+    .sub-menu-item {
+        display: flex;
+        align-items: center;
+
+        padding: 5px 10px;
+
+        img {
+            display: flex;
+            align-items: center;
+            padding: 0px 6px;
+            margin-right: 10px;
+
+            &:hover {
+                cursor: pointer;
+            }
+
+            &:hover ~ p {
+                text-decoration: underline;
+            }
+        }
+
+        p {
+            width: 100%;
+
+            &:hover {
+                text-decoration: underline;
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+.signout-container {
+    border-top: 1px solid hsla(0, 0%, 100%, .25);
+    font-size: 13px;
+    padding: 10px 0px;
+
+    p {
+        padding: 5px 10px;
+        text-align: center;
+
+        &:hover {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+// ** adding the transition to the profile modal and profile for the header also add the media screen for the profile header
+// https: //www.w3schools.com/css/css3_transitions.asp
+// 
+// 
+// 
+// 

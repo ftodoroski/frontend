@@ -1,0 +1,606 @@
+// Refactor this to be higher up
+img {
+    border: 0;
+}
+
+.browse {
+    background-color: #141414;
+    position: relative;
+    top: 0;
+    z-index: 0;
+
+    // height: 1000px;
+    height: 100%;
+
+    // For hiding the overflow of slider
+    overflow-x: hidden;
+}
+
+.volatile-billboard-animations-container {
+    position: relative;
+    z-index: 1;
+}
+
+.billboard-row {
+    position: relative;
+    left: 0;
+    top: 0;
+    right: 0;
+
+    margin-bottom: 20px;
+    padding-bottom: 40%;  
+    
+    background-color: #000;
+
+    user-select: none;
+}
+
+.billboard {
+    background-color: #000;
+    height: 56.25vw;
+    position: absolute;
+    width: 100%;
+    z-index: 0;
+}
+
+.billboard-motion, .fill-container, .video-player-container {
+        bottom: 0;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+}
+
+.video-player-container {
+    background: #000;
+    overflow: hidden;
+    z-index: 1;
+
+    width: 100%;
+    height: 100%;
+    transition: width .3s, height .3s, top .3s, left .3s, opacity .3s;
+}
+
+.video-player-section {
+    // background-color: blue;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    video {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.motion-background-component {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+
+    z-index: 2;
+}
+
+.hero-image-wrapper {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.static-hero-image {
+    background-position: 50%;
+    background-size: cover;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: opacity .4s cubic-bezier(.665, .235, .265, .8) 0s;
+    width: 100%;
+    z-index: 5;
+}
+
+.side-vignette-layer {
+    background: linear-gradient(77deg, rgba(0, 0, 0, .6), transparent 85%);
+    bottom: 0;
+    left: 0;
+    opacity: .71;
+    position: absolute;
+    right: 26.09%;
+    top: 0;
+    transition: opacity .5s;
+    z-index: 8;
+}
+
+.bottom-vignette-layer {
+    background-color: transparent;
+    background-image: linear-gradient(180deg, hsla(0, 0%, 8%, 0) 0, hsla(0, 0%, 8%, .15) 15%, hsla(0, 0%, 8%, .35) 29%, hsla(0, 0%, 8%, .58) 44%, #141414 68%, #141414);
+    background-position: 0 top;
+    background-repeat: repeat-x;
+    background-size: 100% 100%;
+    bottom: -1px;
+    height: 14.7vw;
+    opacity: 1;
+    top: auto;
+    width: 100%;
+    left: 0;
+    position: absolute;
+    right: 0;
+    z-index: 8;
+}
+
+.embedded-button-layer {
+    align-items: center;
+    bottom: 35%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    position: absolute;
+    right: 0;
+    z-index: 10;
+}
+
+.action-button {
+    height: 2.4vw;
+    margin: 0 1.1vw 0 0;
+    position: relative;
+    width: 2.4vw;
+    align-items: flex-end;
+    display: flex;
+    flex-direction: column;
+    font-size: 1.35rem;
+}
+
+.audio-button {
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    color: white;
+
+    align-items: center;
+    appearance: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    opacity: 1;
+    padding: 10px;
+    position: relative;
+    user-select: none;
+    word-break: break-word;
+    white-space: nowrap;
+    border-radius: 50%;
+
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    &:focus {
+        outline: #ffffff solid 2px;
+        outline-offset: 2px
+    }
+}
+
+.volume {
+    height: 22px; 
+    width: 22px;
+}
+
+.maturity-rating {
+    align-items: center;
+    background-color: rgba(51, 51, 51, .6);
+    border: 3px #dcdcdc;
+    border-left-style: solid;
+    box-sizing: border-box;
+    display: flex;
+    font-size: 1.1vw;
+    height: 2.4vw;
+    padding: 0.5vw 3.5vw 0.5vw 0.8vw;
+}
+
+.maturity-number {
+    overflow: hidden;
+    padding: 0 0.4em;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.fill-container {
+    height: 100%;
+    width: 100%;
+}
+
+.info {
+    bottom: 35%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    left: 4%;
+    position: absolute;
+    top: 0;
+    width: 36%;
+    z-index: 10;
+}
+
+.logo-text-container {
+    transition: transform 1.5s cubic-bezier(.165, .84, .44, 1);
+    width: 100%;
+}
+
+.billboard-title {
+    margin-bottom: 1.2vw;
+    min-height: 13.2vw;
+    position: relative;
+}
+
+.title-logo{
+    transform-origin: bottom left;
+    width: 100%;
+}
+
+.synopsis {
+    color: #fff;
+    font-size: 1.2vw;
+    font-weight: 400;
+    line-height: normal;
+    margin-top: 0.1vw;
+    text-shadow: 2px 2px 4px rgb(0 0 0 / 45%);
+    width: 100%;
+}
+
+.billboard-buttons {
+    display: flex;
+    line-height: 88%;
+    margin-top: 1.5vw;
+    white-space: nowrap;
+    position: relative;
+    z-index: 10;
+}
+
+.playlink, .more-info{
+    padding: 10px 30px 10px 24px;
+
+    margin-bottom: 1rem;
+    margin-right: 1rem;
+
+    align-items: center;
+    border: 0;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    opacity: 1;
+    position: relative;
+    white-space: nowrap;
+}
+
+.playlink {
+    background-color: white;
+    color: black;
+
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.75);
+    }
+}
+
+.billboard-button-icon {
+    display: block;
+    height: 29px;
+    width: 29px;
+}
+
+.billboard-button-space {
+    width: 14px;
+    display: flex;
+    height: 100%;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.billboard-button-text {
+    font-size: 19px;
+}
+
+.more-info {
+    background-color: rgba(109, 109, 110, 0.7);
+    color: white;
+
+    &:hover {
+        background-color: rgba(109, 109, 110, 0.4);
+    }
+}
+
+.browse .slider-container:nth-child(2) {
+    margin: 1vw 0;
+}
+
+.slider-container {
+    position: relative;
+    z-index: 1;
+    box-sizing: border-box;
+    margin: 3vw 0;
+    padding: 0;
+
+    // Look this over
+    transition: transform .54s cubic-bezier(.5, 0, .1, 1) 0s;
+}
+
+.row-header {
+    line-height: 1.3;
+    margin: 0;
+}
+
+.row-content {
+    color: #e5e5e5;
+    display: inline-block;
+    font-size: 1.4vw;
+    font-weight: 500;
+    margin: 0 4% 0.5em;
+    min-width: 6em;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.row-content-title {
+    display: table-cell;
+    font-size: 1.4vw;
+    line-height: 1.25vw;
+    vertical-align: bottom;
+}
+
+.row-container {
+    position: relative;
+    z-index: 0;
+
+    // There is also a transition prop
+}
+
+.slider {
+    margin: 0;
+    padding: 0 4%;
+    position: relative;
+    z-index: 2;
+}
+
+.previous-caret-container {
+    // 
+    background: hsla(0, 0%, 8%, .5);
+
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+    left: -2px;
+
+    bottom: 0;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    width: 4%;
+    z-index: 20;
+
+    cursor: pointer
+}
+
+.previous-caret-container svg {
+    align-self: center;
+    display: none;
+    height: auto;
+    transition: transform .1s ease-out 0s;
+    transform-origin: 45% 50%;
+    width: 42px;
+
+    polyline {
+        stroke: white;
+    }
+}
+
+.pagination-indicator {
+
+    list-style-type: none;
+    margin: -24px 0 12px;
+    padding: 0;
+    position: absolute;
+    right: 4%;
+    top: 0;
+    font-size: .75vw;
+    display: none;
+
+    li {
+        background-color: #4d4d4d;
+        display: inline-block;
+        height: 2px;
+        margin-left: 1px;
+        width: 12px;
+    }
+
+    li.active {
+        background-color: #aaa;
+    }
+}
+
+.slider-mask {
+    overflow-x: visible;
+    padding-bottom: 1px;
+}
+
+.slider-content {
+    white-space: nowrap;
+
+    // Testing this one out
+    // transition: transform .75s, ease 0s;
+}
+
+.slider-content.animating {
+    // Pointer events thing is not applying
+    pointer-events: none;
+    transition: transform .75s ease 0s;
+}
+
+
+.slider-item {
+    // min-width 1400px
+    // maybe this needs to be seperate @media
+    width: 16.66666667%;
+
+    box-sizing: border-box;
+    display: inline-block;
+    padding: 0 0.2vw;
+    position: relative;
+    vertical-align: top;
+    white-space: normal;
+    z-index: 1;
+}
+
+.slider-item:first-child {
+    padding-left: 0;
+}
+
+.slider-link {
+    display: block;
+    color: #fff;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.boxart-container {
+    height: 0;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+
+    padding: 28.125% 0;
+
+    border-radius: 0.2vw;
+}
+
+.boxart-img {
+    cursor: pointer;
+
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+
+    border: 0;
+}
+
+.fallback-text-container {
+    border-radius: 4px;
+    background-color: #222;
+    background-image: linear-gradient(transparent, #000);
+    bottom: 0;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    right: 0;
+    z-index: -1;
+
+    .fallback-text {
+        bottom: 0;
+        box-sizing: border-box;
+        font-size: 17px;
+        font-weight: 500;
+        left: 8%;
+        margin: 0;
+        overflow: hidden;
+        padding: 0 0 10%;
+        position: absolute;
+        right: 8%;
+        text-align: center;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        // font-size needs to properly scale based
+        // on screen size
+    }
+}
+
+.next-caret-container {
+    background: hsla(0, 0%, 8%, .5);
+
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+    right: 0;
+
+    bottom: 0;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    width: 4%;
+    z-index: 20;
+
+    cursor: pointer
+}
+
+.next-caret-container svg {
+    align-self: center;
+    display: none;
+    height: auto;
+    transition: transform .1s ease-out 0s;
+    transform-origin: 45% 50%;
+    width: 42px;
+
+    polyline {
+        stroke: white;
+    }
+}
+
+
+.arrow-row-header {
+    display: table-cell;
+    vertical-align: bottom;
+
+    .see-all-link {
+        color: #54b9c5;
+        cursor: pointer;
+        display: inline-block;
+        font-size: .9vw;
+        line-height: .8vw;
+        margin-right: 4px;
+        // margin-right needs to be added conditionally
+        max-width: 0;
+        opacity: 0;
+        transition: max-width 1s, opacity 1s, transform .75s;
+        vertical-align: bottom;
+        white-space: nowrap;
+    }
+
+    .arrow-chevron-container {
+        display: none;
+        transition: transform .75s;
+        
+        svg {
+            vertical-align: bottom;
+            display: inline-block;
+            
+            polyline {
+                stroke: #54b9c5;
+            }
+        }
+    }
+}
+
+// Needs to be outside like this when refactoring
+// (No change needed)
+.minimizedChevron {
+    height: 15px;
+    width: 15px;
+}
+
+
+
+
+// Better organization needs to done for css 
+// cuz right not the code is all over the place
+// not really following the principles of SCSS

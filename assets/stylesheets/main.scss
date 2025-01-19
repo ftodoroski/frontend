@@ -1,0 +1,123 @@
+// background color base - #141414
+// netlifx color -         #E50914
+// make border 0 for the reset(for some reason its not working)
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, 
+p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, 
+dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, 
+var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, 
+legend, table, caption, tbody, tfoot, thead, tr, th, td, article,
+aside, canvas, details, embed, figure, figcaption, footer, header, main, hgroup
+,menu, nav, output, ruby, section, summary, time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    font-size: 100%;
+}
+
+html {
+    height: 100%;
+    background-color: #141414;
+    font-family: 'Helvetica Neue', sans-serif;
+    color: white
+}
+
+body {
+    min-height: 100vh;
+}
+
+.auth-header {
+    height: 90px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    position: relative; 
+    z-index: 5 ; 
+}
+
+.logo {
+    width: 220px;
+    height: 45px;
+}
+
+.header-button {
+    background-color: #E50914;
+    color: white;
+    text-align: center;
+    border: none;
+    border-radius: 3px;
+    font-size: 16px;
+    height: 38px;
+    padding: 7px 17px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 100;
+    cursor: pointer;
+}
+
+.homepage-background {
+    
+    &::before {
+        background-image: url('../images/background.png');
+        content: "";
+        display: block;
+        height: 100vh;
+        background-size: 100%;
+        background-repeat: no-repeat;
+        opacity: .5;
+        position: absolute;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
+        z-index: -1;
+        filter: blur(3px);
+    }
+}
+
+.homepage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-weight: bold;
+    position: relative;
+    top: 250px;
+
+    button {
+        background-color: #E50914;
+        font-size: 23px;
+        text-align: center;
+        border-radius: 3px;
+        margin: 30px 30px 0px;
+        padding: 10px;
+        border: none;
+
+        &:hover {
+                cursor: pointer;
+        }
+    }
+}
+
+.welcome {
+    text-align: center;
+    font-size: 48px;
+}
+
+.free {
+    width: 350px;
+    height: 60px;
+    color: white;
+    font-weight: 100;
+    letter-spacing: 1px;
+}
+
+.demo {
+    width: 120px;
+    height: 50px;
+    color: white;
+    letter-spacing: .75px;
+}
+
+.footer {
+    background-color: #141414;
+    min-height: 300px;
+}

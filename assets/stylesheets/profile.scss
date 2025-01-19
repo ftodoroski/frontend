@@ -1,0 +1,363 @@
+@keyframes zoom-fade {
+    from {
+        transform: scale(1.2);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes zoom-fade {
+    from {
+        transform: scale(1.2);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@-moz-keyframes zoom-fade {
+    from {
+        transform: scale(1.2);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.profile-page-header {
+    height: 70px;
+    width: 100%;
+    background-image: linear-gradient(180deg, rgba(0, 0, 0, .7) 10%, transparent);
+    position: absolute;
+    z-index: 10;
+}
+
+.profile-page {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-form {
+    max-width: 88%;
+    background-color: transparent;
+    animation-name: zoom-fade;
+    animation-duration: 350ms;
+    -webkit-animation-name: zoom-fade;
+    -webkit-animation-duration: 350ms;
+    -moz-animation-name: zoom-fade;
+    -moz-animation-duration: 350ms;
+}
+
+.watching {
+    color: #fff;
+    font-size: 3.4vw;
+    font-weight: unset;
+    margin: 33px 0;
+    text-align: center;
+    user-select: none;
+    letter-spacing: 1px;
+}
+
+.profile-list {
+    list-style-type: none;
+}
+
+.profile {
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+    width: 10vw;
+    max-width: 200px;
+    min-width: 84px;
+}
+
+.profile:hover {
+    cursor: pointer;
+
+    .profile-icon::after {
+        border-color: #e5e5e5
+    }
+
+    .profile-name {
+        color: #e5e5e5
+    }
+
+    .profile-icon-add {
+        background-color: #e5e5e5;
+    }
+}
+
+.profile:not(:last-child) {
+    margin: 0 2vw 0 0;
+}
+
+.profile-icon {
+    max-height: 200px;
+    height: 10vw;
+    min-height: 84px;
+
+    max-width: 200px;
+    width: 10vw;
+    min-width: 84px;
+
+    background-color: #333;
+    text-decoration: none;
+    box-sizing: border-box;
+    border-radius: 4px;
+    background-size: cover;
+    position: relative;
+}
+
+.profile-icon::after {
+    content: "";
+    display: block;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border: 0.2em solid transparent;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.profile-icon-add {
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.add {
+    color: #808080;
+    height: 7vw;
+    width: 7vw;
+}
+
+// 
+.edit-mode {
+    height: 100%;
+    width: 100%;
+
+    opacity: 0.5;
+    background-color: #333;
+    position: absolute;
+    border-radius: 4px;
+    z-index: 3;
+}
+
+.svg-icon {
+    height: 23%;
+    width: 23%;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 6;
+}
+
+.profile-name {
+    color: #808080;
+    display: block;
+    text-align: center;
+    font-size: 1.3vw;
+    margin: 0.6em 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    min-height: 1.8em;
+    user-select: none;
+}
+
+.manage {
+    background-color: transparent;
+    border: 1px solid grey;
+    color: grey;
+    cursor: pointer;
+    display: block;
+    font-size: 1.2vw;
+    margin: 2em auto;
+    padding: 0.5em 1.5em;
+
+    position: relative;
+    user-select: none;
+}
+
+.manage:hover {
+    color: #e5e5e5;
+    border-color: #e5e5e5;
+}
+
+.done {
+    background: #fff;
+    border: 1px solid grey;
+    color: black;
+    cursor: pointer;
+    display: block;
+    font-size: 1.2vw;
+    margin: 2em auto;
+    padding: 0.5em 1.5em;
+}
+
+.done:hover {
+    background: #E50914;
+    color: white;
+    border: 1px solid transparent;
+}
+
+// Modal
+.profile-form-modal {
+    width: 100%;
+    position: absolute;
+    height: 100vh;
+    background-color: #141414;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9;
+}
+
+.profile-fill-out-form {
+    max-width: 39vw;
+    animation-name: zoom-fade;
+    animation-duration: 350ms;
+    -webkit-animation-name: zoom-fade;
+    -webkit-animation-duration: 350ms;
+    -moz-animation-name: zoom-fade;
+    -moz-animation-duration: 350ms;
+}
+
+.form-heading {
+    display: flex;
+    flex-wrap: wrap;
+
+    h1 {
+        width: 100%;
+        font-weight: normal;
+        font-size: 3.8vw;
+        letter-spacing: 1px;
+        
+    }
+
+    h2 {
+        color: #666;
+        font-size: 1.2vw;
+        font-weight: normal;
+        margin: 10px 0;
+        width: 100%;
+    }
+}
+
+.profile-entry {
+    padding: 1em 0px;
+    border-top: 1px solid #333;
+    border-bottom: 1px solid #333;
+    display: flex;
+    align-items: center;
+}
+
+.profile-add-avatar {
+    max-height: 180px;
+    height: 8vw;
+    min-height: 80px;
+
+    max-width: 180px;
+    width: 8vw;
+    min-width: 80px;
+
+    background-color: #333;
+    text-decoration: none;
+    box-sizing: border-box;
+    border-radius: 4px;
+    background-size: cover;
+    margin-right: 1.5vw;
+}
+
+.profile-name-input {
+    background: #666;
+    border: 1px solid transparent;
+    box-sizing: border-box;
+    color: #fff;
+    margin: 0 0.8em 0 0;
+    text-indent: 0.1vw;
+    outline: none;
+
+    height: 2.5vw;
+    width: 22vw;
+    padding: 1.3%;
+
+    &::placeholder {
+        color: #c5c5c5;
+    }
+}
+
+.profile-name-error{
+    color: #ea3841;
+    font-size: 1vw;
+    margin: 5.5px 0 0;
+    width: 24rem;
+    display: none;
+}
+
+.profile-form-buttons {
+    margin-top: 20px;
+}
+
+.profile-button {
+    background-color: transparent;
+    display: inline-block;
+    margin-right: 20px;
+    padding: 0.5em 1.5em;
+    color: #808080;
+    border: 1px solid grey;
+    cursor: pointer;
+    font-size: 1.2vw;
+    font-weight: normal;
+
+    &:hover:not(.add-profile, .save-profile) {
+        color: #fff;
+        border-color: #fff;
+    }
+}
+
+.add-profile, .save-profile {
+    background: #fff;
+    border: 1px solid #fff;
+    color: black;
+
+    &:hover {
+        background: #c00;
+        border: 1px solid #c00;
+        color: #fff;
+    }
+}
+
+// These 2 have to be tested
+p.error-active {
+    color: #ea3841;
+    font-size: 1vw;
+    margin: 5.5px 0 0;
+    width: 24rem;
+    display: block;
+}
+
+input.error-active {
+    border: 1px solid #ea3841;
+}
+
+.edit-profile-heading {
+    margin-bottom: 5px;
+}
