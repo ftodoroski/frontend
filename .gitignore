@@ -1,3 +1,5 @@
 node_modules
 
 /src/util/credentials_api_testing.js
+
+.DS_Store
