@@ -131,8 +131,9 @@ const NavBar = () => {
     }
 
     const listProfile = (profile, idx) => {
+        
         return (
-            <li className='dropdown-profile' onClick={() => console.log(profile.name)}>
+            <li key={profile.id} className='dropdown-profile' onClick={() => console.log(profile.name)}>
                 <img src={BACKGROUNDS[idx]} alt="profile icon" />
                 <p>{profile.name}</p>
             </li>
