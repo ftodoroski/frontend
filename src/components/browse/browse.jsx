@@ -1341,15 +1341,16 @@ const Browse = () => {
                 <ul className='pagination-indicator' style={sliderComponentHoverEffects[genre]['displayPagination']}>
                     {Array(paginationAmount).fill(0).map((_, idx) => {
                         const currentPageNumber = Math.ceil(lowestVisibleItemIndex / itemsInRow)
-                        const isLowestEqualToPageNumber = (currentPageNumber === idx)
+                        const isLowestEqualToPageNumber = (currentPageNumber === idx)    
+
                         if (isLowestEqualToPageNumber) {
                             return (
-                                <li className='active'></li>
+                                <li key={idx} className='active'></li>
                             )
                         } 
                         
                         return (
-                            <li></li>
+                            <li key={idx}></li>
                         )
                     })}
                 </ul>
