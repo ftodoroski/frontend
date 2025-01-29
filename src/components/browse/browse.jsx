@@ -423,7 +423,7 @@ const Browse = () => {
 
     const sliderItem = program => {
         return (
-            <div className='slider-item'>
+            <div key={program.id} className='slider-item'>
                 <Link to='' className='slider-link'>
                     <div className='boxart-container'>
                         <img src={program.thumbnail} alt={program.title} className='boxart-img'/>
