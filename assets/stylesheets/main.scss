@@ -26,19 +26,19 @@ body {
 }
 
 .auth-header {
-    height: 90px;
+    height: 81px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 0 40px;
-    position: relative; 
-    z-index: 5 ; 
+    padding: 0 36px;
+    position: relative;
+    z-index: 5;
 }
 
 .logo {
-    width: 220px;
-    height: 45px;
+    width: 198px;
+    height: 40.5px;
 }
 
 .header-button {
@@ -46,10 +46,10 @@ body {
     color: white;
     text-align: center;
     border: none;
-    border-radius: 3px;
-    font-size: 16px;
-    height: 38px;
-    padding: 7px 17px;
+    border-radius: 2.7px;
+    font-size: 14.4px;
+    height: 34.2px;
+    padding: 6.3px 15.3px;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: 100;
     cursor: pointer;
@@ -80,15 +80,15 @@ body {
     align-items: center;
     font-weight: bold;
     position: relative;
-    top: 250px;
+    top: 225px;
 
     button {
         background-color: #E50914;
-        font-size: 23px;
+        font-size: 20.7px;
         text-align: center;
-        border-radius: 3px;
-        margin: 30px 30px 0px;
-        padding: 10px;
+        border-radius: 2.7px;
+        margin: 27px 27px 0px;
+        padding: 9px;
         border: none;
 
         &:hover {
@@ -99,22 +99,22 @@ body {
 
 .welcome {
     text-align: center;
-    font-size: 48px;
+    font-size: 43.2px;
 }
 
 .free {
-    width: 350px;
-    height: 60px;
+    width: 315px;
+    height: 54px;
     color: white;
     font-weight: 100;
-    letter-spacing: 1px;
+    letter-spacing: .9px;
 }
 
 .demo {
-    width: 120px;
-    height: 50px;
+    width: 108px;
+    height: 45px;
     color: white;
-    letter-spacing: .75px;
+    letter-spacing: 0.675px;
 }
 
 .footer {
