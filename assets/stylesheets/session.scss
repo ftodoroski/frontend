@@ -1,6 +1,6 @@
 .session-form-background {
     background-color: #000;
-    height: 864.5px;
+    height: 778.05px;
     position: absolute;
     top: 0;
     right: 0;
@@ -10,36 +10,36 @@
 }
 
 .session-form-container {
-    min-height: 660px;
-    width: 450px;
+    min-height: 594px;
+    width: 405px;
     border: #141414 1px solid;
-    margin: 91px auto 0px;
-    background-color: rgba(0, 0, 0, .75);
+    margin: 81.9px auto 0px;
+    background-color: rgba(0, 0, 0, 0.75);
     border-radius: 4px;
     box-sizing: border-box;
-    padding: 61px 63px 40px;
+    padding: 54.9px 56.7px 36px;
 }
 
 .session-form-container h2 {
-    font-size: 32px;
+    font-size: 28.8px;
     font-weight: 500;
-    letter-spacing: 2px;
-    margin-bottom: 28px;
+    letter-spacing: 1.8px;
+    margin-bottom: 25.2px;
 }
 
 .session-form {
-    padding-top: 13px;
+    padding-top: 11.7px;
     width: 100%;
-    height: 471px;  
+    height: 423.9px;  
 }
 
 .session-error {
     background: #e87c03;
     border-radius: 4px;
-    padding: 10px 20px;
-    margin: 0 0 16px;
-    font-size: 14px;
-    letter-spacing: 0.6px;
+    padding: 9px 18px;
+    margin: 0 0 14.4px;
+    font-size: 12.6px;
+    letter-spacing: 0.54px;
     line-height: normal;
 }
 
@@ -48,15 +48,15 @@
 }
 
 .form-group-container {
-    padding-bottom: 16px;
+    padding-bottom: 14.4px;
 }
 
 .form-group-container p.active {
     display: block;
     color: #e87c03;
-    margin-bottom: -6px;
-    padding: 6px 3px;
-    font-size: 13px;
+    margin-bottom: -5.4px;
+    padding: 5.4px 2.7px;
+    font-size: 11.7px;
 }
 
 .form-group-container p.deactivated {
@@ -70,7 +70,7 @@ div.active::after {
     bottom: 0;
     content: "";
     display: block;
-    height: 6px;
+    height: 5.4px;
     left: 0;
     pointer-events: none;
     position: absolute;
@@ -79,7 +79,7 @@ div.active::after {
 
 .form-group {
     width: 100%;
-    height: 50px;
+    height: 45px;
     position: relative;
 }
 
@@ -93,11 +93,11 @@ div.active::after {
     background-color: #333;
     border: none;
     border-radius: 0.3rem;
-    padding: 16px 20px 0;
+    padding: 14.4px 18px 0;
     box-sizing: border-box;
     outline: none;
     color: #fff;
-    font-size: 16px;
+    font-size: 14.4px;
 }
 
 .form-group input:focus {
@@ -107,7 +107,7 @@ div.active::after {
 .form-group label {
     position: absolute;
     top: 50%;
-    left: 20px;
+    left: 18px;
     transform: translateY(-50%);
     color: #8c8c8c;
     pointer-events: none;
@@ -117,34 +117,34 @@ div.active::after {
 .form-group input:focus~label,
 .form-group input:valid~label {
     transform: translateY(-1.25rem);
-    font-size: 11px;
+    font-size: 9.9px;
 }
 
 .session-auth-button {
     color: white;
-    font-size: 16px;
+    font-size: 14.4px;
     background-color: #E50914;
     display: block;
     width: 100%;
-    height: 50px;
+    height: 45px;
     outline: none;
     border: none;
     border-radius: 4px;
-    margin: 24px 0 12px;
+    margin: 21.6px 0 10.8px;
     text-align: center;
 }
 
 .session-demo-button {
     color: white;
-    font-size: 16px;
+    font-size: 14.4px;
     background-color: #E50914;
     display: block;
     width: 100%;
-    height: 50px;
+    height: 45px;
     outline: none;
     border: none;
     border-radius: 4px;
-    margin: 16px 0 12px;
+    margin: 14.4px 0 10.8px;
     text-align: center;
 }
 
@@ -169,12 +169,12 @@ div.active::after {
 }
 
 .remember-me {
-    margin-left: 9px;
+    margin-left: 8.1px;
 }
 
 .remember-me, .need-help {
     color: #b3b3b3;
-    font-size: 13px;
+    font-size: 11.7px;
 }
 
 .need-help:hover {
@@ -185,11 +185,11 @@ div.active::after {
 .redirect {
     display: flex;
     color: #737373;
-    margin-top: 16px;
+    margin-top: 14.4px;
 }
 
 #form-redirect {
-    margin-left: 5px;
+    margin-left: 4.5px;
     color: white;
 }
 
@@ -199,9 +199,9 @@ div.active::after {
 }
 
 .captcha-section {
-    font-size: 13px;
+    font-size: 11.7px;
     color: #8c8c8c;
-    margin: 13px 0px;
+    margin: 11.7px 0px;
 }
 
 .learn-more {
@@ -215,5 +215,5 @@ div.active::after {
 
 
 
-// - add the cursor to the buttons
-// - fix the error message ui pushing down on elements
+
+
