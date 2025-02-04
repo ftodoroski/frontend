@@ -35,7 +35,7 @@
 }
 
 .profile-page-header {
-    height: 70px;
+    height: 63px;
     width: 100%;
     background-image: linear-gradient(180deg, rgba(0, 0, 0, .7) 10%, transparent);
     position: absolute;
@@ -65,10 +65,10 @@
     color: #fff;
     font-size: 3.4vw;
     font-weight: unset;
-    margin: 33px 0;
+    margin: 30px 0;
     text-align: center;
     user-select: none;
-    letter-spacing: 1px;
+    letter-spacing: .9px;
 }
 
 .profile-list {
@@ -80,8 +80,8 @@
     vertical-align: top;
     position: relative;
     width: 10vw;
-    max-width: 200px;
-    min-width: 84px;
+    max-width: 180px;
+    min-width: 75.6px;
 }
 
 .profile:hover {
@@ -105,13 +105,13 @@
 }
 
 .profile-icon {
-    max-height: 200px;
+    max-height: 180px;
     height: 10vw;
-    min-height: 84px;
+    min-height: 75.6px;
 
-    max-width: 200px;
+    max-width: 180px;
     width: 10vw;
-    min-width: 84px;
+    min-width: 75.6px;
 
     background-color: #333;
     text-decoration: none;
@@ -238,6 +238,8 @@
     -webkit-animation-duration: 350ms;
     -moz-animation-name: zoom-fade;
     -moz-animation-duration: 350ms;
+
+    padding-bottom: 7vh;
 }
 
 .form-heading {
@@ -248,7 +250,7 @@
         width: 100%;
         font-weight: normal;
         font-size: 3.8vw;
-        letter-spacing: 1px;
+        letter-spacing: 0.9px;
         
     }
 
@@ -256,7 +258,7 @@
         color: #666;
         font-size: 1.2vw;
         font-weight: normal;
-        margin: 10px 0;
+        margin: 9px 0;
         width: 100%;
     }
 }
@@ -270,13 +272,13 @@
 }
 
 .profile-add-avatar {
-    max-height: 180px;
+    max-height: 162px;
     height: 8vw;
-    min-height: 80px;
+    min-height: 72px;
 
-    max-width: 180px;
+    max-width: 162px;
     width: 8vw;
-    min-width: 80px;
+    min-width: 72px;
 
     background-color: #333;
     text-decoration: none;
@@ -313,13 +315,13 @@
 }
 
 .profile-form-buttons {
-    margin-top: 20px;
+    margin-top: 18px;
 }
 
 .profile-button {
     background-color: transparent;
     display: inline-block;
-    margin-right: 20px;
+    margin-right: 18px;
     padding: 0.5em 1.5em;
     color: #808080;
     border: 1px solid grey;
@@ -359,5 +361,5 @@ input.error-active {
 }
 
 .edit-profile-heading {
-    margin-bottom: 5px;
+    margin-bottom: 18px;
 }
