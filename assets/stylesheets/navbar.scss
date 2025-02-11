@@ -3,14 +3,14 @@
     position: absolute;
     z-index: 12;
     width: 100%;
-    height: 70px;
+    height: 63px;
 }
 
 .nav-content {
-    height: 41px;
+    height: 36.9px;
     background-image: linear-gradient(180deg, rgba(0, 0, 0, .7) 10%, transparent);
     
-    font-size: 14px;
+    font-size: 12.6px;
     color: #e5e5e5;
     display: flex;
     align-items: center;
@@ -24,8 +24,8 @@
 
 .nav-logo {
     display: block;
-    height: 22px;
-    margin-right: 5px;
+    height: 19.8px;
+    margin-right: 4.5px;
 
     &:hover {
         cursor: pointer;
@@ -39,7 +39,7 @@
 }
 
 .nav-tab {
-    margin-left: 18px;
+    margin-left: 16.2px;
     transition: margin-left 2s;
     transition: color .4s;
     color: #e5e5e5;
@@ -51,7 +51,7 @@
 }
 
 .current {
-    margin-left: 18px;
+    margin-left: 16.2px;
     font-weight: 500;
     color: #fff;
 }
@@ -71,7 +71,7 @@
         width: 0;
     }
     to {
-        width: 212px;
+        width: 190.8px;
     }
 }
 
@@ -80,25 +80,25 @@
     align-items: center;
     background: rgba(0, 0, 0, .75);
     border: 1px solid hsla(0, 0%, 100%, .85);
-    height: 37px;
+    height: 33.3px;
 
     .search-icon {
         padding: 0 6px;
         margin-left: 1px;
-        width: 24px;
+        width: 21.6px;
     }
 
     .search-input {
-        height: 34px;
+        height: 30.6px;
         opacity: 1;
         color: #fff;
-        font-size: 15px;
+        font-size: 13.5px;
         background: transparent;
         border: none;
         box-sizing: border-box;
         outline: none;
-        padding: 7px 14px 7px 7px;
-        width: 212px;
+        padding: 6.3px 12.6px 6.3px 6.3px;
+        width: 190.8px;
 
         animation: open-input 300ms;
 
@@ -110,8 +110,8 @@
 
     .close {
         fill: white;
-        height: 24px;
-        width: 24px;
+        height: 21.6px;
+        width: 21.6px;
         margin-right: 3px;
 
         &:hover {
@@ -121,8 +121,8 @@
 }
 
 .search-icon {
-    width: 24px;
-    height: 24px;
+    width: 21.6px;
+    height: 21.6px;
 }
 
 .search-icon-focus {
@@ -134,15 +134,15 @@
     outline: none;
 
     &:focus img {
-        width: 25.5px;
-        height: 25.5px;
+        width: 23px;
+        height: 23px;
     }
 }
 
 .secondary-nav-element {
 
     &:not(:last-child) {
-        margin-right: 15px;
+        margin-right: 13.5px;
     }
 }
 
@@ -164,8 +164,8 @@
 }
 
 .profile-menu-icon {
-    height: 32px;
-    width: 32px;
+    height: 28.8px;
+    width: 28.8px;
     border-radius: 4px;
     background-repeat: no-repeat;
     background-size: contain;
@@ -174,42 +174,42 @@
 .caret {
     border-color: #fff transparent transparent;
     border-style: solid;
-    border-width: 5px 5px 0;
+    border-width: 4.5px 4.5px 0;
     height: 0;
-    margin-left: 10px;
+    margin-left: 9px;
     transition: transform 367ms;
 }
 
 @media screen and (min-width: 950px) {
 
     .nav-content {
-        height: 68px;
-        font-size: 15.5px;
+        height: 61.2px;
+        font-size: 13.95px;
     }
     
     .nav-tab {
-        margin-left: 20px;
+        margin-left: 18px;
     }
 
     .nav-logo {
-        height: 28px;
+        height: 25.2px;
     }
 }
 
 
 .menu {
     position: absolute;
-    width: 235px;
+    width: 211.5px;
     height: auto;
     background-color: rgba(0, 0, 0, .9);
     right: 0;
-    top: 52px;
+    top: 46.8px;
     border: 1px solid hsla(0, 0%, 100%, .15);
 }
 
 
 .dropdown-menu-profiles {
-    padding: 12px 0px 5px;
+    padding: 10.8px 0px 4.5px;
     height: auto;
 }
 
@@ -217,13 +217,13 @@
     display: flex;
     align-items: center;
 
-    padding: 5px 10px;
-    font-size: 13px;
+    padding: 4.5px 9px;
+    font-size: 11.7px;
 
     img {
-        height: 35px;
-        width: 35px;
-        margin-right: 10px;
+        height: 31.5px;
+        width: 31.5px;
+        margin-right: 9px;
         border-radius: 4px;
 
         &:hover {
@@ -238,7 +238,7 @@
     p {
         text-overflow: ellipsis;
         overflow: hidden;
-        width: 100px;
+        width: 90px;
 
         &:hover {
             text-decoration: underline;
@@ -249,21 +249,21 @@
 
 .sub-menu-list {
     list-style-type: none;
-    font-size: 13px;
-    padding-bottom: 10px;
-    margin-top: 3px;
+    font-size: 11.7px;
+    padding-bottom: 9px;
+    margin-top: 2.7px;
 
     .sub-menu-item {
         display: flex;
         align-items: center;
 
-        padding: 5px 10px;
+        padding: 4.5px 9px;
 
         img {
             display: flex;
             align-items: center;
-            padding: 0px 6px;
-            margin-right: 10px;
+            padding: 0px 5.4px;
+            margin-right: 9px;
 
             &:hover {
                 cursor: pointer;
@@ -287,11 +287,11 @@
 
 .signout-container {
     border-top: 1px solid hsla(0, 0%, 100%, .25);
-    font-size: 13px;
-    padding: 10px 0px;
+    font-size: 11.7px;
+    padding: 9px 0px;
 
     p {
-        padding: 5px 10px;
+        padding: 4.5px 9px;
         text-align: center;
 
         &:hover {
