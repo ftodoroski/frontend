@@ -27,7 +27,6 @@ img {
     top: 0;
     right: 0;
 
-    margin-bottom: 20px;
     padding-bottom: 40%;  
     
     background-color: #000;
@@ -167,7 +166,7 @@ img {
     display: flex;
     justify-content: center;
     opacity: 1;
-    padding: 10px;
+    padding: 9px;
     position: relative;
     user-select: none;
     word-break: break-word;
@@ -185,8 +184,8 @@ img {
 }
 
 .volume {
-    height: 22px; 
-    width: 22px;
+    height: 19.8px; 
+    width: 19.8px;
 }
 
 .maturity-rating {
@@ -262,7 +261,7 @@ img {
 }
 
 .playlink, .more-info{
-    padding: 10px 30px 10px 24px;
+    padding: 9px 27px 9px 21.6px;
 
     margin-bottom: 1rem;
     margin-right: 1rem;
@@ -289,12 +288,12 @@ img {
 
 .billboard-button-icon {
     display: block;
-    height: 29px;
-    width: 29px;
+    height: 26.1px;
+    width: 26.1px;
 }
 
 .billboard-button-space {
-    width: 14px;
+    width: 12.6px;
     display: flex;
     height: 100%;
     position: relative;
@@ -302,7 +301,7 @@ img {
 }
 
 .billboard-button-text {
-    font-size: 19px;
+    font-size: 17.1px;
 }
 
 .more-info {
@@ -393,7 +392,7 @@ img {
     height: auto;
     transition: transform .1s ease-out 0s;
     transform-origin: 45% 50%;
-    width: 42px;
+    width: 37.8px;
 
     polyline {
         stroke: white;
@@ -403,7 +402,7 @@ img {
 .pagination-indicator {
 
     list-style-type: none;
-    margin: -24px 0 12px;
+    margin: -21.6px 0 10.8px;
     padding: 0;
     position: absolute;
     right: 4%;
@@ -416,7 +415,7 @@ img {
         display: inline-block;
         height: 2px;
         margin-left: 1px;
-        width: 12px;
+        width: 10.8px;
     }
 
     li.active {
@@ -506,7 +505,7 @@ img {
     .fallback-text {
         bottom: 0;
         box-sizing: border-box;
-        font-size: 17px;
+        font-size: 15.3px;
         font-weight: 500;
         left: 8%;
         margin: 0;
@@ -549,7 +548,7 @@ img {
     height: auto;
     transition: transform .1s ease-out 0s;
     transform-origin: 45% 50%;
-    width: 42px;
+    width: 37.8px;
 
     polyline {
         stroke: white;
