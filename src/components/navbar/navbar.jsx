@@ -56,7 +56,7 @@ const NavBar = () => {
         navigate('/manage-profiles')
     }
 
-    const dropDropdownMenu = () => {
+    const showDropdownMenu = () => {
         setMenuDropdown('block')
         setIsHovering(true)
         dropdownTimerId.current = setTimeout(() => {
@@ -78,7 +78,7 @@ const NavBar = () => {
         }
     }
 
-    const handleClose = () => {
+    const handleCloseSearchBar = () => {
         setSearchQuery('')
         toggleSearchBar()
     }
@@ -88,7 +88,7 @@ const NavBar = () => {
         navigate('/')
     }
 
-    const searchBox = () => {
+    const renderSearchBox = () => {
         return (
             <div className='searchbox secondary-nav-element'>
                     <img src={searchIcon} alt="search-icon" className='search-icon'/>
@@ -104,14 +104,14 @@ const NavBar = () => {
                     />
                     <IoCloseSharp 
                         className='close' 
-                        onClick={handleClose} 
+                        onClick={handleCloseSearchBar} 
                         style={{visibility: searchQuery ? 'visible' : 'hidden'}}
                     />
                 </div>
         )
     }
     
-    const listTabItem = (endpoint, tabName) => {
+    const renderTabListItem = (endpoint, tabName) => {
         return (
             location.pathname.includes(endpoint) ? 
             (
@@ -130,7 +130,7 @@ const NavBar = () => {
         // maybe the handleNavigation is not even needed just from there you can navigate
     }
 
-    const listProfile = (profile, idx) => {
+    const renderListProfile = (profile, idx) => {
         
         return (
             <li key={profile.id} className='dropdown-profile' onClick={() => console.log(profile.name)}>
@@ -163,15 +163,15 @@ const NavBar = () => {
 
                 <ul className='primary-nav'>
                     {/* I may need one more for when the screen gets smaller */}
-                    {listTabItem('browse', 'Home')}
-                    {listTabItem('tv-shows', 'TV Shows')}
-                    {listTabItem('movies', 'Movies')}
-                    {listTabItem('latest', 'New & Popular')}
-                    {listTabItem('watchlist', 'My List')}
+                    {renderTabListItem('browse', 'Home')}
+                    {renderTabListItem('tv-shows', 'TV Shows')}
+                    {renderTabListItem('movies', 'Movies')}
+                    {renderTabListItem('latest', 'New & Popular')}
+                    {renderTabListItem('watchlist', 'My List')}
                 </ul>
 
                 <div className='secondary-nav '>
-                    {searchBar ? searchBox() : 
+                    {searchBar ? renderSearchBox() : 
                     (
                         <button className='search-icon-focus secondary-nav-element'>
                             <img
@@ -193,7 +193,7 @@ const NavBar = () => {
                     <div className='account-menu-container secondary-nav-element'>
                         <div 
                             className='account-dropdown-buttons nav-element-hover' 
-                            onMouseEnter={dropDropdownMenu}
+                            onMouseEnter={showDropdownMenu}
                         >
                             {/* The background profile icon has to be dynamic */}
                             <div 
@@ -220,7 +220,7 @@ const NavBar = () => {
                                 {
                                     profiles
                                     .filter(prof => prof.id !== profile.id)
-                                    .map((prof, idx) => listProfile(prof, idx))
+                                    .map((prof, idx) => renderListProfile(prof, idx))
                                 }
                             </ul>
 

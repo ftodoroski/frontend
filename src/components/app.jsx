@@ -14,7 +14,7 @@ import ProfilePage from './profile/profile_page';
 
 
 const App = (props) => {
-    const currentState = useSelector(state => state)
+    const store = useSelector(state => state)
 
     const renderMultiRoutes = ({ element: Element, paths, ...rest }) =>
         paths.map((path) => <Route path={path} {...rest} element={Element} />);
@@ -22,7 +22,7 @@ const App = (props) => {
     return (
         <>
             {/* Watch page for a single vid */} {/* Needs to be protected / Not Implemented */}
-            {console.log(currentState)}
+            {console.log(store)}
             <Routes> 
                 <Route path='/watch/:profileID' element={<WatchPage />} />
             </Routes>
