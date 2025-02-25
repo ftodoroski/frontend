@@ -8,7 +8,7 @@ const HomePage = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    const loginDemo = e => {
+    const loginAsDemoUser = e => {
         dispatch(loginUser({ email: 'demo102@gmail.com', password: '0000' }))
         .then(() => navigate('/profiles'))
     }
@@ -25,7 +25,7 @@ const HomePage = () => {
                     <button className='free'>Sign up for a Free Trial</button>
                 </Link>
 
-                <button className='demo' onClick={loginDemo}>Demo</button>
+                <button className='demo' onClick={loginAsDemoUser}>Demo</button>
             </section>
         </main>
     )

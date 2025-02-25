@@ -11,7 +11,7 @@ import { ImCheckboxChecked } from 'react-icons/im'
 const SessionForm = () => {
     const location = useLocation()
     const navigate = useNavigate()
-    const session = useSelector(state => state)
+    const store = useSelector(state => state)
     const dispatch = useDispatch()
 
     const [email, setEmail] = useState('')
@@ -19,9 +19,9 @@ const SessionForm = () => {
     const [emailCaption, setEmailCaption] = useState('deactivated')
     const [passwordCaption, setPasswordCaption] = useState('deactivated')
 
-    const formType = location.pathname
-    const errors = session.errors
-    const header = formType === '/login' ? 'Sign In' : 'Sign Up'
+    const currentPath = location.pathname
+    const sessionErrorText = store.errors.session
+    const authActionText = currentPath === '/login' ? 'Sign In' : 'Sign Up'
 
     const handleBlur = type => e => {
         e.preventDefault()
@@ -45,7 +45,7 @@ const SessionForm = () => {
         e.preventDefault()
 
         console.log('handleRedirect Called');
-        formType === '/login' ? navigate('/signup') : navigate('/login')
+        currentPath === '/login' ? navigate('/signup') : navigate('/login')
         dispatch(removeErrors())
     }
 
@@ -53,7 +53,7 @@ const SessionForm = () => {
         e.preventDefault()
         console.log('handleSubmit Called');
 
-        if (formType === '/signup') {
+        if (currentPath === '/signup') {
             dispatch(signUpIntentionalError())
         } else {
             dispatch(loginUser({ email, password }))
@@ -88,11 +88,11 @@ const SessionForm = () => {
             </section>
         )
 
-        return formType === '/login' ? signupRedirect : loginRedirect
+        return currentPath === '/login' ? signupRedirect : loginRedirect
     }
 
     const errorMessage = () => {
-        if (errors.session && formType === '/login') {
+        if (sessionErrorText && currentPath === '/login') {
             return (
                 <section className='session-error'>
                     Sorry, the email or password you entered was not recognized. Please try again or
@@ -101,7 +101,7 @@ const SessionForm = () => {
                     </span>
                 </section>
             )
-        } else if (errors.session && formType == '/signup') {
+        } else if (sessionErrorText && currentPath == '/signup') {
             return (
                 <section className='session-error'>
                     Sorry, signing up is not available at this moment. Please check out our demo.
@@ -123,7 +123,7 @@ const SessionForm = () => {
     return (
         <main className='session-form-background'>
             <section className='session-form-container'>
-                <h2>{header}</h2>
+                <h2>{authActionText}</h2>
 
                 <form className='session-form' onSubmit={handleSubmit}>
                     {errorMessage()}
@@ -158,7 +158,7 @@ const SessionForm = () => {
                         </p>
                     </div>
 
-                    <button type='submit' className='session-auth-button'>{header}</button>
+                    <button type='submit' className='session-auth-button'>{authActionText}</button>
                     <button className='session-demo-button' onClick={loginDemo}>Demo</button>
 
                     <div className='remember-container'>
