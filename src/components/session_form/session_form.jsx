@@ -23,16 +23,16 @@ const SessionForm = () => {
     const sessionErrorText = store.errors.session
     const authActionText = currentPath === '/login' ? 'Sign In' : 'Sign Up'
 
-    const handleBlur = type => e => {
+    const handleBlur = fieldName => e => {
         e.preventDefault()
         
-        if (type === 'email') {
+        if (fieldName === 'email') {
             if (email === '' || !email.includes('@')) {
                 setEmailCaption('active')
             } else {
                 setEmailCaption('deactivated')
             }
-        } else if (type === 'password') {
+        } else if (fieldName === 'password') {
             if (password === '' || password.length < 6) {
                 setPasswordCaption('active')
             } else {
@@ -61,16 +61,16 @@ const SessionForm = () => {
         }
     }
 
-    const loginDemo = e => {
+    const loginAsDemoUser = e => {
         e.preventDefault()
 
-        console.log('loginDemo called from SessionForm')
+        console.log('loginAsDemoUser called from SessionForm')
         dispatch(loginUser({ email: 'demo102@gmail.com', password: '0000' }))
         .then(() => navigate('/profiles'))
     }
 
-    const redirector = () => {
-        const signupRedirect = (
+    const renderAuthRedirect = () => {
+        const signupSection = (
             <section className='redirect'>
                 New to Animeflix?{' '}
                 <div id='form-redirect' onClick={handleRedirect}>
@@ -79,7 +79,7 @@ const SessionForm = () => {
             </section>  
         )
 
-        const loginRedirect = (
+        const loginSection = (
             <section className='redirect'>
                 Have an account? {' '}
                 <div id='form-redirect' onClick={handleRedirect}>
@@ -88,10 +88,10 @@ const SessionForm = () => {
             </section>
         )
 
-        return currentPath === '/login' ? signupRedirect : loginRedirect
+        return currentPath === '/login' ? signupSection : loginSection
     }
 
-    const errorMessage = () => {
+    const renderErrorMessage = () => {
         if (sessionErrorText && currentPath === '/login') {
             return (
                 <section className='session-error'>
@@ -112,7 +112,7 @@ const SessionForm = () => {
         }
     }
 
-    const captcha = () => {
+    const renderCaptcha = () => {
         return (
             <p className='captcha-section'>
                 This page is protected by Google reCAPTCHA to ensure you're not a bot. <span className='learn-more'>Learn more.</span>
@@ -126,7 +126,7 @@ const SessionForm = () => {
                 <h2>{authActionText}</h2>
 
                 <form className='session-form' onSubmit={handleSubmit}>
-                    {errorMessage()}
+                    {renderErrorMessage()}
 
                     <div className='form-group-container'>
                         <div className={`form-group ${emailCaption === 'deactivated' ? '' : emailCaption}`}>
@@ -159,7 +159,7 @@ const SessionForm = () => {
                     </div>
 
                     <button type='submit' className='session-auth-button'>{authActionText}</button>
-                    <button className='session-demo-button' onClick={loginDemo}>Demo</button>
+                    <button className='session-demo-button' onClick={loginAsDemoUser}>Demo</button>
 
                     <div className='remember-container'>
                         <div className="remember">
@@ -170,8 +170,8 @@ const SessionForm = () => {
                     </div>
                 </form>
 
-                {redirector()}
-                {captcha()}
+                {renderAuthRedirect()}
+                {renderCaptcha()}
             </section>
         </main>
     )
