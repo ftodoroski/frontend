@@ -30,7 +30,7 @@ const ProfilePage = () => {
 
     }, [profiles])
 
-    const loginProfile = (e, profile) => {
+    const selectProfile = (e, profile) => {
         e.preventDefault()
 
         dispatch(currentProfile(profile))
@@ -38,7 +38,7 @@ const ProfilePage = () => {
         navigate('/browse')
     }
     
-    const toggleProfile = e => {
+    const toggleProfileView = e => {
         e.preventDefault()
         
         if (location.pathname === '/profiles') {
@@ -48,7 +48,7 @@ const ProfilePage = () => {
         }
     }
     
-    const addProfile = () => {
+    const createProfile = () => {
         return (
             profiles.length < 4 ? (
                 <li 
@@ -67,7 +67,7 @@ const ProfilePage = () => {
         )
     }
             
-    const renderProfiles = (profiles, addProfile) => {
+    const renderProfiles = (profiles, { createProfile }) => {
         return (
             <section className='profile-form'>
                 <div className='watching'>Who's watching?</div>
@@ -78,7 +78,7 @@ const ProfilePage = () => {
                                 key={i} 
                                 className='profile' 
                                 value={profile.id} 
-                                onClick={(e) => loginProfile(e, profile)}
+                                onClick={(e) => selectProfile(e, profile)}
                             >
                                 <div className='profile-icon' style={{ backgroundImage: `url('${BACKGROUNDS[i]}')`}}>
                                 
@@ -89,11 +89,11 @@ const ProfilePage = () => {
                             </li>
                         )
                     })}
-                    {addProfile()}
+                    {createProfile()}
                 </ul>
                 <button
                     className='manage'
-                    onClick={toggleProfile}
+                    onClick={toggleProfileView}
                 >
                     Manage Profiles
                 </button>
@@ -101,7 +101,7 @@ const ProfilePage = () => {
         )
     }
     
-    const renderManageProfiles = (profiles, addProfile) => {
+    const renderManageProfiles = (profiles, { createProfile }) => {
         return (
             <section className='profile-form'>
                 <div className='watching'>Manage Profiles:</div>
@@ -125,11 +125,11 @@ const ProfilePage = () => {
                             </li>
                         )
                     })}
-                    {addProfile()}
+                    {createProfile()}
                 </ul>
                 <button
                     className='done'
-                    onClick={toggleProfile}
+                    onClick={toggleProfileView}
                 >
                     Done
                 </button>
@@ -137,16 +137,16 @@ const ProfilePage = () => {
         )
     }
     
-    const profileRenderer = location.pathname === '/profiles' ? (
-        renderProfiles(profiles, addProfile) 
-    ) : renderManageProfiles(profiles, addProfile)
+    const profileView = location.pathname === '/profiles' ? (
+        renderProfiles(profiles, { createProfile })
+    ) : renderManageProfiles(profiles, { createProfile })
 
     return (
         <>
             <div className='profile-page-header'></div>
             <main className='profile-page'>
                 <ProfileFormModal />
-                {profileRenderer}
+                {profileView}
             </main>
         </>
     )
