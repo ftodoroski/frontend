@@ -178,7 +178,7 @@ const reducer = (state, action) => {
 
 // This whole component has to be refactored
 const Browse = () => {
-    const K_CROP_AMOUNT_NUMBER = 30
+    const MAX_CROP_AMOUNT = 30
 
     const dispatch = useDispatch()
     const location = useLocation()
@@ -271,7 +271,7 @@ const Browse = () => {
     const cropNumberOfProgramsInGenres = genresPrograms => {
         const croppedGenresPrograms = {}
         for (const [genre, programs] of Object.entries(genresPrograms)) {
-            croppedGenresPrograms[genre] = programs.slice(0, K_CROP_AMOUNT_NUMBER)
+            croppedGenresPrograms[genre] = programs.slice(0, MAX_CROP_AMOUNT)
         }
 
         return croppedGenresPrograms
@@ -423,7 +423,7 @@ const Browse = () => {
 
     const sliderItem = program => {
         return (
-            <div key={program.id} className='slider-item'>
+            <div className='slider-item'>
                 <Link to='' className='slider-link'>
                     <div className='boxart-container'>
                         <img src={program.thumbnail} alt={program.title} className='boxart-img'/>
@@ -1731,7 +1731,3 @@ export default Browse
 //                # Do something
 
 
-// I think another mistake you were doing when is when you were trying to refactor you
-// kind of where explaiinng what the condition is checking, even if you didnt do this
-// we can still kind of see by looking at the condition and thats why you were ending up 
-// with long ass names for the refactored conditions. 
