@@ -421,9 +421,9 @@ const Browse = () => {
         )
     }
 
-    const sliderItem = program => {
+    const sliderItem = (program, idx) => {
         return (
-            <div className='slider-item'>
+            <div key={idx} className='slider-item'>
                 <Link to='' className='slider-link'>
                     <div className='boxart-container'>
                         <img src={program.thumbnail} alt={program.title} className='boxart-img'/>
@@ -1485,8 +1485,8 @@ const Browse = () => {
                                 {
                                     genreSlidersDetailState[genre] && 
                                     genreSlidersDetailState[genre]['rescaledProgramsArray']
-                                    .map(program => {
-                                        return sliderItem(program)
+                                    .map((program, idx) => {
+                                        return sliderItem(program, idx)
                                     })
                                 }
                             </div>
