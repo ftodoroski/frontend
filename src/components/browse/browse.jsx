@@ -189,7 +189,7 @@ const Browse = () => {
     const genres = useSelector(state => state.entities.genres)
     const watchlist = useSelector(state => state.entities.watchlist)
     const profile = useSelector(state => state.session.profile)
-    const loading = useSelector(state => state.ui.loading.programsLoading)
+    const isProgramsLoading = useSelector(state => state.ui.loading.programsLoading)
 
     // Some of these have to be renamed
     const [genresPrograms, setGenresPrograms] = useState({})
@@ -1680,7 +1680,7 @@ const Browse = () => {
     }
 
     return (
-        loading ? 'Loading Component' : browseRenderer()
+        isProgramsLoading ? 'Loading Component' : browseRenderer()
     )
 }
 
