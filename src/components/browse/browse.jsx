@@ -21,16 +21,16 @@ import isTotalItemsLessThanTransitioningItemsAmount from '../../util/browse/is_t
 const reducer = (state, action) => {
     switch (action.type) {
         case 'initial_reducer_set_up': {
-            const { itemsInRow, genresPrograms, rescaleProgramsArray } = action.payload
+            const { itemsInRow, programsByGenre, rescaleProgramsArray } = action.payload
             const initialState = {}
-            for (const genre in genresPrograms) {
+            for (const genre in programsByGenre) {
                 initialState[genre] = {
                     hasMovedOnce: false,
                     itemsInRow, 
                     lowestVisibleItemIndex: 0,
                     getSliderItemWidth: 100 / itemsInRow,
-                    totalItems: genresPrograms[genre].length,
-                    rescaledProgramsArray: rescaleProgramsArray(0, itemsInRow, genresPrograms[genre]),
+                    totalItems: programsByGenre[genre].length,
+                    rescaledProgramsArray: rescaleProgramsArray(0, itemsInRow, programsByGenre[genre]),
                     animating: false,
                     sliderButtonHasCooledDown: true,
                     movementTriggered: false,
@@ -192,7 +192,7 @@ const Browse = () => {
     const isProgramsLoading = useSelector(state => state.ui.loading.programsLoading)
 
     // Some of these have to be renamed
-    const [genresPrograms, setGenresPrograms] = useState({})
+    const [programsByGenre, setProgramsByGenre] = useState({})
     const [sliderComponentHoverEffects, setSliderComponentHoverEffects] = useState({})
     const [opacity, setOpacity] = useState(1)
     const [autoPlay, setAutoPlay] = useState(true)
@@ -216,12 +216,12 @@ const Browse = () => {
     const showcaseProgram = findProgram(profile.showcase_id, programs)
 
     useEffect(() => {
-        if (itemsInRow && !_.isEmpty(genresPrograms) && !reducerSetupDispatchHasRun) {
+        if (itemsInRow && !_.isEmpty(programsByGenre) && !reducerSetupDispatchHasRun) {
             setReducerSetupDispatchHasRun(true)
 
             dispatchGenreSlidersDetail({
                 type: 'initial_reducer_set_up', 
-                payload: {itemsInRow, genresPrograms, rescaleProgramsArray}
+                payload: {itemsInRow, programsByGenre, rescaleProgramsArray}
             })
         }
     })
@@ -268,9 +268,9 @@ const Browse = () => {
          'transition-delay': '5000ms',
     }
 
-    const cropNumberOfProgramsInGenres = genresPrograms => {
+    const cropNumberOfProgramsInGenres = programsByGenre => {
         const croppedGenresPrograms = {}
-        for (const [genre, programs] of Object.entries(genresPrograms)) {
+        for (const [genre, programs] of Object.entries(programsByGenre)) {
             croppedGenresPrograms[genre] = programs.slice(0, MAX_CROP_AMOUNT)
         }
 
@@ -290,13 +290,13 @@ const Browse = () => {
     }
 
     const developProgramsForGenres = () => {
-        const genresPrograms = {}
+        const programsByGenre = {}
 
         for (let genre of genres) {
-            genresPrograms[genre.name] = getGenrePrograms(genre)
+            programsByGenre[genre.name] = getGenrePrograms(genre)
         }
 
-        return genresPrograms
+        return programsByGenre
     }
 
     const developProgramsForWatchlist = () => {
@@ -311,8 +311,8 @@ const Browse = () => {
         return watchlistPrograms
     }
 
-    const shuffleGenresPrograms = genresPrograms => {
-        for (let [_, programs] of Object.entries(genresPrograms)) {
+    const shuffleGenresPrograms = programsByGenre => {
+        for (let [_, programs] of Object.entries(programsByGenre)) {
             shuffle(programs)
         }
     }
@@ -350,12 +350,12 @@ const Browse = () => {
     })
 
     useEffect(() => {
-        let genresPrograms = developProgramsForGenres()
-        genresPrograms['Watchlist'] = developProgramsForWatchlist()
-        genresPrograms = cropNumberOfProgramsInGenres(genresPrograms)
-        shuffleGenresPrograms(genresPrograms)
-        
-        setGenresPrograms(genresPrograms)
+        let programsByGenre = developProgramsForGenres()
+        programsByGenre['Watchlist'] = developProgramsForWatchlist()
+        programsByGenre = cropNumberOfProgramsInGenres(programsByGenre)
+        shuffleGenresPrograms(programsByGenre)
+
+        setProgramsByGenre(programsByGenre)
     }, []);
 
     useEffect(() => {
@@ -649,14 +649,14 @@ const Browse = () => {
                 })
                 
                 if (isTotalBelowTransitioningAmount) { 
-                    let initialPartialUpdateProgramsArray = [...genresPrograms[genre], ...genresPrograms[genre].slice(0, returnRemainder(totalItems, itemsInRow))]
+                    let initialPartialUpdateProgramsArray = [...programsByGenre[genre], ...programsByGenre[genre].slice(0, returnRemainder(totalItems, itemsInRow))]
                     let positioningAmount = returnRemainder(totalItems, itemsInRow) * getSliderItemWidth * RTLMultiplier
                     nextLowestVisibleItemIndex = lowestVisibleItemIndex + returnRemainder(totalItems, itemsInRow)
                     
                     if (totalContainsNoRemainder) {
                         positioningAmount = itemsInRow * getSliderItemWidth * RTLMultiplier
                         nextLowestVisibleItemIndex = lowestVisibleItemIndex + itemsInRow
-                        initialPartialUpdateProgramsArray = [...initialPartialUpdateProgramsArray, ...genresPrograms[genre].slice(0, 1)]
+                        initialPartialUpdateProgramsArray = [...initialPartialUpdateProgramsArray, ...programsByGenre[genre].slice(0, 1)]
                     }
                     
                     dispatchGenreSlidersDetail({
@@ -670,7 +670,7 @@ const Browse = () => {
                     })
                 } else {
                     
-                    let initialPartialUpdateProgramsArray = [...genresPrograms[genre].slice(0, transitioningItemsAmount)]
+                    let initialPartialUpdateProgramsArray = [...programsByGenre[genre].slice(0, transitioningItemsAmount)]
                     const positioningAmount = itemsInRow * getSliderItemWidth * RTLMultiplier
 
                     dispatchGenreSlidersDetail({
@@ -700,20 +700,20 @@ const Browse = () => {
                         payload: { genre }
                     })
                     
-                    leftOffset = genresPrograms[genre].slice(totalItems - 1, totalItems)
-                    leftSide = genresPrograms[genre].slice(lowestVisibleItemIndex, itemsInRow)
-                    viewRow = genresPrograms[genre].slice(lowestVisibleItemIndex + itemsInRow, lowestVisibleItemIndex + itemsInRow + itemsInRow)
-                    rightSide = genresPrograms[genre].slice((lowestVisibleItemIndex + itemsInRow) + itemsInRow, (lowestVisibleItemIndex + itemsInRow) + itemsInRow + itemsInRow)
-                    rightOffset = genresPrograms[genre].slice((lowestVisibleItemIndex + itemsInRow) + itemsInRow + itemsInRow, (lowestVisibleItemIndex + itemsInRow) + itemsInRow + itemsInRow + 1)
+                    leftOffset = programsByGenre[genre].slice(totalItems - 1, totalItems)
+                    leftSide = programsByGenre[genre].slice(lowestVisibleItemIndex, itemsInRow)
+                    viewRow = programsByGenre[genre].slice(lowestVisibleItemIndex + itemsInRow, lowestVisibleItemIndex + itemsInRow + itemsInRow)
+                    rightSide = programsByGenre[genre].slice((lowestVisibleItemIndex + itemsInRow) + itemsInRow, (lowestVisibleItemIndex + itemsInRow) + itemsInRow + itemsInRow)
+                    rightOffset = programsByGenre[genre].slice((lowestVisibleItemIndex + itemsInRow) + itemsInRow + itemsInRow, (lowestVisibleItemIndex + itemsInRow) + itemsInRow + itemsInRow + 1)
                     
                     if (isTotalBelowTransitioningAmount) {
                         const nextHighestVisibleItemIndex = nextLowestVisibleItemIndex + itemsInRow
 
-                        leftOffset = genresPrograms[genre].slice(totalItems - 1, totalItems)
-                        leftSide = genresPrograms[genre].slice(lowestVisibleItemIndex, nextLowestVisibleItemIndex)
-                        viewRow = genresPrograms[genre].slice(nextLowestVisibleItemIndex, nextHighestVisibleItemIndex)
-                        rightSide = genresPrograms[genre].slice(0, itemsInRow)
-                        rightOffset = genresPrograms[genre].slice(itemsInRow, itemsInRow + 1)
+                        leftOffset = programsByGenre[genre].slice(totalItems - 1, totalItems)
+                        leftSide = programsByGenre[genre].slice(lowestVisibleItemIndex, nextLowestVisibleItemIndex)
+                        viewRow = programsByGenre[genre].slice(nextLowestVisibleItemIndex, nextHighestVisibleItemIndex)
+                        rightSide = programsByGenre[genre].slice(0, itemsInRow)
+                        rightOffset = programsByGenre[genre].slice(itemsInRow, itemsInRow + 1)
 
                         if (totalContainsRemainder) {
                             incrementIndexByAmount = returnRemainder(
@@ -729,7 +729,7 @@ const Browse = () => {
                         const totalItemsInSliderLimit = 1 + (itemsInRow * 3) + 1
 
                         if (totalContainsRemainder && totalItems < totalItemsInSliderLimit) {
-                            rightOffset.push(...genresPrograms[genre].slice(0, 1))
+                            rightOffset.push(...programsByGenre[genre].slice(0, 1))
                         }
 
                         dispatchGenreSlidersDetail({
@@ -871,14 +871,14 @@ const Browse = () => {
 
                     const isBeginningOfInfiniteScroll = nextLowestVisibleItemIndex >= totalItems
                     if (isBeginningOfInfiniteScroll) {
-                        leftOffset = genresPrograms[genre].slice(lowestVisibleItemIndex - 1, lowestVisibleItemIndex)
-                        leftSide = genresPrograms[genre].slice(lowestVisibleItemIndex, nextLowestVisibleItemIndex) 
-                        viewRow = genresPrograms[genre].slice(0, itemsInRow)
-                        rightSide = genresPrograms[genre].slice(0 + itemsInRow, 0 + itemsInRow + itemsInRow)
-                        rightOffset = genresPrograms[genre].slice(0 + itemsInRow + itemsInRow, 0 + itemsInRow + itemsInRow + 1)
+                        leftOffset = programsByGenre[genre].slice(lowestVisibleItemIndex - 1, lowestVisibleItemIndex)
+                        leftSide = programsByGenre[genre].slice(lowestVisibleItemIndex, nextLowestVisibleItemIndex) 
+                        viewRow = programsByGenre[genre].slice(0, itemsInRow)
+                        rightSide = programsByGenre[genre].slice(0 + itemsInRow, 0 + itemsInRow + itemsInRow)
+                        rightOffset = programsByGenre[genre].slice(0 + itemsInRow + itemsInRow, 0 + itemsInRow + itemsInRow + 1)
 
                         if (isTotalBelowTransitioningAmount) {
-                            rightOffset = genresPrograms[genre].slice(0, 1)
+                            rightOffset = programsByGenre[genre].slice(0, 1)
                         }
 
                         const beginningIndex = 0
@@ -898,24 +898,24 @@ const Browse = () => {
                         })
                     } else {
                         
-                        leftOffset = genresPrograms[genre].slice(lowestVisibleItemIndex - 1, lowestVisibleItemIndex)
-                        leftSide = genresPrograms[genre].slice(lowestVisibleItemIndex, lowestVisibleItemIndex + itemsInRow)
-                        viewRow = genresPrograms[genre].slice(lowestVisibleItemIndex + itemsInRow, lowestVisibleItemIndex + itemsInRow + itemsInRow)
-                        rightSide = genresPrograms[genre].slice((lowestVisibleItemIndex + itemsInRow) + itemsInRow, (lowestVisibleItemIndex + itemsInRow) + itemsInRow + itemsInRow)
-                        rightOffset = genresPrograms[genre].slice((lowestVisibleItemIndex + itemsInRow) + itemsInRow + itemsInRow, (lowestVisibleItemIndex + itemsInRow) + itemsInRow + itemsInRow + 1)
+                        leftOffset = programsByGenre[genre].slice(lowestVisibleItemIndex - 1, lowestVisibleItemIndex)
+                        leftSide = programsByGenre[genre].slice(lowestVisibleItemIndex, lowestVisibleItemIndex + itemsInRow)
+                        viewRow = programsByGenre[genre].slice(lowestVisibleItemIndex + itemsInRow, lowestVisibleItemIndex + itemsInRow + itemsInRow)
+                        rightSide = programsByGenre[genre].slice((lowestVisibleItemIndex + itemsInRow) + itemsInRow, (lowestVisibleItemIndex + itemsInRow) + itemsInRow + itemsInRow)
+                        rightOffset = programsByGenre[genre].slice((lowestVisibleItemIndex + itemsInRow) + itemsInRow + itemsInRow, (lowestVisibleItemIndex + itemsInRow) + itemsInRow + itemsInRow + 1)
                          
                         const isSliderOneCycleBeforeInfiniteScroll = nextLowestVisibleItemIndex + itemsInRow >= totalItems
                         const isSliderTwoCyclesBeforeInfiniteScroll = nextLowestVisibleItemIndex + itemsInRow + itemsInRow + 1 > totalItems
                         if (isSliderOneCycleBeforeInfiniteScroll) {
-                            rightSide = genresPrograms[genre].slice(0, itemsInRow)
-                            rightOffset = genresPrograms[genre].slice(itemsInRow, itemsInRow + 1)
+                            rightSide = programsByGenre[genre].slice(0, itemsInRow)
+                            rightOffset = programsByGenre[genre].slice(itemsInRow, itemsInRow + 1)
                         } else if (isSliderTwoCyclesBeforeInfiniteScroll) {        
-                            rightOffset = genresPrograms[genre].slice(0, 1)
+                            rightOffset = programsByGenre[genre].slice(0, 1)
                         }
 
                         const isLowestVisibleItemIndexZero = lowestVisibleItemIndex === 0
                         if (isLowestVisibleItemIndexZero) {
-                            leftOffset = genresPrograms[genre].slice(totalItems - 1, totalItems)
+                            leftOffset = programsByGenre[genre].slice(totalItems - 1, totalItems)
                         }
 
                         if (
@@ -923,11 +923,11 @@ const Browse = () => {
                             isTotalBelowTransitioningAmount && 
                             nextLowestVisibleItemIndex === returnRemainder(totalItems, itemsInRow)
                         ) {
-                            leftOffset = genresPrograms[genre].slice(totalItems - 1, totalItems)
-                            leftSide = genresPrograms[genre].slice(lowestVisibleItemIndex, nextLowestVisibleItemIndex)
-                            viewRow = genresPrograms[genre].slice(nextLowestVisibleItemIndex, nextHighestVisibleItemIndex)
-                            rightSide = genresPrograms[genre].slice(0, itemsInRow)
-                            rightOffset = genresPrograms[genre].slice(itemsInRow, itemsInRow + 1)
+                            leftOffset = programsByGenre[genre].slice(totalItems - 1, totalItems)
+                            leftSide = programsByGenre[genre].slice(lowestVisibleItemIndex, nextLowestVisibleItemIndex)
+                            viewRow = programsByGenre[genre].slice(nextLowestVisibleItemIndex, nextHighestVisibleItemIndex)
+                            rightSide = programsByGenre[genre].slice(0, itemsInRow)
+                            rightOffset = programsByGenre[genre].slice(itemsInRow, itemsInRow + 1)
                         }
                         
                         dispatchGenreSlidersDetail({
@@ -1048,11 +1048,11 @@ const Browse = () => {
                     const index = totalItems - itemsInRow
                     previousVisibleItemIndex = index
                     
-                    leftOffset = genresPrograms[genre].slice(previousVisibleItemIndex - itemsInRow - 1, previousVisibleItemIndex - itemsInRow)
-                    leftSide = genresPrograms[genre].slice(previousVisibleItemIndex - itemsInRow, previousVisibleItemIndex)
-                    viewRow = genresPrograms[genre].slice(previousVisibleItemIndex, totalItems)
-                    rightSide = genresPrograms[genre].slice(0, itemsInRow)
-                    rightOffset = genresPrograms[genre].slice(itemsInRow, itemsInRow + 1)
+                    leftOffset = programsByGenre[genre].slice(previousVisibleItemIndex - itemsInRow - 1, previousVisibleItemIndex - itemsInRow)
+                    leftSide = programsByGenre[genre].slice(previousVisibleItemIndex - itemsInRow, previousVisibleItemIndex)
+                    viewRow = programsByGenre[genre].slice(previousVisibleItemIndex, totalItems)
+                    rightSide = programsByGenre[genre].slice(0, itemsInRow)
+                    rightOffset = programsByGenre[genre].slice(itemsInRow, itemsInRow + 1)
 
                     // For Testing out the edge cases
                     let leftOffsetRange = `(${previousVisibleItemIndex - itemsInRow - 1}, ${previousVisibleItemIndex - itemsInRow})`
@@ -1063,7 +1063,7 @@ const Browse = () => {
 
                     const leftOffsetOutOfRange = (previousVisibleItemIndex - itemsInRow - 1) < startIndex
                     if (totalContainsNoRemainder && isTotalBelowTransitioningAmount && leftOffsetOutOfRange) {
-                        leftOffset = genresPrograms[genre].slice(totalItems - 1, totalItems)
+                        leftOffset = programsByGenre[genre].slice(totalItems - 1, totalItems)
 
                         // Testing Here (For Testing Edge Cases)
                         leftOffsetRange = `(${totalItems - 1}, ${totalItems})`
@@ -1071,11 +1071,11 @@ const Browse = () => {
 
                     if (totalContainsRemainder && isTotalBelowTransitioningAmount) {
                         
-                        leftOffset = genresPrograms[genre].slice(totalItems - 1, totalItems)
-                        leftSide = genresPrograms[genre].slice(0, totalItems - itemsInRow)
-                        viewRow = genresPrograms[genre].slice(totalItems - itemsInRow, totalItems)
-                        rightSide = genresPrograms[genre].slice(0, itemsInRow)
-                        rightOffset = genresPrograms[genre].slice(itemsInRow, itemsInRow + 1)
+                        leftOffset = programsByGenre[genre].slice(totalItems - 1, totalItems)
+                        leftSide = programsByGenre[genre].slice(0, totalItems - itemsInRow)
+                        viewRow = programsByGenre[genre].slice(totalItems - itemsInRow, totalItems)
+                        rightSide = programsByGenre[genre].slice(0, itemsInRow)
+                        rightOffset = programsByGenre[genre].slice(itemsInRow, itemsInRow + 1)
                         
                         // Testing Edge Cases Here
                         leftOffsetRange = `(${totalItems - 1}, ${totalItems})`
@@ -1119,11 +1119,11 @@ const Browse = () => {
                     
                 } else {
 
-                    leftOffset = genresPrograms[genre].slice(previousVisibleItemIndex - itemsInRow - 1, previousVisibleItemIndex - itemsInRow)
-                    leftSide = genresPrograms[genre].slice(previousVisibleItemIndex - itemsInRow, previousVisibleItemIndex)
-                    viewRow = genresPrograms[genre].slice(previousVisibleItemIndex, lowestVisibleItemIndex)
-                    rightSide = genresPrograms[genre].slice(lowestVisibleItemIndex, lowestVisibleItemIndex + itemsInRow)
-                    rightOffset = genresPrograms[genre].slice(lowestVisibleItemIndex + itemsInRow, lowestVisibleItemIndex + itemsInRow + 1)
+                    leftOffset = programsByGenre[genre].slice(previousVisibleItemIndex - itemsInRow - 1, previousVisibleItemIndex - itemsInRow)
+                    leftSide = programsByGenre[genre].slice(previousVisibleItemIndex - itemsInRow, previousVisibleItemIndex)
+                    viewRow = programsByGenre[genre].slice(previousVisibleItemIndex, lowestVisibleItemIndex)
+                    rightSide = programsByGenre[genre].slice(lowestVisibleItemIndex, lowestVisibleItemIndex + itemsInRow)
+                    rightOffset = programsByGenre[genre].slice(lowestVisibleItemIndex + itemsInRow, lowestVisibleItemIndex + itemsInRow + 1)
 
                     // For Testing out the edge cases
                     let leftOffsetRange = `(${previousVisibleItemIndex - itemsInRow - 1}, ${previousVisibleItemIndex - itemsInRow})`
@@ -1137,21 +1137,21 @@ const Browse = () => {
                     const leftSideOutOfRange = (previousVisibleItemIndex - itemsInRow) < startIndex
                     const rightOffsetOutOfRange = (lowestVisibleItemIndex + itemsInRow + 1) >= totalItems
                     if (leftOffsetOutOfRange && !leftSideOutOfRange) {
-                        leftOffset = genresPrograms[genre].slice(totalItems - 1, totalItems)
+                        leftOffset = programsByGenre[genre].slice(totalItems - 1, totalItems)
 
                         // Testing Here (For Testing Edge Cases)
                         leftOffsetRange = `(${totalItems - 1}, ${totalItems})`
 
                     } else if (leftOffsetOutOfRange && leftSideOutOfRange) {
-                        leftOffset = genresPrograms[genre].slice(totalItems - itemsInRow - 1, totalItems - itemsInRow)
-                        leftSide = genresPrograms[genre].slice(totalItems - itemsInRow, totalItems)
+                        leftOffset = programsByGenre[genre].slice(totalItems - itemsInRow - 1, totalItems - itemsInRow)
+                        leftSide = programsByGenre[genre].slice(totalItems - itemsInRow, totalItems)
 
                         // Testing Here (For Testing Edge Cases)
                         leftOffsetRange = `(${totalItems - itemsInRow - 1}, ${totalItems - itemsInRow})`
                         leftSideRange = `(${totalItems - itemsInRow}, ${totalItems})`
 
                     } else if (rightOffsetOutOfRange) {
-                        rightOffset = genresPrograms[genre].slice(0, 1)
+                        rightOffset = programsByGenre[genre].slice(0, 1)
 
                         // Testing Here (For Testing Edge Cases)
                         rightOffsetRange = `(${0}, ${1})`
@@ -1159,7 +1159,7 @@ const Browse = () => {
                     
 
                     if (totalContainsNoRemainder && isTotalBelowTransitioningAmount && rightOffsetOutOfRange) {
-                        rightOffset = genresPrograms[genre].slice(0, 1)
+                        rightOffset = programsByGenre[genre].slice(0, 1)
                         
                         // Testing Here (For Testing Edge Cases)
                         rightOffsetRange = `(${0}, ${1})`
@@ -1181,11 +1181,11 @@ const Browse = () => {
                         isTotalBelowTransitioningAmount
                     )) {
                         
-                        leftOffset = genresPrograms[genre].slice(totalItems - itemsInRow - 1, totalItems - itemsInRow)
-                        leftSide = genresPrograms[genre].slice(totalItems - itemsInRow, totalItems)
-                        viewRow = genresPrograms[genre].slice(0, itemsInRow)
-                        rightSide = genresPrograms[genre].slice(itemsInRow, itemsInRow + itemsInRow)
-                        rightOffset = genresPrograms[genre].slice(0, 1)
+                        leftOffset = programsByGenre[genre].slice(totalItems - itemsInRow - 1, totalItems - itemsInRow)
+                        leftSide = programsByGenre[genre].slice(totalItems - itemsInRow, totalItems)
+                        viewRow = programsByGenre[genre].slice(0, itemsInRow)
+                        rightSide = programsByGenre[genre].slice(itemsInRow, itemsInRow + itemsInRow)
+                        rightOffset = programsByGenre[genre].slice(0, 1)
 
 
                         // Testing Here (For Testing Edge Cases)
@@ -1206,11 +1206,11 @@ const Browse = () => {
                         isTotalAboveTransitioningAmount
                     )) {
                         
-                        leftOffset = genresPrograms[genre].slice(totalItems - itemsInRow - 1, totalItems - itemsInRow)				
-                        leftSide = genresPrograms[genre].slice(totalItems - itemsInRow, totalItems)								
-                        viewRow = genresPrograms[genre].slice(0, itemsInRow)												
-                        rightSide = genresPrograms[genre].slice(itemsInRow, itemsInRow + itemsInRow)							
-                        rightOffset = genresPrograms[genre].slice(itemsInRow + itemsInRow, itemsInRow + itemsInRow + 1)	
+                        leftOffset = programsByGenre[genre].slice(totalItems - itemsInRow - 1, totalItems - itemsInRow)				
+                        leftSide = programsByGenre[genre].slice(totalItems - itemsInRow, totalItems)								
+                        viewRow = programsByGenre[genre].slice(0, itemsInRow)												
+                        rightSide = programsByGenre[genre].slice(itemsInRow, itemsInRow + itemsInRow)							
+                        rightOffset = programsByGenre[genre].slice(itemsInRow + itemsInRow, itemsInRow + itemsInRow + 1)	
 
 
                         // Testing Here (For Testing Edge Cases)
@@ -1231,11 +1231,11 @@ const Browse = () => {
                         isTotalAboveTransitioningAmount
                     )) {
 
-                        leftOffset = genresPrograms[genre].slice(totalItems - 1, totalItems)										
-                        leftSide = genresPrograms[genre].slice(0, previousVisibleItemIndex)										
-                        viewRow = genresPrograms[genre].slice(previousVisibleItemIndex, lowestVisibleItemIndex)					
-                        rightSide = genresPrograms[genre].slice(lowestVisibleItemIndex, lowestVisibleItemIndex + itemsInRow)		
-                        rightOffset = genresPrograms[genre].slice(0, 1)
+                        leftOffset = programsByGenre[genre].slice(totalItems - 1, totalItems)										
+                        leftSide = programsByGenre[genre].slice(0, previousVisibleItemIndex)										
+                        viewRow = programsByGenre[genre].slice(previousVisibleItemIndex, lowestVisibleItemIndex)					
+                        rightSide = programsByGenre[genre].slice(lowestVisibleItemIndex, lowestVisibleItemIndex + itemsInRow)		
+                        rightOffset = programsByGenre[genre].slice(0, 1)
 
 
                         // Testing Here (For Testing Edge Cases)
