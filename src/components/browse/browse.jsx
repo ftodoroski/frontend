@@ -268,19 +268,19 @@ const Browse = () => {
          'transition-delay': '5000ms',
     }
 
-    const cropNumberOfProgramsInGenres = programsByGenre => {
-        const croppedGenresPrograms = {}
+    const truncateProgramsByGenre = programsByGenre => {
+        const truncatedProgramsByGenre = {}
         for (const [genre, programs] of Object.entries(programsByGenre)) {
-            croppedGenresPrograms[genre] = programs.slice(0, MAX_CROP_AMOUNT)
+            truncatedProgramsByGenre[genre] = programs.slice(0, MAX_CROP_AMOUNT)
         }
 
-        return croppedGenresPrograms
+        return truncatedProgramsByGenre
     }
 
-    const getGenrePrograms = genreObj => {
+    const matchProgramsToGenre = (genre, programs) => {
         const genrePrograms = []
 
-        for (let program of genreObj.programs) {
+        for (let program of genre.programs) {
             for (let pg of programs) {
                 if (program.id === pg.id) genrePrograms.push(pg)
             }
@@ -289,11 +289,11 @@ const Browse = () => {
         return genrePrograms
     }
 
-    const developProgramsForGenres = () => {
+    const groupProgramsByGenre = (genres, programs) => {
         const programsByGenre = {}
 
         for (let genre of genres) {
-            programsByGenre[genre.name] = getGenrePrograms(genre)
+            programsByGenre[genre.name] = matchProgramsToGenre(genre, programs)
         }
 
         return programsByGenre
@@ -350,9 +350,9 @@ const Browse = () => {
     })
 
     useEffect(() => {
-        let programsByGenre = developProgramsForGenres()
+        let programsByGenre = groupProgramsByGenre(genres, programs)
         programsByGenre['Watchlist'] = developProgramsForWatchlist()
-        programsByGenre = cropNumberOfProgramsInGenres(programsByGenre)
+        programsByGenre = truncateProgramsByGenre(programsByGenre)
         shuffleGenresPrograms(programsByGenre)
 
         setProgramsByGenre(programsByGenre)
