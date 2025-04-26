@@ -21,7 +21,7 @@ import isTotalItemsLessThanTransitioningItemsAmount from '../../util/browse/is_t
 const reducer = (state, action) => {
     switch (action.type) {
         case 'initial_reducer_set_up': {
-            const { itemsInRow, programsByGenre, rescaleProgramsArray } = action.payload
+            const { itemsInRow, programsByGenre, selectInitialProgramsWindow } = action.payload
             const initialState = {}
             for (const genre in programsByGenre) {
                 initialState[genre] = {
@@ -30,7 +30,7 @@ const reducer = (state, action) => {
                     lowestVisibleItemIndex: 0,
                     getSliderItemWidth: 100 / itemsInRow,
                     totalItems: programsByGenre[genre].length,
-                    rescaledProgramsArray: rescaleProgramsArray(0, itemsInRow, programsByGenre[genre]),
+                    rescaledProgramsArray: selectInitialProgramsWindow(0, itemsInRow, programsByGenre[genre]),
                     animating: false,
                     sliderButtonHasCooledDown: true,
                     movementTriggered: false,
@@ -221,7 +221,7 @@ const Browse = () => {
 
             dispatchGenreSlidersDetail({
                 type: 'initial_reducer_set_up', 
-                payload: {itemsInRow, programsByGenre, rescaleProgramsArray}
+                payload: {itemsInRow, programsByGenre, selectInitialProgramsWindow}
             })
         }
     })
@@ -299,7 +299,7 @@ const Browse = () => {
         return programsByGenre
     }
 
-    const developProgramsForWatchlist = () => {
+    const matchProgramsToWatchlist = (watchlist, programs) => {
         const watchlistPrograms = []
 
         for (let item of watchlist) {
@@ -311,14 +311,13 @@ const Browse = () => {
         return watchlistPrograms
     }
 
-    const shuffleGenresPrograms = programsByGenre => {
+    const shuffleProgramsByGenre = programsByGenre => {
         for (let [_, programs] of Object.entries(programsByGenre)) {
             shuffle(programs)
         }
     }
 
-    // Rename to initialRescaleProgramsArray
-    const rescaleProgramsArray = (startingIndex, itemsInRow, programs) => {
+    const selectInitialProgramsWindow = (startingIndex, itemsInRow, programs) => {
         // Not doing any checks just seeing if it works
         return programs.slice(startingIndex, itemsInRow + 3)
     }
@@ -351,9 +350,9 @@ const Browse = () => {
 
     useEffect(() => {
         let programsByGenre = groupProgramsByGenre(genres, programs)
-        programsByGenre['Watchlist'] = developProgramsForWatchlist()
+        programsByGenre['Watchlist'] = matchProgramsToWatchlist(watchlist, programs)
         programsByGenre = truncateProgramsByGenre(programsByGenre)
-        shuffleGenresPrograms(programsByGenre)
+        shuffleProgramsByGenre(programsByGenre)
 
         setProgramsByGenre(programsByGenre)
     }, []);
