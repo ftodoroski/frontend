@@ -193,7 +193,7 @@ const Browse = () => {
 
     // Some of these have to be renamed
     const [programsByGenre, setProgramsByGenre] = useState({})
-    const [sliderComponentHoverEffects, setSliderComponentHoverEffects] = useState({})
+    const [sliderHoverStyles, setSliderHoverStyles] = useState({})
     const [opacity, setOpacity] = useState(1)
     const [autoPlay, setAutoPlay] = useState(true)
     // Instead of muted you can refactor to toggleAudio
@@ -438,7 +438,7 @@ const Browse = () => {
     // Slider Component
     const sliderComponent = (genre) => {
         const handleGenreHeaderHoverEffect = () => {
-            setSliderComponentHoverEffects({ 
+            setSliderHoverStyles({ 
                 [genre]: {
                     'displayChevron': {'display': 'inline-block'}
                 }
@@ -446,12 +446,12 @@ const Browse = () => {
         }
 
         const handleGenreHeaderHoverEffectLeave = () => {
-            const { [genre]: displayChevron, ...props } = sliderComponentHoverEffects
-            setSliderComponentHoverEffects({...props})
+            const { [genre]: displayChevron, ...props } = sliderHoverStyles
+            setSliderHoverStyles({...props})
         }
 
         const handleTitleExploreAllHoverEffect = () => {
-            setSliderComponentHoverEffects({
+            setSliderHoverStyles({
                 [genre]: {
                     'displayExploreAll': {
                         'max-width': '200px',
@@ -467,16 +467,16 @@ const Browse = () => {
         }
 
         const handleTitleExploreAllHoverEffectLeave = () => {
-            const { [genre]: { displayChevron } } = sliderComponentHoverEffects
+            const { [genre]: { displayChevron } } = sliderHoverStyles
             const { display } = displayChevron
 
-            setSliderComponentHoverEffects({ 
+            setSliderHoverStyles({ 
                 [genre]: { 'displayChevron': { display } }
             })
         }
 
         const handleHoverEffectOnSlider = () => {
-            setSliderComponentHoverEffects({
+            setSliderHoverStyles({
                 [genre]: {
                     'displayChevron': {
                         'display': 'inline-block',
@@ -500,14 +500,14 @@ const Browse = () => {
                 displayChevronNext, 
                 displayChevronPrevious, 
                 displayPagination
-            }, ...props } = sliderComponentHoverEffects
-            setSliderComponentHoverEffects({...props})
+            }, ...props } = sliderHoverStyles
+            setSliderHoverStyles({...props})
         }
 
         const handleNextButtonHoverEffect = () => {
-            const { [genre]: props } = sliderComponentHoverEffects
+            const { [genre]: props } = sliderHoverStyles
 
-            setSliderComponentHoverEffects({
+            setSliderHoverStyles({
                 [genre]: {
                     ...props,
                     'displayChevronNext': {
@@ -538,16 +538,16 @@ const Browse = () => {
                     ...genreProps
                 }
                 , ...props
-            } = sliderComponentHoverEffects
+            } = sliderHoverStyles
             const { transform, ...remainingChevronNextProps } = displayChevronNext
 
-            setSliderComponentHoverEffects({ [genre]: { ...genreProps, 'displayChevronNext': { ...remainingChevronNextProps } } , ...props})
+            setSliderHoverStyles({ [genre]: { ...genreProps, 'displayChevronNext': { ...remainingChevronNextProps } } , ...props})
         }
 
         const handlePreviousButtonHoverEffect = () => {
-            const { [genre]: props } = sliderComponentHoverEffects
+            const { [genre]: props } = sliderHoverStyles
 
-            setSliderComponentHoverEffects({
+            setSliderHoverStyles({
                 [genre]: {
                     ...props,
                     'displayChevronPrevious': {
@@ -578,10 +578,10 @@ const Browse = () => {
                     ...genreProps
                 }
                 , ...props
-            } = sliderComponentHoverEffects
+            } = sliderHoverStyles
             const { transform, ...remainingChevronPreviousProps } = displayChevronPrevious
 
-            setSliderComponentHoverEffects({ [genre]: { ...genreProps, 'displayChevronPrevious': { ...remainingChevronPreviousProps } } , ...props})
+            setSliderHoverStyles({ [genre]: { ...genreProps, 'displayChevronPrevious': { ...remainingChevronPreviousProps } } , ...props})
         }
 
         const handleNext = () => {
@@ -1298,10 +1298,10 @@ const Browse = () => {
                 <span
                     className='previous-caret-container'
                     style={
-                        sliderComponentHoverEffects[genre]
-                            && sliderComponentHoverEffects[genre]['displayChevronPreviousContainer']
+                        sliderHoverStyles[genre]
+                            && sliderHoverStyles[genre]['displayChevronPreviousContainer']
                             ?
-                            sliderComponentHoverEffects[genre]['displayChevronPreviousContainer']
+                            sliderHoverStyles[genre]['displayChevronPreviousContainer']
                             :
                             {}
                     }
@@ -1311,10 +1311,10 @@ const Browse = () => {
                 >
                     <GrPrevious
                         style={
-                            sliderComponentHoverEffects[genre]
-                                && sliderComponentHoverEffects[genre]['displayChevronPrevious']
+                            sliderHoverStyles[genre]
+                                && sliderHoverStyles[genre]['displayChevronPrevious']
                                 ?
-                                sliderComponentHoverEffects[genre]['displayChevronPrevious']
+                                sliderHoverStyles[genre]['displayChevronPrevious']
                                 :
                                 {}
                         }
@@ -1331,7 +1331,7 @@ const Browse = () => {
             const paginationAmount = Math.ceil(totalItems / itemsInRow)
             
             const pagination = (
-                <ul className='pagination-indicator' style={sliderComponentHoverEffects[genre]['displayPagination']}>
+                <ul className='pagination-indicator' style={sliderHoverStyles[genre]['displayPagination']}>
                     {Array(paginationAmount).fill(0).map((_, idx) => {
                         const currentPageNumber = Math.ceil(lowestVisibleItemIndex / itemsInRow)
                         const isLowestEqualToPageNumber = (currentPageNumber === idx)    
@@ -1369,9 +1369,9 @@ const Browse = () => {
                             <div 
                                 className="see-all-link"
                                 style={
-                                    sliderComponentHoverEffects[genre] 
-                                    && sliderComponentHoverEffects[genre]['displayExploreAll'] 
-                                    ? sliderComponentHoverEffects[genre]['displayExploreAll'] : {}
+                                    sliderHoverStyles[genre] 
+                                    && sliderHoverStyles[genre]['displayExploreAll'] 
+                                    ? sliderHoverStyles[genre]['displayExploreAll'] : {}
                                 }
                             >
                                 Explore All
@@ -1379,10 +1379,10 @@ const Browse = () => {
                             <div 
                                 className="arrow-chevron-container" 
                                 style={
-                                    sliderComponentHoverEffects[genre] 
-                                    && sliderComponentHoverEffects[genre]['displayChevron'] 
+                                    sliderHoverStyles[genre] 
+                                    && sliderHoverStyles[genre]['displayChevron'] 
                                     ? 
-                                    sliderComponentHoverEffects[genre]['displayChevron'] 
+                                    sliderHoverStyles[genre]['displayChevron'] 
                                     : 
                                     {}
                                 }
@@ -1390,8 +1390,8 @@ const Browse = () => {
                                 <GrFormNext 
                                     viewBox='0 0 21 21'
                                     className={
-                                        sliderComponentHoverEffects[genre] 
-                                        && sliderComponentHoverEffects[genre]['displayExploreAll'] 
+                                        sliderHoverStyles[genre] 
+                                        && sliderHoverStyles[genre]['displayExploreAll'] 
                                         ? 'minimizedChevron' : ''
                                     }
                                 />
@@ -1413,8 +1413,8 @@ const Browse = () => {
                         }
 
                         {/* - pagination ul **the slide bars to see how many are there  */}
-                        {   sliderComponentHoverEffects[genre] &&
-                            sliderComponentHoverEffects[genre]['displayPagination']
+                        {   sliderHoverStyles[genre] &&
+                            sliderHoverStyles[genre]['displayPagination']
                             ?
                             handlePagination()
                             :
@@ -1496,10 +1496,10 @@ const Browse = () => {
                                 <span 
                                     className='next-caret-container'
                                     style={
-                                        sliderComponentHoverEffects[genre]
-                                        && sliderComponentHoverEffects[genre]['displayChevronNextContainer']
+                                        sliderHoverStyles[genre]
+                                        && sliderHoverStyles[genre]['displayChevronNextContainer']
                                         ?
-                                        sliderComponentHoverEffects[genre]['displayChevronNextContainer']
+                                        sliderHoverStyles[genre]['displayChevronNextContainer']
                                         :
                                         {}
                                     }
@@ -1510,10 +1510,10 @@ const Browse = () => {
                                     {/* Icon for the next caret */}
                                     <GrNext 
                                         style={
-                                            sliderComponentHoverEffects[genre]
-                                            && sliderComponentHoverEffects[genre]['displayChevronNext']
+                                            sliderHoverStyles[genre]
+                                            && sliderHoverStyles[genre]['displayChevronNext']
                                             ?
-                                            sliderComponentHoverEffects[genre]['displayChevronNext']
+                                            sliderHoverStyles[genre]['displayChevronNext']
                                             :
                                             {}
                                         }
