@@ -437,7 +437,7 @@ const Browse = () => {
 
     // Slider Component
     const sliderComponent = (genre) => {
-        const handleGenreHeaderHoverEffect = () => {
+        const handleGenreHeaderHoverEnter = () => {
             setSliderHoverStyles({ 
                 [genre]: {
                     'displayChevron': {'display': 'inline-block'}
@@ -445,12 +445,12 @@ const Browse = () => {
             })
         }
 
-        const handleGenreHeaderHoverEffectLeave = () => {
+        const handleGenreHeaderHoverLeave = () => {
             const { [genre]: displayChevron, ...props } = sliderHoverStyles
             setSliderHoverStyles({...props})
         }
 
-        const handleTitleExploreAllHoverEffect = () => {
+        const handleTitleExploreAllHoverEnter = () => {
             setSliderHoverStyles({
                 [genre]: {
                     'displayExploreAll': {
@@ -466,7 +466,7 @@ const Browse = () => {
             })
         }
 
-        const handleTitleExploreAllHoverEffectLeave = () => {
+        const handleTitleExploreAllHoverLeave = () => {
             const { [genre]: { displayChevron } } = sliderHoverStyles
             const { display } = displayChevron
 
@@ -475,7 +475,7 @@ const Browse = () => {
             })
         }
 
-        const handleHoverEffectOnSlider = () => {
+        const handleSliderHoverEnter = () => {
             setSliderHoverStyles({
                 [genre]: {
                     'displayChevron': {
@@ -494,7 +494,7 @@ const Browse = () => {
             })
         }
         
-        const handleHoverEffectOnSliderLeave = () => {
+        const handleSliderHoverLeave = () => {
             const { [genre]: { 
                 displayChevron, 
                 displayChevronNext, 
@@ -504,7 +504,7 @@ const Browse = () => {
             setSliderHoverStyles({...props})
         }
 
-        const handleNextButtonHoverEffect = () => {
+        const handleNextButtonHoverEnter = () => {
             const { [genre]: props } = sliderHoverStyles
 
             setSliderHoverStyles({
@@ -530,7 +530,7 @@ const Browse = () => {
             })
         }
 
-        const handleNextButtonHoverEffectLeave = () => {
+        const handleNextButtonHoverLeave = () => {
             const { 
                 [genre]: { 
                     displayChevronNext, 
@@ -544,7 +544,7 @@ const Browse = () => {
             setSliderHoverStyles({ [genre]: { ...genreProps, 'displayChevronNext': { ...remainingChevronNextProps } } , ...props})
         }
 
-        const handlePreviousButtonHoverEffect = () => {
+        const handlePrevButtonHoverEnter = () => {
             const { [genre]: props } = sliderHoverStyles
 
             setSliderHoverStyles({
@@ -570,7 +570,7 @@ const Browse = () => {
             })
         }
 
-        const handlePreviousButtonHoverEffectLeave = () => {
+        const handlePrevButtonHoverLeave = () => {
             const { 
                 [genre]: { 
                     displayChevronPrevious, 
@@ -1306,8 +1306,8 @@ const Browse = () => {
                             {}
                     }
                     onClick={handlePrev}
-                    onMouseEnter={handlePreviousButtonHoverEffect}
-                    onMouseLeave={handlePreviousButtonHoverEffectLeave}
+                    onMouseEnter={handlePrevButtonHoverEnter}
+                    onMouseLeave={handlePrevButtonHoverLeave}
                 >
                     <GrPrevious
                         style={
@@ -1356,13 +1356,13 @@ const Browse = () => {
             <div className="slider-container">
                 <h2 
                     className="row-header" 
-                    onMouseEnter={handleGenreHeaderHoverEffect} 
-                    onMouseLeave={handleGenreHeaderHoverEffectLeave}
+                    onMouseEnter={handleGenreHeaderHoverEnter} 
+                    onMouseLeave={handleGenreHeaderHoverLeave}
                 >
                     <div 
                         className="row-content"
-                        onMouseEnter={handleTitleExploreAllHoverEffect}
-                        onMouseLeave={handleTitleExploreAllHoverEffectLeave}
+                        onMouseEnter={handleTitleExploreAllHoverEnter}
+                        onMouseLeave={handleTitleExploreAllHoverLeave}
                     >
                         <div className="row-content-title">{genre}</div>
                         <div className='arrow-row-header'>
@@ -1402,8 +1402,8 @@ const Browse = () => {
                 <div className="row-container">
                     <div 
                         className="slider"
-                        onMouseEnter={handleHoverEffectOnSlider}
-                        onMouseLeave={handleHoverEffectOnSliderLeave}
+                        onMouseEnter={handleSliderHoverEnter}
+                        onMouseLeave={handleSliderHoverLeave}
                     >
                         {   genreSlidersDetailState[genre] 
                             && genreSlidersDetailState[genre]['hasMovedOnce'] ? 
@@ -1503,8 +1503,8 @@ const Browse = () => {
                                         :
                                         {}
                                     }
-                                    onMouseEnter={handleNextButtonHoverEffect}
-                                    onMouseLeave={handleNextButtonHoverEffectLeave}
+                                    onMouseEnter={handleNextButtonHoverEnter}
+                                    onMouseLeave={handleNextButtonHoverLeave}
                                     onClick={handleNext}
                                 >
                                     {/* Icon for the next caret */}
