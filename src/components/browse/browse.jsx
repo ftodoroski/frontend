@@ -438,8 +438,7 @@ const Browse = () => {
     // Slider Component
     const sliderComponent = (genre) => {
         const handleGenreHeaderHoverEffect = () => {
-            setSliderComponentHoverEffects({
-                // ...sliderComponentHoverEffects, 
+            setSliderComponentHoverEffects({ 
                 [genre]: {
                     'displayChevron': {'display': 'inline-block'}
                 }
@@ -453,7 +452,6 @@ const Browse = () => {
 
         const handleTitleExploreAllHoverEffect = () => {
             setSliderComponentHoverEffects({
-                // ...sliderComponentHoverEffects,
                 [genre]: {
                     'displayExploreAll': {
                         'max-width': '200px',
@@ -472,15 +470,13 @@ const Browse = () => {
             const { [genre]: { displayChevron } } = sliderComponentHoverEffects
             const { display } = displayChevron
 
-            setSliderComponentHoverEffects({
-                // ...sliderComponentHoverEffects, 
+            setSliderComponentHoverEffects({ 
                 [genre]: { 'displayChevron': { display } }
             })
         }
 
         const handleHoverEffectOnSlider = () => {
             setSliderComponentHoverEffects({
-                // ...sliderComponentHoverEffects,
                 [genre]: {
                     'displayChevron': {
                         'display': 'inline-block',
@@ -512,7 +508,6 @@ const Browse = () => {
             const { [genre]: props } = sliderComponentHoverEffects
 
             setSliderComponentHoverEffects({
-                // ...sliderComponentHoverEffects,
                 [genre]: {
                     ...props,
                     'displayChevronNext': {
@@ -553,7 +548,6 @@ const Browse = () => {
             const { [genre]: props } = sliderComponentHoverEffects
 
             setSliderComponentHoverEffects({
-                // ...sliderComponentHoverEffects,
                 [genre]: {
                     ...props,
                     'displayChevronPrevious': {
