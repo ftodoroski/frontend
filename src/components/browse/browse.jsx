@@ -1298,12 +1298,7 @@ const Browse = () => {
                 <span
                     className='previous-caret-container'
                     style={
-                        sliderHoverStyles[genre]
-                            && sliderHoverStyles[genre]['displayChevronPreviousContainer']
-                            ?
-                            sliderHoverStyles[genre]['displayChevronPreviousContainer']
-                            :
-                            {}
+                        sliderHoverStyles[genre]?.displayChevronPreviousContainer ?? {}
                     }
                     onClick={handlePrev}
                     onMouseEnter={handlePrevButtonHoverEnter}
@@ -1311,12 +1306,7 @@ const Browse = () => {
                 >
                     <GrPrevious
                         style={
-                            sliderHoverStyles[genre]
-                                && sliderHoverStyles[genre]['displayChevronPrevious']
-                                ?
-                                sliderHoverStyles[genre]['displayChevronPrevious']
-                                :
-                                {}
+                            sliderHoverStyles[genre]?.displayChevronPrevious ?? {}
                         }
                     />
                 </span>
@@ -1369,9 +1359,7 @@ const Browse = () => {
                             <div 
                                 className="see-all-link"
                                 style={
-                                    sliderHoverStyles[genre] 
-                                    && sliderHoverStyles[genre]['displayExploreAll'] 
-                                    ? sliderHoverStyles[genre]['displayExploreAll'] : {}
+                                    sliderHoverStyles[genre]?.displayExploreAll ?? {}
                                 }
                             >
                                 Explore All
@@ -1379,19 +1367,13 @@ const Browse = () => {
                             <div 
                                 className="arrow-chevron-container" 
                                 style={
-                                    sliderHoverStyles[genre] 
-                                    && sliderHoverStyles[genre]['displayChevron'] 
-                                    ? 
-                                    sliderHoverStyles[genre]['displayChevron'] 
-                                    : 
-                                    {}
+                                    sliderHoverStyles[genre]?.displayChevron ?? {}
                                 }
                             >
                                 <GrFormNext 
                                     viewBox='0 0 21 21'
                                     className={
-                                        sliderHoverStyles[genre] 
-                                        && sliderHoverStyles[genre]['displayExploreAll'] 
+                                        sliderHoverStyles[genre]?.displayExploreAll 
                                         ? 'minimizedChevron' : ''
                                     }
                                 />
@@ -1405,20 +1387,15 @@ const Browse = () => {
                         onMouseEnter={handleSliderHoverEnter}
                         onMouseLeave={handleSliderHoverLeave}
                     >
-                        {   genreSlidersDetailState[genre] 
-                            && genreSlidersDetailState[genre]['hasMovedOnce'] ? 
-                            spanPreviousContainerElement()
-                            :
-                            '' 
+                        {  
+                            genreSlidersDetailState[genre]?.hasMovedOnce 
+                            ? spanPreviousContainerElement() : ''
                         }
 
                         {/* - pagination ul **the slide bars to see how many are there  */}
-                        {   sliderHoverStyles[genre] &&
-                            sliderHoverStyles[genre]['displayPagination']
-                            ?
-                            handlePagination()
-                            :
-                            ''
+                        {
+                            sliderHoverStyles[genre]?.displayPagination
+                            ? handlePagination() : ''
                         }
                         
                         {/* CHECKING FOR MOVEMENT OF SLIDER */}
@@ -1427,12 +1404,8 @@ const Browse = () => {
                                 // This is where when the next button is pressed the logic is for what is viewed
 
                                 className={`slider-content ${
-                                    genreSlidersDetailState[genre] && 
-                                    genreSlidersDetailState[genre]['animating'] 
-                                    ? 
-                                    'animating' 
-                                    : 
-                                    ''
+                                    genreSlidersDetailState[genre]?.animating 
+                                    ? 'animating' : ''
                                 }`}
                                 style={
                                     // HANDLES INITIAL MODIFYING OF ARRAY
@@ -1496,12 +1469,7 @@ const Browse = () => {
                                 <span 
                                     className='next-caret-container'
                                     style={
-                                        sliderHoverStyles[genre]
-                                        && sliderHoverStyles[genre]['displayChevronNextContainer']
-                                        ?
-                                        sliderHoverStyles[genre]['displayChevronNextContainer']
-                                        :
-                                        {}
+                                        sliderHoverStyles[genre]?.displayChevronNextContainer ?? {}
                                     }
                                     onMouseEnter={handleNextButtonHoverEnter}
                                     onMouseLeave={handleNextButtonHoverLeave}
@@ -1510,12 +1478,7 @@ const Browse = () => {
                                     {/* Icon for the next caret */}
                                     <GrNext 
                                         style={
-                                            sliderHoverStyles[genre]
-                                            && sliderHoverStyles[genre]['displayChevronNext']
-                                            ?
-                                            sliderHoverStyles[genre]['displayChevronNext']
-                                            :
-                                            {}
+                                            sliderHoverStyles[genre]?.displayChevronNext ?? {}
                                         }
                                     />
                                 </span>
