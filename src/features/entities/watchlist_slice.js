@@ -24,3 +24,5 @@ const watchlistSlice = createSlice({
 })
 
 export default watchlistSlice.reducer
+
+export const selectWatchlist = state => state.entities.watchlist

@@ -20,3 +20,5 @@ const loadingSlice = createSlice({
 
 export const { startLoadingPrograms, endLoadingPrograms } = loadingSlice.actions
 export default loadingSlice.reducer
+
+export const selectAreProgramsLoading = state => state.ui.loading.programsLoading

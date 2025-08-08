@@ -29,6 +29,8 @@ const programsSlice = createSlice({
 
 export default programsSlice.reducer
 
+export const selectAllPrograms = state => state.entities.programs
+
 
 // *1 I think what i was trying to here was when i was dispatching fetchWatchlistPrograms
 // it was hitting programs/fetchWatchlistPrograms and not watchlist/fetchWatchlistPrograms

@@ -14,6 +14,11 @@ import _ from 'lodash';
 import returnRemainder from '../../util/browse/return_remainder'
 import isDivisible from '../../util/browse/is_divisible'
 import isTotalItemsLessThanTransitioningItemsAmount from '../../util/browse/is_total_items_less_than_transitioning_items_amount'
+import { selectAllPrograms } from '../../features/entities/programs_slice';
+import { selectAllGenres } from '../../features/entities/genres_slice';
+import { selectWatchlist } from '../../features/entities/watchlist_slice';
+import { selectProfile } from '../../features/session/session_slice';
+import { selectAreProgramsLoading } from '../../features/ui/loading_slice';
 
 
 // This will be in its own file, just need to make it work now
@@ -185,11 +190,11 @@ const Browse = () => {
     const navigate = useNavigate()
 
     // These ones can be imported and exported where they are being made this is just wasted space
-    const programs = useSelector(state => state.entities.programs)
-    const genres = useSelector(state => state.entities.genres)
-    const watchlist = useSelector(state => state.entities.watchlist)
-    const profile = useSelector(state => state.session.profile)
-    const isProgramsLoading = useSelector(state => state.ui.loading.programsLoading)
+    const programs = useSelector(selectAllPrograms)
+    const genres = useSelector(selectAllGenres)
+    const watchlist = useSelector(selectWatchlist)
+    const profile = useSelector(selectProfile)
+    const areProgramsLoading = useSelector(selectAreProgramsLoading)
 
     // Some of these have to be renamed
     const [programsByGenre, setProgramsByGenre] = useState({})
@@ -204,6 +209,7 @@ const Browse = () => {
     const [genreSlidersDetailState, dispatchGenreSlidersDetail] = useReducer(reducer, {})
     const timerRef = useRef(null);
 
+    // This is for making the slider responsive
     const [windowSize, setWindowSize] = useState([
         window.innerWidth,
         window.innerHeight,
@@ -1636,7 +1642,7 @@ const Browse = () => {
     }
 
     return (
-        isProgramsLoading ? 'Loading Component' : browseRenderer()
+        areProgramsLoading ? 'Loading Component' : browseRenderer()
     )
 }
 

@@ -15,3 +15,5 @@ const genresSlice = createSlice({
 })
 
 export default genresSlice.reducer
+
+export const selectAllGenres = state => state.entities.genres
