@@ -232,13 +232,6 @@ const Browse = () => {
         }
     })
 
-    // testing
-
-    // Not sure if i need this
-    useEffect(() => {
-        console.log(genreSlidersDetailState)
-    }, [genreSlidersDetailState])
-
     const defaultWrapperStyle = {
         titleWrapper: {
             'transform-origin': 'left bottom', 
