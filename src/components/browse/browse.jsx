@@ -1,29 +1,24 @@
 import React, { useState, useEffect, useReducer, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
-import '../../../assets/stylesheets/browse.scss'
-import playIcon from '../../../assets/images/browse_icons/play_icon.svg'
-import infoIcon from '../../..//assets/images/browse_icons/info_icon.svg'
-import findProgram from '../../util/search/find_program';
-import muteVolumeIcon from '../../../assets/images/browse_icons/mute_volume_icon.svg'
-import volumeOnIcon from '../../../assets/images/browse_icons/volume_icon.svg'
-import replayIcon from '../../../assets/images/browse_icons/replay_icon.svg'
-import shuffle from '../../util/shuffle_array';
-import { GrNext, GrFormNext, GrPrevious } from 'react-icons/gr'
-import _ from 'lodash';
-import returnRemainder from '../../util/browse/return_remainder'
-import isDivisible from '../../util/browse/is_divisible'
-import isTotalItemsLessThanTransitioningItemsAmount from '../../util/browse/is_total_items_less_than_transitioning_items_amount'
-import { selectAllPrograms } from '../../features/entities/programs_slice';
-import { selectAllGenres } from '../../features/entities/genres_slice';
-import { selectWatchlist } from '../../features/entities/watchlist_slice';
-import { selectProfile } from '../../features/session/session_slice';
-import { selectAreProgramsLoading } from '../../features/ui/loading_slice';
-import mediaRowReducer from './components/media_row_reducer';
+import '../../../assets/stylesheets/browse.scss'    // <--Billboard--x, <--MediaRow
+import shuffle from '../../util/shuffle_array';     // <--UtilityFunc import
+import { GrNext, GrFormNext, GrPrevious } from 'react-icons/gr' // <--MediaRow
+import _ from 'lodash';     // <--MediaRow
+import returnRemainder from '../../util/browse/return_remainder'    // <--MediaRow
+import isDivisible from '../../util/browse/is_divisible'    // <--MediaRow
+import isTotalItemsLessThanTransitioningItemsAmount from '../../util/browse/is_total_items_less_than_transitioning_items_amount'    // <--MediaRow
+import { selectAllPrograms } from '../../features/entities/programs_slice';     // <--Billboard--x, <--MediaRow
+import { selectAllGenres } from '../../features/entities/genres_slice';     // <--MediaRow
+import { selectWatchlist } from '../../features/entities/watchlist_slice';  // <--Browse, <--MediaRow
+import { selectAreProgramsLoading } from '../../features/ui/loading_slice'; // <--Browse
+import mediaRowReducer from './components/media_row_reducer';   // <--MediaRow
+import Billboard from './components/billboard';
 
 
 // This whole component has to be refactored
 const Browse = () => {
+    // <--UtilityFunc
     const MAX_CROP_AMOUNT = 30
 
     const dispatch = useDispatch()
@@ -31,37 +26,27 @@ const Browse = () => {
     const navigate = useNavigate()
 
     // These ones can be imported and exported where they are being made this is just wasted space
-    const programs = useSelector(selectAllPrograms)
-    const genres = useSelector(selectAllGenres)
-    const watchlist = useSelector(selectWatchlist)
-    const profile = useSelector(selectProfile)
-    const areProgramsLoading = useSelector(selectAreProgramsLoading)
+    const programs = useSelector(selectAllPrograms) // <--Billboard--x, <--MediaRow
+    const genres = useSelector(selectAllGenres) // <--MediaRow
+    const watchlist = useSelector(selectWatchlist)  // <--Browse, <--MediaRow
+    const areProgramsLoading = useSelector(selectAreProgramsLoading)    // <--Browse
 
     // Some of these have to be renamed
-    const [programsByGenre, setProgramsByGenre] = useState({})
-    const [sliderHoverStyles, setSliderHoverStyles] = useState({})
-    const [opacity, setOpacity] = useState(1)
-    const [autoPlay, setAutoPlay] = useState(true)
-    // Instead of muted you can refactor to toggleAudio
-    const [muted, setMuted] = useState(true)
-    const [defaultWrapperSize, setDefaultWrapperSize] = useState(true)
+    const [programsByGenre, setProgramsByGenre] = useState({})  // <--MediaRow
+    const [sliderHoverStyles, setSliderHoverStyles] = useState({})  // <--MediaRow
 
-    const [reducerSetupDispatchHasRun, setReducerSetupDispatchHasRun] = useState(false)
-    const [genreSlidersDetailState, dispatchGenreSlidersDetail] = useReducer(mediaRowReducer, {})
-    const timerRef = useRef(null);
+    const [reducerSetupDispatchHasRun, setReducerSetupDispatchHasRun] = useState(false)     // <--MediaRow
+    const [genreSlidersDetailState, dispatchGenreSlidersDetail] = useReducer(mediaRowReducer, {})   // <--MediaRow
+    const timerRef = useRef(null);  // <--MediaRow
 
     // This is for making the slider responsive
     const [windowSize, setWindowSize] = useState([
         window.innerWidth,
         window.innerHeight,
-    ])
-    const [itemsInRow, setItemsInRow] = useState(null)
+    ])  // <--MediaRow
+    const [itemsInRow, setItemsInRow] = useState(null)  // <--MediaRow
 
-    // Need better names just writing so the functionality is there
-    const [videoDonePlaying, setVideoDonePlaying] = useState(false)
-
-    const showcaseProgram = findProgram(profile.showcase_id, programs)
-
+    // <--MediaRow
     useEffect(() => {
         if (itemsInRow && !_.isEmpty(programsByGenre) && !reducerSetupDispatchHasRun) {
             setReducerSetupDispatchHasRun(true)
@@ -73,41 +58,7 @@ const Browse = () => {
         }
     })
 
-    const defaultWrapperStyle = {
-        titleWrapper: {
-            'transform-origin': 'left bottom', 
-            'transform': 'scale(1) translate3d(0px, 0px, 0px)', 
-            'transition-duration': '1300ms', 
-            'transition-delay': '0ms',
-        }, 
-        infoWrapper: {
-            'transform': 'translate3d(0px, 0px, 0px)',
-            'transition-duration': '1300ms',
-            'transition-delay': '0ms',
-            'opacity': '1',
-        }
-    }
-
-    const smallScaleWrapperStyle = {
-        titleWrapper: {
-           ' transform-origin': 'left bottom',
-            'transform': 'scale(0.6) translate3d(-190px, 202.5px, 0px)',
-            'transition-duration': '1300ms',
-            'transition-delay': '5000ms',
-        },
-        infoWrapper: {
-            'transform': 'translate3d(0px, 61.5px, 0px)',
-            'transition-duration': '1300ms',
-            'transition-delay': '5000ms',
-        }
-    }
-
-    const infoSynopsisStyle = {
-        'opacity': '0',
-        'transition-duration': '500ms',
-         'transition-delay': '5000ms',
-    }
-
+    // <--UtilityFunc, <--MediaRow import
     const truncateProgramsByGenre = programsByGenre => {
         const truncatedProgramsByGenre = {}
         for (const [genre, programs] of Object.entries(programsByGenre)) {
@@ -117,6 +68,7 @@ const Browse = () => {
         return truncatedProgramsByGenre
     }
 
+    // <--UtilityFunc
     const matchProgramsToGenre = (genre, programs) => {
         const genrePrograms = []
 
@@ -129,6 +81,7 @@ const Browse = () => {
         return genrePrograms
     }
 
+    // <--UtilityFunc, <--MediaRow import
     const groupProgramsByGenre = (genres, programs) => {
         const programsByGenre = {}
 
@@ -139,6 +92,7 @@ const Browse = () => {
         return programsByGenre
     }
 
+    // <--UtilityFunc, <--MediaRow import
     const matchProgramsToWatchlist = (watchlist, programs) => {
         const watchlistPrograms = []
 
@@ -151,22 +105,26 @@ const Browse = () => {
         return watchlistPrograms
     }
 
+    // <--UtilityFunc, <--MediaRow import
     const shuffleProgramsByGenre = programsByGenre => {
         for (let [_, programs] of Object.entries(programsByGenre)) {
             shuffle(programs)
         }
     }
 
+    // <--UtilityFunc, <--MediaRow import
     const selectInitialProgramsWindow = (startingIndex, itemsInRow, programs) => {
         // Not doing any checks just seeing if it works
         return programs.slice(startingIndex, itemsInRow + 3)
     }
 
+    // <--MediaRow
     useEffect(() => {
         // This is where you might want to do that dispatch update
         return () => clearTimeout(timerRef.current);
     }, [])
 
+    // <--MediaRow
     useEffect(() => {
         if (windowSize[0] >= 1400) {
             // And this is when you change the itemsInRow, i guess a good thing would be to
@@ -176,6 +134,7 @@ const Browse = () => {
         // You want to make a conditional for the other widths
     }, [windowSize])
 
+    // <--MediaRow
     useEffect(() => {
         const handleWindowResize = () => {
             setWindowSize([window.innerWidth, window.innerHeight]);
@@ -188,6 +147,7 @@ const Browse = () => {
         }
     })
 
+    // <--MediaRow
     useEffect(() => {
         let programsByGenre = groupProgramsByGenre(genres, programs)
         programsByGenre['Watchlist'] = matchProgramsToWatchlist(watchlist, programs)
@@ -197,69 +157,13 @@ const Browse = () => {
         setProgramsByGenre(programsByGenre)
     }, []);
 
+    // <--Browse
     useEffect(() => {
         window.scrollTo(0, 0)
         
     }, [])
 
-    useEffect(() => {
-        const startVideoTimer = setTimeout(() => {
-            setOpacity(0)
-        }, 2000)
-        return () => clearTimeout(startVideoTimer)
-    }, [])
-
-    useEffect(() => {
-        if (!videoDonePlaying) {
-            const logoAndTextTimer = setTimeout(() => {
-                setDefaultWrapperSize(false)
-            }, 4000)
-            return () => clearTimeout(logoAndTextTimer)
-        } else {
-            const resizeLogoAndTextTimer = setTimeout(() => {
-                setDefaultWrapperSize(true)
-            }, 1000)
-            return () => clearTimeout(resizeLogoAndTextTimer)
-        }
-    }, [videoDonePlaying])
-
-    const handleEndOfVideo = () => {
-        setVideoDonePlaying(true)
-        setOpacity(1)
-        setAutoPlay(false)
-    }
-
-    const handleRestartVideo = () => {
-        setVideoDonePlaying(false)
-        setOpacity(0)
-        setAutoPlay(true)
-    }
-
-    const handleHeroVideoVolume = () => {
-        setMuted(!muted)
-    }
-
-    const videoPlayerContainer = () => {
-        return (
-            <div className='video-player-container'> 
-                <div className='video-player-section'>
-                    <video 
-                        autoPlay={autoPlay} 
-                        muted={muted} 
-                        onEnded={handleEndOfVideo}
-                    >
-                        <source 
-                            src={showcaseProgram.thumbclip} 
-                            type='video/mp4'
-                        />
-                    </video>
-                </div>
-
-                {/* dimmer container dynamic*/}
-            </div>
-        )
-    }
-
+    // <--MediaRow
     const sliderItem = (program, idx) => {
         return (
             <div key={idx} className='slider-item'>
@@ -275,6 +179,7 @@ const Browse = () => {
         )
     }
 
+    // <--MediaRow
     // Slider Component
     const sliderComponent = (genre) => {
         const handleGenreHeaderHoverEnter = () => {
@@ -1335,123 +1240,7 @@ const Browse = () => {
         return (
             <main className='browse'>
                 {/* billboard section */}
-                <div className='volatile-billboard-animations-container'> 
-                    <div className='billboard-row'> 
-                        <div className='billboard'>  
-                            <div className='billboard-motion'>
-                                {!videoDonePlaying && videoPlayerContainer()}
-
-                                <div className='motion-background-component'>
-                                    <div className='hero-image-wrapper'>  
-                                        <img 
-                                            className='static-hero-image' 
-                                            src={showcaseProgram.background} 
-                                            alt={showcaseProgram.title} 
-                                            style={{opacity: opacity}}
-                                        />
-                                        <div className='side-vignette-layer'></div>
-                                        <div className='bottom-vignette-layer'></div>
-                                    </div>
-
-                                    <div className='embedded-button-layer'>
-                                        { !opacity &&
-                                            <span className='action-button'>
-                                                <button 
-                                                    className='audio-button' 
-                                                    onClick={handleHeroVideoVolume}
-                                                >
-                                                    {/* ternary for toggling audio */}
-                                                    <img 
-                                                        className='volume' 
-                                                        src={muted ? muteVolumeIcon : volumeOnIcon} 
-                                                        alt="mute volume"
-                                                    />
-                                                </button>
-                                            </span>
-                                        }
-                                        { !autoPlay &&
-                                            <span className='action-button'>
-                                                <button 
-                                                    className='audio-button' 
-                                                    onClick={handleRestartVideo}
-                                                >
-                                                    {/* volume class needs to be changed or the one above to reflect that this style is used for volume and replay - a more general name */}
-                                                    <img 
-                                                        className='volume' 
-                                                        src={replayIcon} alt="replay"
-                                                    />
-                                                </button>
-                                            </span>
-                                        }
-                                        <span className='maturity-rating'>
-                                            <span className='maturity-number'>{showcaseProgram.rating}</span>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className='fill-container'> 
-                                <div className='info'> 
-                                    <div className='logo-text-container'> 
-                                        <div 
-                                            className='title-wrapper' 
-                                            style={defaultWrapperSize ? (
-                                                defaultWrapperStyle.titleWrapper
-                                            ) : (
-                                                smallScaleWrapperStyle.titleWrapper
-                                            )}
-                                        >
-                                            <div className='billboard-title'>
-                                                <img 
-                                                    className='title-logo' 
-                                                    src={showcaseProgram.logo} 
-                                                    alt={showcaseProgram.title} 
-                                                />
-                                            </div>
-                                        </div>
-
-                                        <div 
-                                            className='info-wrapper' 
-                                            style={defaultWrapperSize ? (
-                                                defaultWrapperStyle.infoWrapper
-                                            ) : (
-                                                smallScaleWrapperStyle.infoWrapper
-                                            )}
-                                        >
-                                            <div 
-                                                className='synopsis' 
-                                                style={defaultWrapperSize ? {} : infoSynopsisStyle}
-                                            >
-                                                {showcaseProgram.description}
-                                            </div>
-                                        </div>
-
-                                        <div className='billboard-buttons'> 
-                                            <button className='playlink'> 
-                                                <img 
-                                                    className='billboard-button-icon' 
-                                                    src={playIcon} alt="Play" 
-                                                />
-                                                <div className='billboard-button-space'></div> 
-                                                <div className='billboard-button-text'>Play</div>
-                                            </button>
-
-                                            <button className='more-info'>
-                                                <img 
-                                                    className='billboard-button-icon' 
-                                                    src={infoIcon}
-                                                    alt="Information" 
-                                                />
-                                                <div className='billboard-button-space'></div>
-                                                <div className='billboard-button-text'>More Info</div>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <Billboard />
 
                 {/* section for the carrossel */}
                 {watchlist.length && sliderComponent('Watchlist')}
