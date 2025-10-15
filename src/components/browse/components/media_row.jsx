@@ -82,9 +82,34 @@ const MediaRow = ({ genre }) => {
         setProgramsByGenre(programsByGenre)
     }, []);
 
+    const handleMouseEnter = (e, program, genre) => {
+        console.log(`event object -> `, e)
+        console.log(`program object -> `, program)
+        console.log(`genre -> ${genre}`)
+        const rect = e.currentTarget.getBoundingClientRect();
+        console.log(rect.left + window.scrollX, rect.top + window.scrollY);
+
+        const modal = document.createElement('div');
+        modal.className = 'manual-modal';
+        modal.style.position = "absolute";
+        modal.style.backgroundColor = "red";
+        modal.style.top = `${rect.top + window.window.scrollY}px`
+        modal.style.left = `${rect.left + window.scrollX}px`;
+        modal.style.width = "200px";
+        modal.style.height = "100px";
+
+
+        document.body.appendChild(modal);
+    }
+
+    // const handleMouseLeave = (e, program, genre) => {
+    //     const modal = document.querySelector('.manual-modal');
+    //     if (modal) modal.remove()
+    // }
+
     const sliderItem = (program, idx) => {
         return (
-            <div key={idx} className='slider-item'>
+            <div key={idx} className='slider-item' onMouseEnter={(e) => handleMouseEnter(e, program, 'Action')} onMouseLeave={(e) => handleMouseLeave(e, program, 'Action')}>
                 <Link to='' className='slider-link'>
                     <div className='boxart-container'>
                         <img src={program.thumbnail} alt={program.title} className='boxart-img'/>
