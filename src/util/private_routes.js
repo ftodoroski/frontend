@@ -1,16 +1,17 @@
 import React, { useEffect } from "react";
 import { useSelector } from 'react-redux';
 import { Outlet, Navigate } from "react-router-dom";
+import { selectSession } from "../features/session/session_slice";
 
 const PrivateRoutes = () => {
-    const session = useSelector(state => state.session)
+    const currentSession = useSelector(selectSession)
 
     useEffect(() => {
 
-    }, [session])
+    }, [currentSession])
 
     return (
-        session.token ? <Outlet /> : <Navigate to="/login"/>
+        currentSession.token ? <Outlet /> : <Navigate to="/login"/>
     )
 }
 export default PrivateRoutes

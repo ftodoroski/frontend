@@ -6,7 +6,7 @@ import onChangeHandlerInput from '../../util/on_change_handler_input_util'
 const LoginPage = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const session = useSelector(state => state)
+    // const session = useSelector(state => state)
 
     const dispatch = useDispatch()
     

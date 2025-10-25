@@ -33,4 +33,6 @@ const sessionSlice = createSlice({
 export const { currentProfile, logoutProfile } = sessionSlice.actions
 export default sessionSlice.reducer
 
-export const selectProfile = state => state.session.profile
+export const selectSession = state => state.session
+export const selectCurrentProfile = state => state.session.profile
+export const selectCurrentUserId = state => state.session.userId

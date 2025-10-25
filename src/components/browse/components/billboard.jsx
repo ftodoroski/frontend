@@ -9,12 +9,12 @@ import volumeOnIcon from '../../../../assets/images/browse_icons/volume_icon.svg
 import replayIcon from '../../../../assets/images/browse_icons/replay_icon.svg'
 import findProgram from '../../../util/search/find_program'
 import { selectAllPrograms } from '../../../features/entities/programs_slice';
-import { selectProfile } from '../../../features/session/session_slice';
+import { selectCurrentProfile } from '../../../features/session/session_slice';
 
 
 const Billboard = () => {
     const programs = useSelector(selectAllPrograms)
-    const profile = useSelector(selectProfile)
+    const currentProfile = useSelector(selectCurrentProfile)
 
     const [opacity, setOpacity] = useState(1)
     const [autoPlay, setAutoPlay] = useState(true)
@@ -24,7 +24,7 @@ const Billboard = () => {
     // Need better names just writing so the functionality is there
     const [videoDonePlaying, setVideoDonePlaying] = useState(false)
 
-    const showcaseProgram = findProgram(profile.showcase_id, programs)
+    const showcaseProgram = findProgram(currentProfile.showcase_id, programs)
 
     // Put these 3 in their own file
     const defaultWrapperStyle = {

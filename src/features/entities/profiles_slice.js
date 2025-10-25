@@ -32,3 +32,5 @@ const profilesSlice = createSlice({
 })
 
 export default profilesSlice.reducer
+
+export const selectAllProfiles = state => state.entities.profiles

@@ -12,12 +12,13 @@ import { currentProfile } from '../../features/session/session_slice';
 import { fetchAllPrograms } from '../../util/programs_api_util';
 import { fetchGenres } from '../../util/genres_api_util';
 import { fetchWatchlistPrograms } from '../../util/watchlist_api_util';
+import { selectAllProfiles } from '../../features/entities/profiles_slice.js';
 
 
 const ProfilePage = () => {
     const location = useLocation()
     const navigate = useNavigate()
-    const profiles = useSelector(state => state.entities.profiles)
+    const profiles = useSelector(selectAllProfiles)
     const dispatch = useDispatch()
 
     useEffect(() => {

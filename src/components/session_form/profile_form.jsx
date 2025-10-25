@@ -6,15 +6,16 @@ import '../../../assets/stylesheets/profile.scss'
 import onChangeHandlerInput from '../../util/on_change_handler_input_util';
 import BACKGROUNDS from '../../../assets/images/profile_icons/profile_icons'
 import { createProfile, modifyProfile, deleteProfile } from '../../util/profiles_api_util';
-import { currentProfile } from '../../features/session/session_slice';
+import { currentProfile, selectCurrentUserId } from '../../features/session/session_slice';
+import { selectAllProfiles } from '../../features/entities/profiles_slice';
 
 
 const ProfileForm = () => {
     const [name, setName] = useState('')
     const [errorActive, setErrorActive] = useState('')
     const profileOverlay = useSelector(selectProfileManagerOverlay)
-    const userId = useSelector(state => state.session.userId)
-    const profiles = useSelector(state => state.entities.profiles)
+    const userId = useSelector(selectCurrentUserId)
+    const profiles = useSelector(selectAllProfiles)
     const navigate = useNavigate()
     const dispatch = useDispatch()
 

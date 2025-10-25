@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { logoutProfile } from '../../features/session/session_slice';
+import { logoutProfile, selectCurrentProfile } from '../../features/session/session_slice';
 import onChangeHandlerInput from '../../util/on_change_handler_input_util'
 import '../../../assets/stylesheets/navbar.scss'
 import logo from '../../../assets/images/animeflix-logo.svg'
@@ -13,18 +13,16 @@ import pencilIcon from '../../../assets/images/dropdown_menu_icons/pencil_icon.s
 import transferProfileIcon from '../../../assets/images/dropdown_menu_icons/transfer_profile_icon.svg'
 import accountIcon from '../../../assets/images/dropdown_menu_icons/account_icon.svg'
 import helpIcon from '../../../assets/images/dropdown_menu_icons/help_icon.svg'
+import { selectAllProfiles } from '../../features/entities/profiles_slice';
 
 
 const NavBar = () => {
-    // redux state
-
-
     const dispatch = useDispatch()
     const location = useLocation()
     const navigate = useNavigate()
 
-    const profiles = useSelector(state => state.entities.profiles) 
-    const profile = useSelector(state => state.session.profile) 
+    const profiles = useSelector(selectAllProfiles) 
+    const currentProfile = useSelector(selectCurrentProfile)     
 
     const placeholder = 'Titles, people, genres'
     const [searchQuery, setSearchQuery] = useState('')
@@ -219,7 +217,7 @@ const NavBar = () => {
                             <ul className='dropdown-menu-profiles'>
                                 {
                                     profiles
-                                    .filter(prof => prof.id !== profile.id)
+                                    .filter(prof => prof.id !== currentProfile.id)
                                     .map((prof, idx) => renderListProfile(prof, idx))
                                 }
                             </ul>
