@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import '../../../assets/stylesheets/profile.scss'
 import { fetchAllProfiles }from '../../util/profiles_api_util'
 import ProfileFormModal from '../modal/profile_form_modal';
-import { openModal } from '../../features/ui/modal_slice';
+import { openModal } from '../../features/ui/profile_manager_overlay_slice.js';
 import { IoMdAddCircle } from 'react-icons/io'
 import PencilIcon from '../../../assets/images/pencil_icon.jsx'
 import BACKGROUNDS from '../../../assets/images/profile_icons/profile_icons'

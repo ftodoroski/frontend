@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { closeModal } from '../../features/ui/modal_slice';
+import { closeModal, selectProfileManagerOverlay } from '../../features/ui/profile_manager_overlay_slice';
 import '../../../assets/stylesheets/profile.scss'
 import onChangeHandlerInput from '../../util/on_change_handler_input_util';
 import BACKGROUNDS from '../../../assets/images/profile_icons/profile_icons'
@@ -12,14 +12,14 @@ import { currentProfile } from '../../features/session/session_slice';
 const ProfileForm = () => {
     const [name, setName] = useState('')
     const [errorActive, setErrorActive] = useState('')
-    const modal = useSelector(state => state.ui.modal)
+    const profileOverlay = useSelector(selectProfileManagerOverlay)
     const userId = useSelector(state => state.session.userId)
     const profiles = useSelector(state => state.entities.profiles)
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
-    const { profile, icon} = modal
-    const formType = modal.type === 'newProfile' ? 'new' : 'edit'
+    const { profile, icon} = profileOverlay
+    const formType = profileOverlay.type === 'newProfile' ? 'new' : 'edit'
 
     useEffect(() => {
         if (formType === 'edit') {

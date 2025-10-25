@@ -1,22 +1,19 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { closeModal } from '../../features/ui/modal_slice';
+import { closeModal, selectProfileManagerOverlay } from '../../features/ui/profile_manager_overlay_slice';
 import ProfileForm from '../session_form/profile_form';
 import '../../../assets/stylesheets/profile.scss'
 
 
 const ProfileFormModal = () => {
-    const modal = useSelector(state => state.ui.modal)
+    const profileOverlay = useSelector(selectProfileManagerOverlay)
     const dispatch = useDispatch()
 
-    const modalBackClass = 'profile-form-modal'
-    const modalChildClass = 'profile-fill-out-form'
-
-    if (!modal) return modal
+    if (!profileOverlay) return profileOverlay
 
     return (
-        <div className={modalBackClass} onClick={() => dispatch(closeModal())}>
-            <section className={modalChildClass} onClick={e => e.stopPropagation()}>
+        <div className='profile-form-modal' onClick={() => dispatch(closeModal())}>
+            <section className='profile-fill-out-form' onClick={e => e.stopPropagation()}>
                 <ProfileForm />
             </section>
         </div>
