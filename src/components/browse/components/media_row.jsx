@@ -15,13 +15,16 @@ import {
     truncateProgramsByGenre, groupProgramsByGenre, 
     matchProgramsToWatchlist, shuffleProgramsByGenre, 
     selectInitialProgramsWindow 
-} from '../utils/programDataUtils'
+} from '../utils/program_data_utils'
+import { useMediaOverlay } from '../../../features/ui/useMediaOverlay';
+import { generateSuggestedPrograms } from '../../../util/recommendations/recommendation_engine';
 
 
 const MediaRow = ({ genre }) => {
     const programs = useSelector(selectAllPrograms)
     const genres = useSelector(selectAllGenres)
     const watchlist = useSelector(selectWatchlist)
+    const { openPreview } = useMediaOverlay()
 
     const [programsByGenre, setProgramsByGenre] = useState({})
     const [sliderHoverStyles, setSliderHoverStyles] = useState({})
@@ -82,34 +85,56 @@ const MediaRow = ({ genre }) => {
         setProgramsByGenre(programsByGenre)
     }, []);
 
-    const handleMouseEnter = (e, program, genre) => {
-        console.log(`event object -> `, e)
-        console.log(`program object -> `, program)
-        console.log(`genre -> ${genre}`)
+    const handleMouseEnter = (e, targetProgram) => {
         const rect = e.currentTarget.getBoundingClientRect();
-        console.log(rect.left + window.scrollX, rect.top + window.scrollY);
+        
+        const anchorRect = {
+            x: rect.left + window.scrollX, 
+            y: rect.top + window.scrollY, 
+            width: rect.width, 
+            height: rect.height
+        }
+        
+        // Probably you'll be calling a function
 
-        const modal = document.createElement('div');
-        modal.className = 'manual-modal';
-        modal.style.position = "absolute";
-        modal.style.backgroundColor = "red";
-        modal.style.top = `${rect.top + window.window.scrollY}px`
-        modal.style.left = `${rect.left + window.scrollX}px`;
-        modal.style.width = "200px";
-        modal.style.height = "100px";
+        // Better to have it one function that does the transformation than this unreadable mess
+        // generateSuggestedPrograms(targetProgram, programs)
 
+        const suggestedPrograms = generateSuggestedPrograms(targetProgram, programs)
+        
 
-        document.body.appendChild(modal);
+        // console.log('\n');
+        // console.log('\n');
+        // console.log(`event object -> `, e)
+        // console.log(`program object -> `, program)
+        // console.log(`genre -> ${genre}`)
+        // console.log(rect.left + window.scrollX, rect.top + window.scrollY);
+        // console.log('getBoundingClientRect -> ', rect);
+        // console.log('\n');
+        // console.log('\n');
+        
+
+        // const modal = document.createElement('div');
+        // modal.className = 'manual-modal';
+        // modal.style.position = "absolute";
+        // modal.style.backgroundColor = "red";
+        // modal.style.left = `${rect.left + window.scrollX}px`;
+        // modal.style.top = `${rect.top + window.scrollY}px`
+        // modal.style.width = `${rect.width}px`;
+        // modal.style.height = `${rect.height}px`;
+
+        // document.body.appendChild(modal);
+    
+        
+        // Get suggestedPrograms
+
+        
+        openPreview({ anchorRect, targetProgram, suggestedPrograms })
     }
-
-    // const handleMouseLeave = (e, program, genre) => {
-    //     const modal = document.querySelector('.manual-modal');
-    //     if (modal) modal.remove()
-    // }
 
     const sliderItem = (program, idx) => {
         return (
-            <div key={idx} className='slider-item' onMouseEnter={(e) => handleMouseEnter(e, program, 'Action')} onMouseLeave={(e) => handleMouseLeave(e, program, 'Action')}>
+            <div key={idx} className='slider-item' onMouseEnter={(e) => handleMouseEnter(e, program)}>
                 <Link to='' className='slider-link'>
                     <div className='boxart-container'>
                         <img src={program.thumbnail} alt={program.title} className='boxart-img'/>

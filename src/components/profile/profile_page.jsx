@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../../../assets/stylesheets/profile.scss'
 import { fetchAllProfiles }from '../../util/profiles_api_util'
-import ProfileFormModal from '../modal/profile_form_modal';
+import ProfileFormModal from '../modals/profile_form_modal.jsx';
 import { openModal } from '../../features/ui/profile_manager_overlay_slice.js';
 import { IoMdAddCircle } from 'react-icons/io'
 import PencilIcon from '../../../assets/images/pencil_icon.jsx'

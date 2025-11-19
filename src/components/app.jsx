@@ -11,10 +11,13 @@ import Browse from './browse/browse'
 import SessionForm from './session_form/session_form';
 import '../../assets/stylesheets/main.scss'
 import ProfilePage from './profile/profile_page';
+import { selectIsMediaOverlayOpen } from '../features/ui/media_overlay_slice';
+import MediaOverlay from './modals/media_overlay';
 
 
 const App = (props) => {
     const store = useSelector(state => state)
+    const isMediaOverlayOpen = useSelector(selectIsMediaOverlayOpen)
 
     const renderMultiRoutes = ({ element: Element, paths, ...rest }) =>
         paths.map((path) => <Route path={path} {...rest} element={Element} />);
@@ -54,6 +57,9 @@ const App = (props) => {
             <Routes> 
                 {renderMultiRoutes({ paths: ['browse', 'search/:searchQuery', 'watchlist', 'tv', 'movie'], element: <Footer />, })}
             </Routes>
+
+
+            {isMediaOverlayOpen && <MediaOverlay />}    
 
 
             {/* 
