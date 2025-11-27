@@ -87,47 +87,13 @@ const MediaRow = ({ genre }) => {
 
     const handleMouseEnter = (e, targetProgram) => {
         const rect = e.currentTarget.getBoundingClientRect();
-        
         const anchorRect = {
             x: rect.left + window.scrollX, 
             y: rect.top + window.scrollY, 
             width: rect.width, 
             height: rect.height
         }
-        
-        // Probably you'll be calling a function
-
-        // Better to have it one function that does the transformation than this unreadable mess
-        // generateSuggestedPrograms(targetProgram, programs)
-
         const suggestedPrograms = generateSuggestedPrograms(targetProgram, programs)
-        
-
-        // console.log('\n');
-        // console.log('\n');
-        // console.log(`event object -> `, e)
-        // console.log(`program object -> `, program)
-        // console.log(`genre -> ${genre}`)
-        // console.log(rect.left + window.scrollX, rect.top + window.scrollY);
-        // console.log('getBoundingClientRect -> ', rect);
-        // console.log('\n');
-        // console.log('\n');
-        
-
-        // const modal = document.createElement('div');
-        // modal.className = 'manual-modal';
-        // modal.style.position = "absolute";
-        // modal.style.backgroundColor = "red";
-        // modal.style.left = `${rect.left + window.scrollX}px`;
-        // modal.style.top = `${rect.top + window.scrollY}px`
-        // modal.style.width = `${rect.width}px`;
-        // modal.style.height = `${rect.height}px`;
-
-        // document.body.appendChild(modal);
-    
-        
-        // Get suggestedPrograms
-
         
         openPreview({ anchorRect, targetProgram, suggestedPrograms })
     }

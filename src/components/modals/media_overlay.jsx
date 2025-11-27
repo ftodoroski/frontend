@@ -1,4 +1,5 @@
 import React from "react";
+import '../../../assets/stylesheets/overlays.scss'
 import { useSelector } from "react-redux";
 import PreviewModal from "./preview_modal";
 import DetailsModal from "./details_modal";
@@ -7,7 +8,7 @@ import { selectModalType } from "../../features/ui/media_overlay_slice";
 
 const MediaOverlay = () => {
     const modalType = useSelector(selectModalType)
-
+    
     const renderComponentType = (modalType) => {
         switch (modalType) {
             case 'preview': return <PreviewModal />;
@@ -17,7 +18,7 @@ const MediaOverlay = () => {
     }
 
     return (
-        <div className="media-overlay">
+        <div className="media-overlay-container">
             {renderComponentType(modalType)}
         </div>
     )

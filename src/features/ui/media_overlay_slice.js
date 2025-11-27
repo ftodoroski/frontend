@@ -24,6 +24,7 @@ export default mediaOverlaySlice.reducer
 
 export const selectIsMediaOverlayOpen = state => state.ui.mediaOverlay.isOpen
 export const selectModalType = state => state.ui.mediaOverlay.modalType
+export const selectAnchorRect = state => state.ui.mediaOverlay.anchorRect
 
 
 

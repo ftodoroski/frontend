@@ -4,7 +4,9 @@ import React from "react";
 const DetailsModal = () => {
 
     return (
-        <div>Hello from DetailsModal</div>
+        <div className="details-modal-container">
+            <div>Hello from DetailsModal</div>
+        </div>
     )
 }
 

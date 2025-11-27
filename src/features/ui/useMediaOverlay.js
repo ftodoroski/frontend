@@ -5,7 +5,6 @@ import { clearOverlay, setOverlay } from "./media_overlay_slice"
 export const useMediaOverlay = () => {
     const dispatch = useDispatch()
 
-    // function not done - testing it still
     const openPreview = ({ anchorRect, targetProgram, suggestedPrograms }) => {
         dispatch(setOverlay({
             isOpen: true,
@@ -17,7 +16,7 @@ export const useMediaOverlay = () => {
     }
 
     const closeOverlay = () => {
-        dispatch(clearOverlay)
+        dispatch(clearOverlay())
     }
 
     return { 
