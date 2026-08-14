@@ -16,21 +16,21 @@ import {
     matchProgramsToWatchlist, shuffleProgramsByGenre, 
     selectInitialProgramsWindow 
 } from '../utils/program_data_utils'
-import { useMediaOverlay } from '../../../features/ui/useMediaOverlay';
-import { generateSuggestedPrograms } from '../../../util/recommendations/recommendation_engine';
-
+import { useHoverIntent } from '../../../hooks/useHoverIntent';
 
 const MediaRow = ({ genre }) => {
     const programs = useSelector(selectAllPrograms)
     const genres = useSelector(selectAllGenres)
     const watchlist = useSelector(selectWatchlist)
-    const { openPreview } = useMediaOverlay()
 
     const [programsByGenre, setProgramsByGenre] = useState({})
     const [sliderHoverStyles, setSliderHoverStyles] = useState({})
 
     const [reducerSetupDispatchHasRun, setReducerSetupDispatchHasRun] = useState(false)
     const [genreSlidersDetailState, dispatchGenreSlidersDetail] = useReducer(mediaRowReducer, {})
+
+    const { handleMouseEnter, handleMouseLeave } = useHoverIntent()
+
     const timerRef = useRef(null);
 
     const [windowSize, setWindowSize] = useState([
@@ -85,22 +85,14 @@ const MediaRow = ({ genre }) => {
         setProgramsByGenre(programsByGenre)
     }, []);
 
-    const handleMouseEnter = (e, targetProgram) => {
-        const rect = e.currentTarget.getBoundingClientRect();
-        const anchorRect = {
-            x: rect.left + window.scrollX, 
-            y: rect.top + window.scrollY, 
-            width: rect.width, 
-            height: rect.height
-        }
-        const suggestedPrograms = generateSuggestedPrograms(targetProgram, programs)
-        
-        openPreview({ anchorRect, targetProgram, suggestedPrograms })
-    }
-
     const sliderItem = (program, idx) => {
         return (
-            <div key={idx} className='slider-item' onMouseEnter={(e) => handleMouseEnter(e, program)}>
+            <div 
+                key={idx} 
+                className='slider-item' 
+                onMouseEnter={(e) => handleMouseEnter(e, program)}
+                onMouseLeave={() => handleMouseLeave()}
+            >
                 <Link to='' className='slider-link'>
                     <div className='boxart-container'>
                         <img src={program.thumbnail} alt={program.title} className='boxart-img'/>
@@ -1170,37 +1162,6 @@ export default MediaRow
 // - Refactor the handlePrev and handleNext functions
 // - Clean up memory leaks in useEffects
 // - Check if useless rerenders are happening and then refactor
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

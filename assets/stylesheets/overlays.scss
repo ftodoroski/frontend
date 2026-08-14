@@ -3,3 +3,17 @@
     top: 0;
     left: 0;
 }
+
+.preview-modal-container {
+    opacity: 0;
+    background-color: transparent;
+    box-shadow: rgba(0, 0, 0, 0.75) 0px 3px 10px;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 16px;
+    overflow: hidden;
+    position: absolute;
+    will-change: transform;
+
+    transition: opacity 117ms linear, transform 117ms linear;
+}

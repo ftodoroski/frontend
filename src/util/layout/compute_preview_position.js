@@ -31,12 +31,14 @@ const computePreviewPosition = (anchorRect) => {
 
     // Horizontal positioning
     let left;
+    let alignment = 'center'
     const isNearLeftEdge = program.left <= edgeLimits.left
     const isNearRightEdge = program.right >= edgeLimits.right
 
 
     if (isNearLeftEdge) {
         left = program.left
+        alignment = 'left'
 
     } else if (isNearRightEdge) {
         const modalWidthEstimate = program.width * modalScaleFactor
@@ -44,13 +46,14 @@ const computePreviewPosition = (anchorRect) => {
         const proposedOffsetPosition = (viewportWidth - (modalWidthEstimate + totalSideMargin))
 
         left = proposedOffsetPosition - (proposedOffsetPosition * rightInsetFactor)
+        alignment = 'right'
 
     } else {
         left = program.left - (program.width / horizontalCenteringDivisor)
 
     }
 
-    return { top, left }
+    return { top, left, alignment }
 }
 
 export default computePreviewPosition
