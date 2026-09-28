@@ -13,17 +13,22 @@ import '../../assets/stylesheets/main.scss'
 import ProfilePage from './profile/profile_page';
 import { selectIsMediaOverlayOpen } from '../features/ui/media_overlay_slice';
 import MediaOverlay from './modals/media_overlay';
+import { selectIsTooltipOverlayOpen } from '../features/ui/tooltip_overlay_slice';
+import TooltipOverlay from './modals/tooltip_modal';
 
 
 const App = (props) => {
     const store = useSelector(state => state)
     const isMediaOverlayOpen = useSelector(selectIsMediaOverlayOpen)
+    const isTooltipOverlayOpen = useSelector(selectIsTooltipOverlayOpen)
 
     const renderMultiRoutes = ({ element: Element, paths, ...rest }) =>
         paths.map((path) => <Route path={path} {...rest} element={Element} />);
 
     return (
         <>
+            {isTooltipOverlayOpen && <TooltipOverlay />}
+
             {/* Watch page for a single vid */} {/* Needs to be protected / Not Implemented */}
             {console.log(store)}
             <Routes> 
