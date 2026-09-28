@@ -21,6 +21,7 @@ import {
     selectTargetProgramRating, 
     selectTargetProgramRuntime, 
     selectTargetProgramSeasons,
+    selectMediaOverlay
 } from "../../../features/ui/media_overlay_slice";
 import { useTooltipOverlay } from "../../../features/ui/useTooltipOverlay";
 
@@ -29,6 +30,8 @@ const InfoContainer = () => {
     const programRating = useSelector(selectTargetProgramRating)
     const programRuntime = useSelector(selectTargetProgramRuntime)
     const programSeasons = useSelector(selectTargetProgramSeasons)
+
+    const isMovie = programType === 'Movie' ? true : false
 
     const { openTooltip, closeTooltip } = useTooltipOverlay()
 
@@ -355,7 +358,7 @@ const InfoContainer = () => {
                     <div style={{ marginLeft: 'auto' }}>
                         <button 
                             className="controls-button-base secondary-button"
-                            onMouseEnter={(e) => showTooltip(e, 'Episodes & info')}
+                            onMouseEnter={(e) => showTooltip(e, isMovie ? 'More info' : 'Episodes & info')}
                             onMouseLeave={hideTooltip}
                         >
                             <img 
