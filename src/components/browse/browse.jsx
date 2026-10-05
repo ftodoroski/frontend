@@ -17,7 +17,13 @@ const Browse = () => {
     const areProgramsLoading = useSelector(selectAreProgramsLoading)
 
     useEffect(() => {
-        console.log(location);
+        const params = new URLSearchParams(location.search);
+
+        if (params.has('jbv')) {
+            const titleNum = params.get('jbv')
+            navigate(`/title/${titleNum}`)
+        }
+
     }, [location.pathname])
 
     useEffect(() => {

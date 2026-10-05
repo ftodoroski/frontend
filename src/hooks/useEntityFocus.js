@@ -23,7 +23,6 @@ export function useEntityFocus() {
         
     }
 
-
     // const closeDetailsView = useCallback(() => {
 
     // }, [])
