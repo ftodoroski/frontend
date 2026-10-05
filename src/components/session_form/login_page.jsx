@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import onChangeHandlerInput from '../../util/on_change_handler_input_util'
+import { loginSuccess } from '../../util/auth_api_util';
 
 
 const LoginPage = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    // const session = useSelector(state => state)
 
     const dispatch = useDispatch()
     
@@ -14,7 +14,7 @@ const LoginPage = () => {
         event.preventDefault();
         console.log('Dispatched');
         console.log(email, password);
-        dispatch(loginUser({email: email, password: password}))
+        dispatch(loginSuccess({email: email, password: password}))
     }
 
     // Could make this a utility function so it doesnt get repetative
@@ -75,7 +75,6 @@ export default LoginPage
 // import { logoutUser } from '../../features/session/session_slice';
 // import { fetchAllPrograms, fetchProgram, fetchSearchedPrograms} from '../../util/programs_api_util';
 // import { fetchWatchlistPrograms, addProgramToWatchlist, deleteProgramFromWatchlist } from '../../util/watchlist_api_util';
-// import { loginUser } from '../../util/session_api_util';
 // import { fetchGenres } from '../../util/genres_api_util';
 // import { fetchAllProfiles, createProfile, modifyProfile, deleteProfile } from '../../util/profiles_api_util';
 // import { startLoadingPrograms } from '../../features/ui/loading_slice';
@@ -96,7 +95,6 @@ export default LoginPage
 //         event.preventDefault();
 //         console.log('Dispatched');
 //         console.log(email, password);
-//         dispatch(loginUser({email: email, password: password}))
 //     }
 
 //     const onChangeHandlerInput = stateSetter => event => {

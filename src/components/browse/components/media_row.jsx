@@ -76,14 +76,17 @@ const MediaRow = ({ genre }) => {
         }
     })
 
+    // When i implement adding and removing items to watchlist, i may need to modify this 
     useEffect(() => {
-        let programsByGenre = groupProgramsByGenre(genres, programs)
-        programsByGenre['Watchlist'] = matchProgramsToWatchlist(watchlist, programs)
-        programsByGenre = truncateProgramsByGenre(programsByGenre)
-        shuffleProgramsByGenre(programsByGenre)
+        if (programs.length > 0 && genre.length > 0) {
+            let programsByGenre = groupProgramsByGenre(genres, programs)
+            programsByGenre['Watchlist'] = matchProgramsToWatchlist(watchlist, programs)
+            programsByGenre = truncateProgramsByGenre(programsByGenre)
+            shuffleProgramsByGenre(programsByGenre)
 
-        setProgramsByGenre(programsByGenre)
-    }, []);
+            setProgramsByGenre(programsByGenre)
+        }
+    }, [programs, genre, watchlist]);
 
     const sliderItem = (program, idx) => {
         return (

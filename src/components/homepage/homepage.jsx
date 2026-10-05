@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from "react-router-dom"
-import { loginUser } from '../../util/session_api_util'
+import { loginSuccess } from '../../util/auth_api_util'
 
 
 const HomePage = () => {
@@ -9,7 +9,7 @@ const HomePage = () => {
     const navigate = useNavigate()
 
     const loginAsDemoUser = e => {
-        dispatch(loginUser({ email: 'demo102@gmail.com', password: '0000' }))
+        dispatch(loginSuccess({ email: 'demo102@gmail.com', password: '0000' }))
         .then(() => navigate('/profiles'))
     }
 

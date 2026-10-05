@@ -8,7 +8,7 @@ import { openModal } from '../../features/ui/profile_manager_overlay_slice.js';
 import { IoMdAddCircle } from 'react-icons/io'
 import PencilIcon from '../../../assets/images/pencil_icon.jsx'
 import BACKGROUNDS from '../../../assets/images/profile_icons/profile_icons'
-import { currentProfile } from '../../features/session/session_slice';
+import { currentProfile } from '../../features/auth/auth_slice.js';
 import { fetchAllPrograms } from '../../util/programs_api_util';
 import { fetchGenres } from '../../util/genres_api_util';
 import { fetchWatchlistPrograms } from '../../util/watchlist_api_util';

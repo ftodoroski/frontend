@@ -6,7 +6,7 @@ import { selectWatchlist } from '../../features/entities/watchlist_slice';
 import { selectAreProgramsLoading } from '../../features/ui/loading_slice';
 import Billboard from './components/billboard';
 import MediaRow from './components/media_row';
-
+import BrowseDataOrchestrator from './components/browse_data_orchestrator';
 
 const Browse = () => {
     const dispatch = useDispatch()
@@ -17,6 +17,10 @@ const Browse = () => {
     const areProgramsLoading = useSelector(selectAreProgramsLoading)
 
     useEffect(() => {
+        console.log(location);
+    }, [location.pathname])
+
+    useEffect(() => {
         window.scrollTo(0, 0)
         
     }, [])
@@ -24,6 +28,8 @@ const Browse = () => {
     const browseRenderer = () => {
         return (
             <main className='browse'>
+                <BrowseDataOrchestrator />
+
                 <Billboard />
 
                 {watchlist.length && <MediaRow genre={'Watchlist'} />}
@@ -54,9 +60,4 @@ const Browse = () => {
 
 
 export default Browse
-
-
-
-
-
 

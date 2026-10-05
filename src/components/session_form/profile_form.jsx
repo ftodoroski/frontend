@@ -6,7 +6,7 @@ import '../../../assets/stylesheets/profile.scss'
 import onChangeHandlerInput from '../../util/on_change_handler_input_util';
 import BACKGROUNDS from '../../../assets/images/profile_icons/profile_icons'
 import { createProfile, modifyProfile, deleteProfile } from '../../util/profiles_api_util';
-import { currentProfile, selectCurrentUserId } from '../../features/session/session_slice';
+import { currentProfile, selectCurrentUserId } from '../../features/auth/auth_slice';
 import { selectAllProfiles } from '../../features/entities/profiles_slice';
 
 

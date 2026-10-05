@@ -1,19 +1,18 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import { TEMP_CONFIG } from '../util/credentials_api_testing'
+import api from "../api/client";
 
 
 export const fetchAllPrograms = createAsyncThunk('programs/receiveAllPrograms', async () => {
-    const response = await axios.get('http://127.0.0.1:8000/api/programs/', TEMP_CONFIG)
+    const response = await api.get('/api/programs/')
     return response.data
 })
 
 export const fetchProgram = createAsyncThunk('programs/receiveProgram', async (program) => {
-    const response = await axios.get(`http://127.0.0.1:8000/api/programs/${program}`, TEMP_CONFIG)
+    const response = await api.get(`/api/programs/${program}`)
     return response.data
 })
 
 export const fetchSearchedPrograms = createAsyncThunk('programs/receiveSearchedPrograms', async (search_query) => {
-    const response = await axios.get(`http://127.0.0.1:8000/api/programs/search?search_query=${search_query}`, TEMP_CONFIG)
+    const response = await api.get(`/api/programs/search?search_query=${search_query}`)
     return response.data
 })

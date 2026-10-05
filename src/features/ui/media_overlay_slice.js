@@ -10,22 +10,26 @@ const mediaOverlaySlice = createSlice({
     name: 'mediaOverlay',
     initialState,
     reducers: {
-        setOverlay: (state, action) => {
+        triggeredPreview: (state, action) => {
             return { ...state, ...action.payload }
         }, 
-        clearOverlay: () => {
+        triggeredDetails: (state) => {
+            state.modalType = 'details'
+        },
+        closed: () => {
             return initialState
-        }
+        }, 
     },
 })
 
-export const { setOverlay, clearOverlay } = mediaOverlaySlice.actions
+export const { triggeredPreview, closed, triggeredDetails } = mediaOverlaySlice.actions
 export default mediaOverlaySlice.reducer
 
 export const selectIsMediaOverlayOpen = state => state.ui.mediaOverlay.isOpen
 export const selectModalType = state => state.ui.mediaOverlay.modalType
 export const selectAnchorRect = state => state.ui.mediaOverlay.anchorRect
 export const selectTargetProgram = state => state.ui.mediaOverlay.targetProgram
+export const selectTargetProgramID = state => state.ui.mediaOverlay.targetProgram.id
 export const selectTargetProgramType = state => state.ui.mediaOverlay.targetProgram.program_type
 export const selectTargetProgramRating = state => state.ui.mediaOverlay.targetProgram.rating
 export const selectTargetProgramRuntime = state => state.ui.mediaOverlay.targetProgram.runtime

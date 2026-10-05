@@ -1,12 +1,12 @@
 import { useDispatch } from "react-redux"
-import { clearOverlay, setOverlay } from "./media_overlay_slice"
+import { closed, triggeredDetails, triggeredPreview } from "./media_overlay_slice"
 
 
 export const useMediaOverlay = () => {
     const dispatch = useDispatch()
 
     const openPreview = ({ anchorRect, targetProgram, suggestedPrograms }) => {
-        dispatch(setOverlay({
+        dispatch(triggeredPreview({
             isOpen: true,
             modalType: 'preview',
             anchorRect,
@@ -15,12 +15,17 @@ export const useMediaOverlay = () => {
         }))
     }
 
+    const openDetails = () => {
+        dispatch(triggeredDetails())
+    }
+
     const closeOverlay = () => {
-        dispatch(clearOverlay())
+        dispatch(closed())
     }
 
     return { 
         openPreview,
+        openDetails,
         closeOverlay,
       }
 }

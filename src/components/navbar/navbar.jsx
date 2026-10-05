@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { logoutProfile, selectCurrentProfile } from '../../features/session/session_slice';
+import { logoutProfile, selectCurrentProfile, selectUser } from '../../features/auth/auth_slice';
 import onChangeHandlerInput from '../../util/on_change_handler_input_util'
 import '../../../assets/stylesheets/navbar.scss'
 import logo from '../../../assets/images/animeflix-logo.svg'
@@ -14,6 +14,7 @@ import transferProfileIcon from '../../../assets/images/dropdown_menu_icons/tran
 import accountIcon from '../../../assets/images/dropdown_menu_icons/account_icon.svg'
 import helpIcon from '../../../assets/images/dropdown_menu_icons/help_icon.svg'
 import { selectAllProfiles } from '../../features/entities/profiles_slice';
+import { fetchAllProfiles } from '../../util/profiles_api_util';
 
 
 const NavBar = () => {
@@ -22,7 +23,8 @@ const NavBar = () => {
     const navigate = useNavigate()
 
     const profiles = useSelector(selectAllProfiles) 
-    const currentProfile = useSelector(selectCurrentProfile)     
+    const currentProfile = useSelector(selectCurrentProfile)  
+    const currentUser = useSelector(selectUser)   
 
     const placeholder = 'Titles, people, genres'
     const [searchQuery, setSearchQuery] = useState('')
@@ -33,6 +35,13 @@ const NavBar = () => {
 
     const dropdownTimerId = useRef(null)
 
+
+    useEffect(() => {
+        if (currentUser.userId) {
+            dispatch(fetchAllProfiles())
+        }
+    }, [dispatch, currentUser.userId])
+
     useEffect(() => {
         document.addEventListener('scroll', () => {
             setScrollPosition([window.scrollX, window.scrollY])
@@ -42,7 +51,7 @@ const NavBar = () => {
     const toggleSearchBar = () => {
         !searchBar ? setSearchBar('searchbar-active') : setSearchBar('')
     }
-
+    
     // onChange for the input you need to save to redux and push client to /search/:searchQuery
     // function here
     const handleSearch = () => {

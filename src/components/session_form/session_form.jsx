@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { removeErrors, signUpIntentionalError } from '../../features/errors/session_errors_slice';
 import onChangeHandlerInput from '../../util/on_change_handler_input_util';
-import { loginUser } from '../../util/session_api_util';
 import '../../../assets/stylesheets/session.scss'
 import { ImCheckboxChecked } from 'react-icons/im'
+import { loginSuccess } from '../../util/auth_api_util';
 
 
 const SessionForm = () => {
@@ -56,7 +56,7 @@ const SessionForm = () => {
         if (currentPath === '/signup') {
             dispatch(signUpIntentionalError())
         } else {
-            dispatch(loginUser({ email, password }))
+            dispatch(loginSuccess({ email, password }))
             .then(() => navigate('/profiles'))
         }
     }
@@ -65,7 +65,7 @@ const SessionForm = () => {
         e.preventDefault()
 
         console.log('loginAsDemoUser called from SessionForm')
-        dispatch(loginUser({ email: 'demo102@gmail.com', password: '0000' }))
+        dispatch(loginSuccess({ email: 'demo102@gmail.com', password: '0000' }))
         .then(() => navigate('/profiles'))
     }
 

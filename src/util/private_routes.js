@@ -1,17 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from 'react-redux';
 import { Outlet, Navigate } from "react-router-dom";
-import { selectSession } from "../features/session/session_slice";
+import { selectIsAuthenticated, selectIsLoading } from "../features/auth/auth_slice";
 
 const PrivateRoutes = () => {
-    const currentSession = useSelector(selectSession)
+    const userIsAuthenticated = useSelector(selectIsAuthenticated);
+    const userIsLoading = useSelector(selectIsLoading);
 
-    useEffect(() => {
-
-    }, [currentSession])
+    if (userIsLoading) {
+        return null; // Or <LoadingSpinner />
+    }
 
     return (
-        currentSession.token ? <Outlet /> : <Navigate to="/login"/>
+        userIsAuthenticated ? <Outlet /> : <Navigate to="/login"/>
     )
 }
 export default PrivateRoutes

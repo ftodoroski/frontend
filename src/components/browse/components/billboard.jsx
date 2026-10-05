@@ -9,7 +9,7 @@ import volumeOnIcon from '../../../../assets/images/browse_icons/volume_icon.svg
 import replayIcon from '../../../../assets/images/browse_icons/replay_icon.svg'
 import findProgram from '../../../util/search/find_program'
 import { selectAllPrograms } from '../../../features/entities/programs_slice';
-import { selectCurrentProfile } from '../../../features/session/session_slice';
+import { selectCurrentProfile } from '../../../features/auth/auth_slice';
 
 
 const Billboard = () => {
@@ -24,7 +24,18 @@ const Billboard = () => {
     // Need better names just writing so the functionality is there
     const [videoDonePlaying, setVideoDonePlaying] = useState(false)
 
-    const showcaseProgram = findProgram(currentProfile.showcase_id, programs)
+    const [showcaseProgram, setShowcaseProgram] = useState({})
+
+    const isNotEmpty = (obj) => {
+        return obj && Object.keys(obj).length > 0;
+    };
+
+    useEffect(() => {
+        if (programs.length > 0 && currentProfile) {
+            setShowcaseProgram((findProgram(currentProfile.showcase_id, programs)))        
+        }
+
+    }, [programs, currentProfile])
 
     // Put these 3 in their own file
     const defaultWrapperStyle = {
@@ -103,16 +114,18 @@ const Billboard = () => {
         return (
             <div className='video-player-container'>
                 <div className='video-player-section'>
-                    <video
-                        autoPlay={autoPlay}
-                        muted={muted}
-                        onEnded={handleEndOfVideo}
-                    >
-                        <source
-                            src={showcaseProgram.thumbclip}
-                            type='video/mp4'
-                        />
-                    </video>
+                    { isNotEmpty(showcaseProgram) &&
+                        <video
+                            autoPlay={autoPlay}
+                            muted={muted}
+                            onEnded={handleEndOfVideo}
+                        >
+                            <source
+                                src={showcaseProgram?.thumbclip}
+                                type='video/mp4'
+                            />
+                        </video>
+                    }
                 </div>
 
                 {/* dimmer container dynamic*/}
@@ -131,8 +144,8 @@ const Billboard = () => {
                             <div className='hero-image-wrapper'>
                                 <img
                                     className='static-hero-image'
-                                    src={showcaseProgram.background}
-                                    alt={showcaseProgram.title}
+                                    src={isNotEmpty(showcaseProgram) ? showcaseProgram.background : ''}
+                                    alt={isNotEmpty(showcaseProgram) ? showcaseProgram.title : ''}
                                     style={{ opacity: opacity }}
                                 />
                                 <div className='side-vignette-layer'></div>
@@ -170,7 +183,7 @@ const Billboard = () => {
                                     </span>
                                 }
                                 <span className='maturity-rating'>
-                                    <span className='maturity-number'>{showcaseProgram.rating}</span>
+                                    <span className='maturity-number'>{isNotEmpty(showcaseProgram) ? showcaseProgram.rating : ''}</span>
                                 </span>
                             </div>
                         </div>
@@ -190,8 +203,8 @@ const Billboard = () => {
                                     <div className='billboard-title'>
                                         <img
                                             className='title-logo'
-                                            src={showcaseProgram.logo}
-                                            alt={showcaseProgram.title}
+                                            src={isNotEmpty(showcaseProgram) ? showcaseProgram.logo : ''}
+                                            alt={isNotEmpty(showcaseProgram) ? showcaseProgram.title : ''}
                                         />
                                     </div>
                                 </div>
@@ -208,7 +221,7 @@ const Billboard = () => {
                                         className='synopsis'
                                         style={defaultWrapperSize ? {} : infoSynopsisStyle}
                                     >
-                                        {showcaseProgram.description}
+                                        {isNotEmpty(showcaseProgram) ? showcaseProgram.description : ''}
                                     </div>
                                 </div>
 

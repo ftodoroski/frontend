@@ -21,11 +21,14 @@ import {
     selectTargetProgramRating, 
     selectTargetProgramRuntime, 
     selectTargetProgramSeasons,
-    selectMediaOverlay
+    selectTargetProgramID,
+    selectMediaOverlay,
 } from "../../../features/ui/media_overlay_slice";
 import { useTooltipOverlay } from "../../../features/ui/useTooltipOverlay";
+import { useEntityFocus } from "../../../hooks/useEntityFocus";
 
 const InfoContainer = () => {
+    const programID = useSelector(selectTargetProgramID)
     const programType = useSelector(selectTargetProgramType)
     const programRating = useSelector(selectTargetProgramRating)
     const programRuntime = useSelector(selectTargetProgramRuntime)
@@ -34,6 +37,7 @@ const InfoContainer = () => {
     const isMovie = programType === 'Movie' ? true : false
 
     const { openTooltip, closeTooltip } = useTooltipOverlay()
+    const { triggerDetailsView, closeDetailsView } = useEntityFocus()
 
     const [inWatchlist, setInWatchlist] = useState(false)
     const [insideThumbsReactionZone, setInsideThumbsReactionZone] = useState(false)
@@ -354,12 +358,13 @@ const InfoContainer = () => {
                         {insideThumbsReactionZone && renderThumbsReaction()}
                     </div>
 
-                    {/* # Episodes & info button */}
+                    {/* # More info / Episodes & info button */}
                     <div style={{ marginLeft: 'auto' }}>
                         <button 
                             className="controls-button-base secondary-button"
                             onMouseEnter={(e) => showTooltip(e, isMovie ? 'More info' : 'Episodes & info')}
                             onMouseLeave={hideTooltip}
+                            onClick={() => triggerDetailsView(programID)}
                         >
                             <img 
                                 src={downChevronIcon} 

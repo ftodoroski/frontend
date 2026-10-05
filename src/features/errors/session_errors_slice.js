@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { loginUser } from '../../util/session_api_util'
+import { loginSuccess } from '../../util/auth_api_util'
 
 
 const initialState = ''
@@ -16,7 +16,7 @@ const sessionErrorsSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(loginUser.rejected, (state, action) => {
+        builder.addCase(loginSuccess.rejected, (state, action) => {
             return 'Please enter a valid email or password'
         })
     }
