@@ -2,13 +2,13 @@ import React, { useCallback, useEffect } from "react";
 import { useSearchParams } from 'react-router-dom';
 import { useMediaOverlay } from "../features/ui/useMediaOverlay";
 import { selectMediaOverlay } from "../features/ui/media_overlay_slice";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { scrollReset, scrollUpdated } from "../features/ui/scroll_slice";
 
 export function useEntityFocus() {
     const [searchParams, setSearchParams] = useSearchParams()
     const { openDetails } = useMediaOverlay()
-    
-    // const mediaOverlayState = useSelector(selectMediaOverlay)
+    const dispatch = useDispatch()
 
     const triggerDetailsView = (id) => {
         const newParams = new URLSearchParams(searchParams);
@@ -19,11 +19,16 @@ export function useEntityFocus() {
             preventScrollReset: true
         });
 
-        openDetails()
+        
+        dispatch(scrollUpdated({x: window.scrollX, y: window.scrollY}))
+
+        openDetails()        
         
     }
 
     // const closeDetailsView = useCallback(() => {
+
+        // scrollReset
 
     // }, [])
 

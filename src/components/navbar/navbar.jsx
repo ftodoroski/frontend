@@ -15,6 +15,8 @@ import accountIcon from '../../../assets/images/dropdown_menu_icons/account_icon
 import helpIcon from '../../../assets/images/dropdown_menu_icons/help_icon.svg'
 import { selectAllProfiles } from '../../features/entities/profiles_slice';
 import { fetchAllProfiles } from '../../util/profiles_api_util';
+import { selectModalType } from '../../features/ui/media_overlay_slice';
+import { selectScrollY } from '../../features/ui/scroll_slice';
 
 
 const NavBar = () => {
@@ -24,7 +26,9 @@ const NavBar = () => {
 
     const profiles = useSelector(selectAllProfiles) 
     const currentProfile = useSelector(selectCurrentProfile)  
-    const currentUser = useSelector(selectUser)   
+    const currentUser = useSelector(selectUser)
+    const modalType = useSelector(selectModalType)
+    const scrollY = useSelector(selectScrollY)
 
     const placeholder = 'Titles, people, genres'
     const [searchQuery, setSearchQuery] = useState('')
@@ -32,9 +36,14 @@ const NavBar = () => {
     const [menuDropdown, setMenuDropdown] = useState('none')
     const [isHovering, setIsHovering] = useState(false)
     const [scrollPosition, setScrollPosition] = useState([0, 0])
+    const [isDetailsOpen, setIsDetailsOpen] = useState(false)
 
     const dropdownTimerId = useRef(null)
 
+    useEffect(() => {        
+        modalType === 'details' ? setIsDetailsOpen(true) : setIsDetailsOpen(false)
+
+    }, [modalType])
 
     useEffect(() => {
         if (currentUser.userId) {
@@ -162,10 +171,15 @@ const NavBar = () => {
         left: 0,
     }
 
+    const lockScrollStyles = isDetailsOpen ? {
+        position: 'fixed', 
+        top: '0px',
+    } : {}
+
     return (
-        <header className='nav'>
+        <header className='nav' style={lockScrollStyles}>
             {/* nav content for background */}
-            <nav className='nav-content' style={scrollPosition[1] > 1 ? backgroundStyle : defaultBackgroundStyle}>
+            <nav className='nav-content' style={scrollPosition[1] > 1 || scrollY > 1 ? backgroundStyle : defaultBackgroundStyle}>
                 <img src={logo} alt="logo" className="nav-logo" />
 
                 <ul className='primary-nav'>

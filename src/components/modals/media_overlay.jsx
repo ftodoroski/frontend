@@ -17,8 +17,17 @@ const MediaOverlay = () => {
         }
     }
 
+    const detailsOpenStyles = modalType === 'details' ? {
+        height: '100%', 
+        width: '100%', 
+        boxSizing: 'border-box', 
+        display: 'flex', 
+        justifyContent: 'center', 
+        willChange: 'scroll-position'
+    } : {}
+
     return (
-        <div className="media-overlay-container">
+        <div className="media-overlay-container" style={detailsOpenStyles}>
             {renderComponentType(modalType)}
         </div>
     )

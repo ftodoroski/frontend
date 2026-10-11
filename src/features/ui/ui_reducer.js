@@ -3,6 +3,7 @@ import loadingReducer from './loading_slice'
 import profileManagerOverlayReducer from './profile_manager_overlay_slice'
 import mediaOverlayReducer from './media_overlay_slice'
 import tooltipOverlayReducer from './tooltip_overlay_slice'
+import scrollSlice from './scroll_slice'
 
 
 export default combineReducers({
@@ -10,4 +11,5 @@ export default combineReducers({
     profileManagerOverlay: profileManagerOverlayReducer,
     mediaOverlay: mediaOverlayReducer, 
     tooltipOverlay: tooltipOverlayReducer,
+    scroll: scrollSlice,
 })
