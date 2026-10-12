@@ -78,7 +78,7 @@ const MediaRow = ({ genre }) => {
 
     // When i implement adding and removing items to watchlist, i may need to modify this 
     useEffect(() => {
-        if (programs.length > 0 && genre.length > 0) {
+        if (programs.length > 0 && genre.length > 0 && Object.keys(programsByGenre).length === 0) {
             let programsByGenre = groupProgramsByGenre(genres, programs)
             programsByGenre['Watchlist'] = matchProgramsToWatchlist(watchlist, programs)
             programsByGenre = truncateProgramsByGenre(programsByGenre)
