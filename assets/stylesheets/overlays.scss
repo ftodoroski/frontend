@@ -468,11 +468,233 @@
     overflow: hidden;
     position: absolute;
     will-change: transform;
+
+    .details-modal-billboard-container {
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
+        overflow: hidden;
+        background-color: #000;
+        cursor: pointer;
+        position: relative;
+
+        .billboard-video-wrapper {
+            width: 100%;
+            height: 480px;          // when making the site responsive, height for the billboard
+            overflow: hidden;
+
+            .billboard-video-container {
+                .billboard-video {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    object-position: center center;
+                }
+            }
+        }
+
+        .background-container {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            width: 100%;
+
+            .background {
+                opacity: 1;     // This one needs to be put in the Billboard Component
+                background-size: cover;
+                height: 100%;
+                left: 0;
+                position: absolute;
+                top: 0;
+                width: 100%;
+            }
+        }
+
+        .title-treatment-container {
+            background: linear-gradient(0deg, #181818, transparent 50%);
+            position: absolute;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            opacity: 1;
+
+            .title-treatment {
+                position: absolute;
+                width: 40%;
+                bottom: 5%;
+                left: 3em;
+
+                .title-treatment-logo{
+                    margin-bottom: 1.5em;
+                    width: 300px
+                }
+
+                .button-controls-container {
+                    align-items: center;
+                    display: flex;
+                    margin-bottom: 1em;
+                    min-height: 2em;
+                    position: relative;
+
+                    >* {
+                        margin: .25em;
+                    }
+
+                    a {
+                        text-decoration: none;
+                    }
+
+                    .details-play-button-container {
+
+                        .details-play-button {
+                            padding: 0.5rem 1.5rem;
+                            background-color: white;
+                            color: black;
+                            align-items: center;
+                            appearance: none;
+                            border: 0px;
+                            border-radius: 4px;
+                            cursor: pointer;
+                            display: flex;
+                            justify-content: center;
+                            opacity: 1;
+                            position: relative;
+                            user-select: none;
+                            will-change: background-color, color;
+                            word-break: break-word;
+                            white-space: nowrap;
+                            padding-left: 1.2rem !important;
+                            padding-right: 1.4rem !important;
+
+                            &:hover {
+                                background-color: #e6e6e6
+                            }
+
+                            img {
+                                height: 1.8rem;
+                                width: 1.8rem;
+                            }
+
+                            .details-play-button-space {
+                                width: 1rem;
+                                box-sizing: border-box;
+                                display: flex;
+                                height: 100%;
+                                position: relative;
+                            }
+
+                            span {
+                                font-size: 1rem;
+                                line-height: 1.5rem;
+                                display: block;
+                                font-weight: 500;
+                            }
+                        }
+                    }
+
+                    // .default-details-supplementary-buttons {
+
+                    //     // This will need to be refactored out so its reusable and not tied down to its parent css class
+                    //     .details-base-button {
+                    //         border: 1px solid rgba(255, 255, 255, 0.7);
+                    //         background-color: rgba(42, 42, 42, .6);
+                    //         border-color: hsla(0, 0%, 100%, .5);
+                    //         border-width: 2px;
+                    //         color: white;
+                    //         padding: 0.5rem;
+                    //         align-items: center;
+                    //         appearance: none;
+                    //         cursor: pointer;
+                    //         display: flex;
+                    //         justify-content: center;
+                    //         opacity: 1;
+                    //         position: relative;
+                    //         user-select: none;
+                    //         will-change: background-color, color;
+                    //         word-break: break-word;
+                    //         white-space: nowrap;
+                    //         border-radius: 50%;
+
+                    //         img {
+                    //             width: 1.125rem;
+                    //             height: 1.125rem;
+                    //         }
+                    //     }
+                    // }
+                }
+            }
+
+            .audio-toggle-container {
+                opacity: 0.4;
+                bottom: 10%;
+                margin-bottom: 1em;
+                right: 3em;
+                overflow: hidden;
+                border-radius: 50%;
+                position: absolute;
+            }
+        }
+    }
+
+    .details-modal-close-container {
+        margin: 1em;
+        position: absolute;
+        right: 0;
+        top: 0;
+        cursor: pointer;
+
+        img {
+            background-color: #181818;
+            border-radius: 50%;
+            height: 36px;
+            padding: 8px;
+            width: 36px;
+            box-sizing: border-box;
+            object-fit: contain;
+        }
+    }
 }
 
 
+.default-icon-contain {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
+.default-details-supplementary-buttons {
+    position: relative
+}
 
+.h-divider-offset {
+    height: 20px;
+}
+
+.details-base-button {
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    background-color: rgba(42, 42, 42, .6);
+    border-color: hsla(0, 0%, 100%, .5);
+    border-width: 2px;
+    color: white;
+    padding: 0.5rem;
+    align-items: center;
+    appearance: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    opacity: 1;
+    position: relative;
+    user-select: none;
+    will-change: background-color, color;
+    word-break: break-word;
+    white-space: nowrap;
+    border-radius: 50%;
+
+    img {
+        width: 1.125rem;
+        height: 1.125rem;
+    }
+}
 
 
 
