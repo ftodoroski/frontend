@@ -759,6 +759,186 @@
                         grid-gap: 1em;
                         align-items: stretch;
                         justify-items: stretch;
+
+                        .title-card-container {
+                            height: 100%;
+                            margin: .1em;
+                            min-height: 20em;
+
+                            border-radius: .25em;
+                            cursor: pointer;
+                            overflow: hidden;
+                            position: relative;
+
+                            .title-card-image-wrapper {
+                                overflow: hidden;
+                                position: relative;
+
+                                &::before {
+                                    background-image: linear-gradient(198deg, rgba(0, 0, 0, .9), hsla(0, 0%, 9%, .5) 20%, transparent 28%);
+                                    bottom: 0;
+                                    content: "";
+                                    left: 0;
+                                    position: absolute;
+                                    right: 0;
+                                    top: 0;
+                                }
+
+                                .title-card-image {
+                                    display: block;
+                                    width: 100%;
+                                }
+
+                                // opacity needs to be moved to similar card so control flow can be applied when hovered
+                                .title-card-play-icon {
+                                    align-items: center;
+                                    bottom: 0;
+                                    display: flex;
+                                    justify-content: center;
+                                    left: 0;
+                                    opacity: 1;
+                                    position: absolute;
+                                    right: 0;
+                                    top: 0;
+                                    transition: opacity .2s ease-in;
+
+                                    .title-card-play-svg {
+                                        background-color: rgba(30, 30, 20, .5);
+                                        border: 1px solid #fff;
+                                        border-radius: 2em;
+                                        height: 30px;
+                                        padding: .5em;
+                                        width: 30px;
+                                    }
+                                }
+
+                                .title-card-duration {
+                                    position: absolute;
+                                    right: 5%;
+                                    top: 5%;
+                                    white-space: nowrap;
+                                    color: #e0e0e0;
+                                }
+                            }
+
+                            // This can be used maybe about 50% of the way while its transitioning closed to open
+                            // After 50% or what ever amount it looks good, the picture and text is shown
+                            .title-card-metadata-wrapper {
+                                background-color: #2f2f2f;
+                                min-height: 100%;
+
+                                .title-card-video-metadata-wrapper {
+                                    align-items: center;
+                                    display: flex;
+                                    justify-content: space-between;
+                                    padding: 1em;
+
+                                    .title-card-video-metadata-container {
+                                        align-items: center;
+                                        color: #fff;
+                                        display: flex;
+                                        flex-wrap: wrap;
+                                        justify-content: flex-start;
+
+                                        .title-card-video-metadata-line {
+                                            align-items: center;
+                                            color: #bcbcbc;
+                                            display: flex;
+                                            flex-wrap: wrap;
+
+                                            letter-spacing: 0.05em;
+
+                                            >* {
+                                                margin-right: .5em;
+                                            }
+
+                                            .title-card-video-metadata-maturity-rating {
+                                                .title-card-video-metadata-maturity-number {
+                                                    border: 1px solid hsla(0, 0%, 100%, .4);
+                                                    overflow: hidden;
+                                                    padding: 0 .4em;
+                                                    text-overflow: ellipsis;
+                                                    text-transform: uppercase;
+                                                    unicode-bidi: normal;
+                                                    white-space: nowrap;
+                                                    color: #bcbcbc;
+                                                }
+                                            }
+
+                                            .title-card-player-feature-badge {
+                                                margin-right: .715em;
+                                                border: 1px solid hsla(0, 0%, 100%, .4);
+                                                border-radius: 3px;
+                                                color: hsla(0, 0%, 100%, .9);
+                                                font-size: .7em;
+                                                padding: 0 .5em;
+                                                white-space: nowrap;
+                                            }
+                                        }
+                                    }
+
+                                    .add-to-my-list-container {
+                                        position: relative;
+
+                                        .add-to-my-list-button {
+                                            padding: 0.5rem;
+                                            background-color: rgba(42, 42, 42, .6);
+                                            border-color: hsla(0, 0%, 100%, .5);
+                                            border-width: 2px;
+                                            border: 1px solid rgba(255, 255, 255, 0.7);
+                                            color: white;
+                                            align-items: center;
+                                            appearance: none;
+                                            cursor: pointer;
+                                            display: flex;
+                                            justify-content: center;
+                                            opacity: 1;
+                                            position: relative;
+                                            user-select: none;
+                                            will-change: background-color, color;
+                                            word-break: break-word;
+                                            white-space: nowrap;
+                                            border-radius: 50%;
+
+                                            .add-to-my-list-icon {
+                                                width: 1.125rem;
+                                                height: 1.125rem;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                .title-card-synopsis {
+                                    color: #d2d2d2;
+                                    margin: 0;
+                                    padding: 0 1em 1em;
+
+                                    font-size: 13.5px;
+                                    line-height: 20px;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .section-divider {
+                    box-sizing: border-box;
+                    position: relative;
+                    width: 100%;
+                    height: 6em;
+                    border-bottom: 2px solid rgb(64, 64, 64);
+                    display: flex;
+                    justify-content: center;
+                    align-items: flex-end;
+                    box-shadow: none;
+                    margin: -6em auto auto;
+                    background-image: linear-gradient(to top, rgb(24, 24, 24) 0%, rgba(24, 24, 24, 0.7) 20%, rgba(24, 24, 24, 0.4) 30%, transparent 50%);
+
+                    .section-divider-button {
+
+                        .section-divider-icon {
+                            
+                        }
                     }
                 }
             }

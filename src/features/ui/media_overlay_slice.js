@@ -37,6 +37,8 @@ export const selectTargetProgramRuntime = state => state.ui.mediaOverlay.targetP
 export const selectTargetProgramSeasons = state => state.ui.mediaOverlay.targetProgram.seasons
 export const selectTargetProgramReleaseYear = state => state.ui.mediaOverlay.targetProgram.yr
 export const selectTargetProgramDescription = state => state.ui.mediaOverlay.targetProgram.description
+export const selectTargetProgramThumbnail = state => state.ui.mediaOverlay.targetProgram.thumbnail
+export const selectTargetProgramTitle = state => state.ui.mediaOverlay.targetProgram.title
 
 export const selectSuggestedPrograms = state => state.ui.mediaOverlay.suggestedPrograms
 

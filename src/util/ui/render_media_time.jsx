@@ -7,31 +7,26 @@ export const renderRuntime = (programRuntime) => {
     const isFullHours = (programRuntime % MINUTES_IN_HOUR) === 0
 
     if (isHourOrLess) {
-        return (
-            <span className="duration">{`${programRuntime}m`}</span>
-        )
+        return `${programRuntime}m`
+        
     } else if (isFullHours) {
         const hours = programRuntime / MINUTES_IN_HOUR;
 
-        return (
-            <span className="duration">{`${hours}h`}</span>
-        )
+        return `${hours}h`
+        
     } else {
         const hours = Math.trunc(programRuntime / MINUTES_IN_HOUR)
         const minutes = programRuntime % MINUTES_IN_HOUR
 
-        return (
-            <span className="duration">{`${hours}h ${minutes}m`}</span>
-        )
+        return `${hours}h ${minutes}m`
     }
 }
 
 
 export const renderDuration = (programRuntime, programType, programSeasons) => {
     if (programType === 'TvShow') {
-        return (
-            <span className="duration">{`${programSeasons} Seasons`}</span>
-        )
+        return `${programSeasons} Seasons`
+        
     } else if (programType === 'Movie') {
         return renderRuntime(programRuntime)
     }

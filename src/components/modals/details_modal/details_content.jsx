@@ -5,6 +5,7 @@ import { selectSuggestedPrograms, selectTargetProgramDescription, selectTargetPr
 import { renderDuration } from '../../../util/ui/render_media_time'
 import ClosedCaptionsIcon from '../../../../assets/images/browse_icons/closed_captions_icon.svg'
 import SimilarCard from "./similar_card";
+import DownChevron from '../../../../assets/images/browse_icons/down_chevron.svg'
 
 
 const DetailsContent = () => {
@@ -25,7 +26,7 @@ const DetailsContent = () => {
                         <div className="video-metadata-container">
                             <div className="video-metadata-line">
                                 <div>{releaseYear}</div>
-                                {renderDuration(programRuntime, programType, programSeasons)}
+                                <span className="duration">{renderDuration(programRuntime, programType, programSeasons)}</span>
                                 <span className="player-feature-badge">HD</span>
                                 <div className="closed-captions-icon">
                                     <img src={ClosedCaptionsIcon} alt='Closed captions available' />
@@ -59,7 +60,11 @@ const DetailsContent = () => {
                         </div>
                     </div>
 
-                    <div className="section-divider"></div>
+                    <div className="section-divider">
+                        <button className="section-divider-button">
+                            <img className="section-divider-icon" src={DownChevron} alt="Expand" />
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

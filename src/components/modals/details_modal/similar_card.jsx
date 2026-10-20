@@ -1,10 +1,43 @@
 import React from "react";
+import TitleCardPlayIcon from '../../../../assets/images/browse_icons/title_card_play_icon.svg'
+import { renderDuration } from "../../../util/ui/render_media_time";
+import PlusIcon from '../../../../assets/images/browse_icons/plus_icon.svg'
+import truncateByWords from "../../../util/ui/truncate_by_words";
 
 const SimilarCard = ( { program } ) => {
+    const MAX_WORDS_SYNOPSIS = 25
 
     return (
         <div className="title-card-container">
-            
+            <div className="title-card-image-wrapper">
+                <img className="title-card-image" src={program.thumbnail} alt={program.title} />
+                <div className="title-card-play-icon">
+                    <img className="title-card-play-svg" src={TitleCardPlayIcon} alt="Play" />
+                </div>
+                <span className="title-card-duration">{renderDuration(program.runtime, program.program_type, program.seasons)}</span>
+            </div>
+            <div className="title-card-metadata-wrapper">
+                <div className="title-card-video-metadata-wrapper">
+                    <div className="title-card-video-metadata-container">
+                        <div className="title-card-video-metadata-line">
+                            <div className="title-card-video-metadata-maturity-rating">
+                                <span className="title-card-video-metadata-maturity-number">{program.rating}</span>
+                            </div>
+
+                            <span className="title-card-player-feature-badge">HD</span>
+
+                            <div className="title-card-year">{program.yr}</div>
+                        </div>
+                    </div>
+
+                    <div className="add-to-my-list-container">
+                        <button className="add-to-my-list-button">
+                            <img className="add-to-my-list-icon" src={PlusIcon} alt="Add to my list" />
+                        </button>
+                    </div>
+                </div>
+                <p className="title-card-synopsis">{truncateByWords(program.description, MAX_WORDS_SYNOPSIS)}</p>
+            </div>
         </div>
     )
 }

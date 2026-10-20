@@ -345,7 +345,7 @@ const InfoContainer = () => {
                         <div className="program-card-maturity-rating">
                             <span className="program-card-maturity-number">{programRating}</span>
                         </div>
-                        {renderDuration(programRuntime, programType, programSeasons)}
+                        <span className="duration">{renderDuration(programRuntime, programType, programSeasons)}</span>
                         <span className="player-quality-badge">HD</span>
                     </div>
                 </div>
