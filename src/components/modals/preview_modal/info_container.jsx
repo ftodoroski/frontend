@@ -26,6 +26,7 @@ import {
 } from "../../../features/ui/media_overlay_slice";
 import { useTooltipOverlay } from "../../../features/ui/useTooltipOverlay";
 import { useEntityFocus } from "../../../hooks/useEntityFocus";
+import { renderDuration } from "../../../util/ui/render_media_time";
 
 const InfoContainer = () => {
     const programID = useSelector(selectTargetProgramID)
@@ -272,41 +273,6 @@ const InfoContainer = () => {
         )
     }
 
-    const renderRuntime = () => {
-        const MINUTES_IN_HOUR = 60
-        const isHourOrLess = programRuntime <= MINUTES_IN_HOUR
-        const isFullHours = (programRuntime % MINUTES_IN_HOUR) === 0
-
-        if (isHourOrLess) {
-            return (
-                <span className="duration">{`${programRuntime}m`}</span>
-            )
-        } else if (isFullHours) {
-            const hours = programRuntime / MINUTES_IN_HOUR;
-
-            return (
-                <span className="duration">{`${hours}h`}</span>
-            )
-        } else {
-            const hours = Math.trunc(programRuntime / MINUTES_IN_HOUR)
-            const minutes = programRuntime % MINUTES_IN_HOUR
-
-            return (
-                <span className="duration">{`${hours}h ${minutes}m`}</span>
-            ) 
-        }
-    }
-
-    const renderDuration = () => {
-        if (programType === 'TvShow') {
-            return (
-                <span className="duration">{`${programSeasons} Seasons`}</span>
-            )
-        } else if (programType === 'Movie') {
-            return renderRuntime()
-        }
-    }
-
     const renderProgramType = () => {
         return programType === 'TvShow' ? <span>Show</span> : <span>Movie</span>
     }
@@ -379,7 +345,7 @@ const InfoContainer = () => {
                         <div className="program-card-maturity-rating">
                             <span className="program-card-maturity-number">{programRating}</span>
                         </div>
-                        {renderDuration()}
+                        {renderDuration(programRuntime, programType, programSeasons)}
                         <span className="player-quality-badge">HD</span>
                     </div>
                 </div>

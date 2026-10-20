@@ -653,6 +653,117 @@
             object-fit: contain;
         }
     }
+
+    .details-modal-info-wrapper {
+        // These may be changed during a transition
+        opacity: 1;
+        transform: none;
+
+        background-color: #181818;
+        position: relative;
+
+        .details-modal-info-container {
+            padding: 0 3em;
+
+            .details-metadata {
+                background-color: #181818;
+                display: grid;
+                position: relative;
+                width: 100%;
+
+                .details-metadata-info {
+                    margin: .8em 0;
+
+                    .video-metadata-container {
+                        align-items: center;
+                        color: #fff;
+                        display: flex;
+                        flex-wrap: wrap;
+                        justify-content: flex-start;
+
+                        .video-metadata-line {
+                            align-items: center;
+                            color: #bcbcbc;
+                            display: flex;
+                            flex-wrap: wrap;
+
+                            >* {
+                                margin-right: .5em;
+                            }
+
+                            .player-feature-badge {
+                                margin-right: .715em;
+                                border: 1px solid hsla(0, 0%, 100%, .4);
+                                border-radius: 3px;
+                                color: hsla(0, 0%, 100%, .9);
+                                font-size: .7em;
+                                padding: 0 .5em;
+                                white-space: nowrap;
+                            }
+
+                            .closed-captions-icon {
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                            }
+                        }
+                    }
+
+                    .maturity-rating-container {
+                        margin-top: 0.1rem;
+                        margin-bottom: 8px;
+                        font-size: 14px;
+                        overflow: hidden;
+                        line-height: 1.5;
+
+                        .program-maturity-rating {
+                            display: inline-block;
+
+                            .program-maturity-number {
+                                border: 1px solid hsla(0, 0%, 100%, .4);
+                                overflow: hidden;
+                                padding: 0 .4em;
+                                text-overflow: ellipsis;
+                                text-transform: uppercase;
+                                white-space: nowrap;
+                            }
+                        }
+                    }
+                }
+
+                .details-metadata-synopsis{
+                    font-size: 14px;
+                    line-height: 26px;
+                    white-space: pre-line;
+
+                    margin-bottom: .5em;
+                }
+            }
+
+            .more-like-this-wrapper {
+                background-color: #181818;
+
+                .more-like-this-header {
+                    font-size: 24px;
+                    font-weight: 500;
+                    margin-bottom: 20px;
+                    margin-top: 48px;
+                }
+
+                .section-container {
+                    .more-like-this-container {
+                        // When making it responsive, @media will need to be added based on certain size
+                        grid-template-columns: repeat(3, 1fr);
+
+                        display: grid;
+                        grid-gap: 1em;
+                        align-items: stretch;
+                        justify-items: stretch;
+                    }
+                }
+            }
+        }
+    }
 }
 
 

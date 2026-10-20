@@ -28,12 +28,17 @@ export default mediaOverlaySlice.reducer
 export const selectIsMediaOverlayOpen = state => state.ui.mediaOverlay.isOpen
 export const selectModalType = state => state.ui.mediaOverlay.modalType
 export const selectAnchorRect = state => state.ui.mediaOverlay.anchorRect
+
 export const selectTargetProgram = state => state.ui.mediaOverlay.targetProgram
 export const selectTargetProgramID = state => state.ui.mediaOverlay.targetProgram.id
 export const selectTargetProgramType = state => state.ui.mediaOverlay.targetProgram.program_type
 export const selectTargetProgramRating = state => state.ui.mediaOverlay.targetProgram.rating
 export const selectTargetProgramRuntime = state => state.ui.mediaOverlay.targetProgram.runtime
 export const selectTargetProgramSeasons = state => state.ui.mediaOverlay.targetProgram.seasons
+export const selectTargetProgramReleaseYear = state => state.ui.mediaOverlay.targetProgram.yr
+export const selectTargetProgramDescription = state => state.ui.mediaOverlay.targetProgram.description
+
+export const selectSuggestedPrograms = state => state.ui.mediaOverlay.suggestedPrograms
 
 export const selectMediaOverlay = state => state.ui.mediaOverlay
 

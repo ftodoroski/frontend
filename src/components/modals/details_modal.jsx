@@ -2,6 +2,7 @@ import React from "react";
 import '../../../assets/stylesheets/overlays.scss'
 import Billboard from "./details_modal/billboard";
 import CloseIcon from '../../../assets/images/browse_icons/close_icon.svg'
+import DetailsContent from "./details_modal/details_content";
 
 
 const DetailsModal = () => {
@@ -14,7 +15,7 @@ const DetailsModal = () => {
                 <img src={CloseIcon} alt="Close modal" />
             </div>
 
-            <div className="details-modal-info-container"></div>
+            <DetailsContent />
         </div>
     )
 }
