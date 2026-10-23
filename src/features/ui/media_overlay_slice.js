@@ -39,6 +39,10 @@ export const selectTargetProgramReleaseYear = state => state.ui.mediaOverlay.tar
 export const selectTargetProgramDescription = state => state.ui.mediaOverlay.targetProgram.description
 export const selectTargetProgramThumbnail = state => state.ui.mediaOverlay.targetProgram.thumbnail
 export const selectTargetProgramTitle = state => state.ui.mediaOverlay.targetProgram.title
+export const selectTargetProgramDirector = state => state.ui.mediaOverlay.targetProgram.director
+export const selectTargetProgramProductionCompany = state => state.ui.mediaOverlay.targetProgram.production_company
+export const selectTargetProgramScore = state => state.ui.mediaOverlay.targetProgram.score
+export const selectTargetProgramGenreIds = state => state.ui.mediaOverlay.targetProgram.genres
 
 export const selectSuggestedPrograms = state => state.ui.mediaOverlay.suggestedPrograms
 

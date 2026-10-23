@@ -1,11 +1,13 @@
 import React from "react";
 import '../../../../assets/stylesheets/overlays.scss'
 import { useSelector } from "react-redux";
-import { selectSuggestedPrograms, selectTargetProgramDescription, selectTargetProgramRating, selectTargetProgramReleaseYear, selectTargetProgramRuntime, selectTargetProgramSeasons, selectTargetProgramType } from "../../../features/ui/media_overlay_slice";
+import { selectSuggestedPrograms, selectTargetProgramDescription, selectTargetProgramDirector, selectTargetProgramGenreIds, selectTargetProgramProductionCompany, selectTargetProgramRating, selectTargetProgramReleaseYear, selectTargetProgramRuntime, selectTargetProgramScore, selectTargetProgramSeasons, selectTargetProgramTitle, selectTargetProgramType } from "../../../features/ui/media_overlay_slice";
 import { renderDuration } from '../../../util/ui/render_media_time'
 import ClosedCaptionsIcon from '../../../../assets/images/browse_icons/closed_captions_icon.svg'
 import SimilarCard from "./similar_card";
 import DownChevron from '../../../../assets/images/browse_icons/down_chevron.svg'
+import extractGenreNames from "../../../util/mappers/extract_genre_names";
+import { selectAllGenres } from "../../../features/entities/genres_slice";
 
 
 const DetailsContent = () => {
@@ -16,7 +18,12 @@ const DetailsContent = () => {
     const maturityRating =  useSelector(selectTargetProgramRating)
     const synopsis = useSelector(selectTargetProgramDescription)
     const similarPrograms = useSelector(selectSuggestedPrograms)
-
+    const programTitle = useSelector(selectTargetProgramTitle)
+    const director = useSelector(selectTargetProgramDirector)
+    const productionCompany = useSelector(selectTargetProgramProductionCompany)
+    const programScore = useSelector(selectTargetProgramScore)
+    const programGenreIds = useSelector(selectTargetProgramGenreIds)
+    const genres = useSelector(selectAllGenres)
 
     return (
         <div className="details-modal-info-wrapper">
@@ -64,6 +71,50 @@ const DetailsContent = () => {
                         <button className="section-divider-button">
                             <img className="section-divider-icon" src={DownChevron} alt="Expand" />
                         </button>
+                    </div>
+                </div>
+
+                <div className="about-wrapper">
+                    <p className="about-header">About <strong>{programTitle}</strong></p>
+                    
+                    <div className="about-container">
+                        <div className="about-tags">
+                            <span className="about-tags-label">Director: </span>
+                            <span className="about-tags-item">{director}</span>
+                        </div>
+
+                        <div className="about-tags">
+                            <span className="about-tags-label">Production Company: </span>
+                            <span className="about-tags-item">{productionCompany}</span>
+                        </div>
+
+                        <div className="about-tags">
+                            <span className="about-tags-label">Genres: </span>
+                            {extractGenreNames(programGenreIds, genres).map((genre, idx, array) => (
+                                idx !== (array.length - 1) ? (
+                                    <span className = "about-tags-item">{genre}, </span>
+                                ) : (
+                                    <span className="about-tags-item">{genre}</span>
+                                )
+                            ))}
+                        </div>
+
+                        <div className="about-tags">
+                            <span className="about-tags-label">Score: </span>
+                            <span className="about-tags-item">{programScore}</span>
+                        </div>
+
+                        <div className="about-tags">
+                            <span className="about-tags-label">This {programType === 'Movie' ? 'Movie' : 'Tv Show'} Is: </span>
+                            <span className="about-tags-item">Understated</span>
+                        </div>
+
+                        <div className="about-maturity-rating-container">
+                            <span className="about-maturity-rating-label">Maturity Rating: </span>
+                            <div className="about-maturity-rating">
+                                <span className="about-maturity-number">{maturityRating}</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
