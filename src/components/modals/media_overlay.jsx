@@ -3,16 +3,17 @@ import '../../../assets/stylesheets/overlays.scss'
 import { useSelector } from "react-redux";
 import PreviewModal from "./preview_modal";
 import DetailsModal from "./details_modal";
-import { selectModalType } from "../../features/ui/media_overlay_slice";
+import { selectDetailsModalStatus, selectModalType } from "../../features/ui/media_overlay_slice";
 
 
 const MediaOverlay = () => {
     const modalType = useSelector(selectModalType)
+    const detailsModalStatus = useSelector(selectDetailsModalStatus)
     
-    const renderComponentType = (modalType) => {
-        switch (modalType) {
-            case 'preview': return <PreviewModal />;
-            case 'details': return <DetailsModal />;
+    const renderComponentType = (modalType, detailsModalStatus) => {
+        switch (true) {
+            case modalType === 'preview': return <PreviewModal />;
+            case modalType === 'details' && detailsModalStatus === 'open': return <DetailsModal />;
             default: return null;
         }
     }
@@ -28,7 +29,7 @@ const MediaOverlay = () => {
 
     return (
         <div className="media-overlay-container" style={detailsOpenStyles}>
-            {renderComponentType(modalType)}
+            {renderComponentType(modalType, detailsModalStatus)}
         </div>
     )
 }

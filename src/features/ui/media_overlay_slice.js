@@ -4,6 +4,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
     isOpen: false, 
     isMuted: true,
+    status: 'idle', // 'idle' | 'preparing' | 'open'
 }
 
 const mediaOverlaySlice = createSlice({
@@ -15,6 +16,10 @@ const mediaOverlaySlice = createSlice({
         }, 
         triggeredDetails: (state) => {
             state.modalType = 'details'
+            state.status = 'preparing'
+        },
+        preparedDetails: (state) => {
+            state.status = 'open'
         },
         closed: () => {
             return initialState
@@ -22,11 +27,12 @@ const mediaOverlaySlice = createSlice({
     },
 })
 
-export const { triggeredPreview, closed, triggeredDetails } = mediaOverlaySlice.actions
+export const { triggeredPreview, closed, triggeredDetails, preparedDetails } = mediaOverlaySlice.actions
 export default mediaOverlaySlice.reducer
 
 export const selectIsMediaOverlayOpen = state => state.ui.mediaOverlay.isOpen
 export const selectModalType = state => state.ui.mediaOverlay.modalType
+export const selectDetailsModalStatus = state => state.ui.mediaOverlay.status
 export const selectAnchorRect = state => state.ui.mediaOverlay.anchorRect
 
 export const selectTargetProgram = state => state.ui.mediaOverlay.targetProgram

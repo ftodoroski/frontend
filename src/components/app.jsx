@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { Route, Routes } from "react-router-dom";
 import WatchPage from './video/watch_page';
 import NavBar from './navbar/navbar'
@@ -11,7 +11,7 @@ import Browse from './browse/browse'
 import SessionForm from './session_form/session_form';
 import '../../assets/stylesheets/main.scss'
 import ProfilePage from './profile/profile_page';
-import { selectIsMediaOverlayOpen, selectModalType } from '../features/ui/media_overlay_slice';
+import { selectDetailsModalStatus, selectIsMediaOverlayOpen, selectModalType } from '../features/ui/media_overlay_slice';
 import MediaOverlay from './modals/media_overlay';
 import { selectIsTooltipOverlayOpen } from '../features/ui/tooltip_overlay_slice';
 import TooltipOverlay from './modals/tooltip_modal';
@@ -19,18 +19,23 @@ import { checkAuthStatus } from '../util/auth_api_util';
 import { selectIsAuthenticated, selectIsLoading } from '../features/auth/auth_slice';
 import BackdropBackground from './modals/details_modal/backdrop_background';
 import { selectScrollY } from '../features/ui/scroll_slice';
+import { useMediaOverlay } from '../features/ui/useMediaOverlay';
 
 
 const App = (props) => {
     const store = useSelector(state => state)
     const dispatch = useDispatch()
 
+    const { openDetails } = useMediaOverlay()
+
     const isAuthenticated = useSelector(selectIsAuthenticated)
     const isLoading = useSelector(selectIsLoading)
     const modalType = useSelector(selectModalType)
+    const detailsModalStatus = useSelector(selectDetailsModalStatus)
     const scrollY = useSelector(selectScrollY)
     const isMediaOverlayOpen = useSelector(selectIsMediaOverlayOpen)
     const isTooltipOverlayOpen = useSelector(selectIsTooltipOverlayOpen)
+
     const [isDetailsOpen, setIsDetailsOpen] = useState(false)
 
     const renderMultiRoutes = ({ element: Element, paths, ...rest }) => 
@@ -40,17 +45,19 @@ const App = (props) => {
         dispatch(checkAuthStatus());
     }, [dispatch]);
 
+    useLayoutEffect(() => {
+        if (detailsModalStatus !== 'preparing') return;
+
+        window.scrollTo(0, 0);
+
+        openDetails();
+
+    }, [detailsModalStatus])
+
     useEffect(() => {        
         modalType === 'details' ? setIsDetailsOpen(true) : setIsDetailsOpen(false)
 
     }, modalType)
-
-    const lockScrollStyles = isDetailsOpen ? {
-        overflow: 'hidden', 
-        position: 'fixed', 
-        top: `-${scrollY}px`, 
-        width: '100%'
-    } : {}
     
     return (
         <>
@@ -58,7 +65,7 @@ const App = (props) => {
 
             {/* Watch page for a single vid */} {/* Needs to be protected / Not Implemented */}
             {console.log(store)}
-            <div className='app-layout-group' style={lockScrollStyles}>
+            <div className='app-layout-group' >
                 <Routes> 
                     <Route path='/watch/:profileID' element={<WatchPage />} />
                 </Routes>

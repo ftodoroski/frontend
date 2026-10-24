@@ -277,6 +277,24 @@ const InfoContainer = () => {
         return programType === 'TvShow' ? <span>Show</span> : <span>Movie</span>
     }
 
+    // Maybe i can put this in a hook so its reusable 
+    const handleMoreInfoButton = () => {
+        const currentScroll = window.scrollY
+
+        const appLayoutGroup = document.querySelector('.app-layout-group');
+        
+        if (appLayoutGroup) {
+            appLayoutGroup.style.overflow = 'hidden';
+            appLayoutGroup.style.position = 'fixed';
+            appLayoutGroup.style.top = `-${currentScroll}px`;
+            appLayoutGroup.style.width = '100%';
+        }
+
+        document.body.style.overflowY = 'scroll';
+
+        triggerDetailsView(programID)
+    }
+
     return (
         <div
             className="preview-modal-info-container"
@@ -330,7 +348,8 @@ const InfoContainer = () => {
                             className="controls-button-base secondary-button"
                             onMouseEnter={(e) => showTooltip(e, isMovie ? 'More info' : 'Episodes & info')}
                             onMouseLeave={hideTooltip}
-                            onClick={() => triggerDetailsView(programID)}
+                            // onClick={() => triggerDetailsView(programID)}
+                            onClick={() => handleMoreInfoButton(programID)}
                         >
                             <img 
                                 src={downChevronIcon} 

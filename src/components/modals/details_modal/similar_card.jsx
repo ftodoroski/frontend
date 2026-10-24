@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import TitleCardPlayIcon from '../../../../assets/images/browse_icons/title_card_play_icon.svg'
 import { renderDuration } from "../../../util/ui/render_media_time";
 import PlusIcon from '../../../../assets/images/browse_icons/plus_icon.svg'
+import CheckmarkIcon from '../../../../assets/images/browse_icons/checkmark_icon.svg'
 import truncateByWords from "../../../util/ui/truncate_by_words";
 
 const SimilarCard = ( { program } ) => {
     const MAX_WORDS_SYNOPSIS = 25
 
     const [isCardHovered, setIsCardHovered] = useState(false);
+    const [isAddedToMyList, setIsAddedToMyList] = useState(false)
 
     const playIconStyle = {
         opacity: !isCardHovered ? 0 : 1,
@@ -41,8 +43,8 @@ const SimilarCard = ( { program } ) => {
                     </div>
 
                     <div className="add-to-my-list-container">
-                        <button className="add-to-my-list-button">
-                            <img className="add-to-my-list-icon" src={PlusIcon} alt="Add to my list" />
+                        <button className="details-base-button details-secondary" onClick={() => setIsAddedToMyList(!isAddedToMyList)}>
+                            <img className="add-to-my-list-icon" src={isAddedToMyList ? CheckmarkIcon : PlusIcon} alt="Add to my list" />
                         </button>
                     </div>
                 </div>

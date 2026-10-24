@@ -7,7 +7,7 @@ import { scrollReset, scrollUpdated } from "../features/ui/scroll_slice";
 
 export function useEntityFocus() {
     const [searchParams, setSearchParams] = useSearchParams()
-    const { openDetails } = useMediaOverlay()
+    const { triggerDetails } = useMediaOverlay()
     const dispatch = useDispatch()
 
     const triggerDetailsView = (id) => {
@@ -22,8 +22,8 @@ export function useEntityFocus() {
         
         dispatch(scrollUpdated({x: window.scrollX, y: window.scrollY}))
 
-        openDetails()        
-        
+        triggerDetails()        
+
     }
 
     // const closeDetailsView = useCallback(() => {

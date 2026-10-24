@@ -6,9 +6,13 @@ import PlayIcon from '../../../../assets/images/browse_icons/play_icon.svg'
 import PlusIcon from '../../../../assets/images/browse_icons/plus_icon.svg'
 import defaultLikeIcon from  '../../../../assets/images/browse_icons/like_icon.svg'
 import MuteSoundIcon from '../../../../assets/images/browse_icons/mute_volume_icon.svg'
+import VolumeIcon from '../../../../assets/images/browse_icons/volume_icon.svg'
+import CheckmarkIcon from '../../../../assets/images/browse_icons/checkmark_icon.svg'
 
 const Billboard = () => {
     const program = useSelector(selectTargetProgram)
+    const [isMuted, setIsMuted] = useState(true)
+    const [isAddedToMyList, setIsAddedToMyList] = useState(false)
 
     return (
         <div className="details-modal-billboard-container">
@@ -49,16 +53,19 @@ const Billboard = () => {
                             </button>
                         </a>
                         <div className="default-details-supplementary-buttons">
-                            <button className="details-base-button">
-                                    <img 
-                                        className="default-icon-contain" 
-                                        src={PlusIcon} 
-                                        alt="Add to My List" 
-                                    />
+                            <button 
+                                className="details-base-button details-secondary"
+                                onClick={() => setIsAddedToMyList(!isAddedToMyList)}
+                            >
+                                <img 
+                                    className="default-icon-contain" 
+                                    src={isAddedToMyList ? CheckmarkIcon : PlusIcon} 
+                                    alt="Add to My List" 
+                                />
                             </button>
                         </div>
                         <div className="default-details-supplementary-buttons">
-                            <button className="details-base-button">
+                            <button className="details-base-button details-secondary">
                                 <img
                                     className="default-icon-contain"
                                     src={defaultLikeIcon}
@@ -70,10 +77,10 @@ const Billboard = () => {
                     <div className="h-divider-offset"></div>
                 </div>
                 <div className="audio-toggle-container">
-                    <button className="details-base-button">
+                    <button className="details-base-button" onClick={() => setIsMuted(!isMuted)}>
                         <img
                             className="default-icon-contain"
-                            src={MuteSoundIcon}
+                            src={isMuted ? MuteSoundIcon : VolumeIcon}
                             alt="Toggle sound"
                         />
                     </button>

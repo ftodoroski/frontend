@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux"
-import { closed, triggeredDetails, triggeredPreview } from "./media_overlay_slice"
+import { closed, triggeredPreview, triggeredDetails, preparedDetails } from "./media_overlay_slice"
 
 
 export const useMediaOverlay = () => {
@@ -15,9 +15,15 @@ export const useMediaOverlay = () => {
         }))
     }
 
-    const openDetails = () => {
+    const triggerDetails = () => {
         dispatch(triggeredDetails())
     }
+
+    const openDetails = () => {
+        dispatch(preparedDetails())
+    }
+
+    // Need to write function for preparedDetails when its all done
 
     const closeOverlay = () => {
         dispatch(closed())
@@ -25,6 +31,7 @@ export const useMediaOverlay = () => {
 
     return { 
         openPreview,
+        triggerDetails,
         openDetails,
         closeOverlay,
       }

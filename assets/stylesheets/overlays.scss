@@ -591,36 +591,6 @@
                             }
                         }
                     }
-
-                    // .default-details-supplementary-buttons {
-
-                    //     // This will need to be refactored out so its reusable and not tied down to its parent css class
-                    //     .details-base-button {
-                    //         border: 1px solid rgba(255, 255, 255, 0.7);
-                    //         background-color: rgba(42, 42, 42, .6);
-                    //         border-color: hsla(0, 0%, 100%, .5);
-                    //         border-width: 2px;
-                    //         color: white;
-                    //         padding: 0.5rem;
-                    //         align-items: center;
-                    //         appearance: none;
-                    //         cursor: pointer;
-                    //         display: flex;
-                    //         justify-content: center;
-                    //         opacity: 1;
-                    //         position: relative;
-                    //         user-select: none;
-                    //         will-change: background-color, color;
-                    //         word-break: break-word;
-                    //         white-space: nowrap;
-                    //         border-radius: 50%;
-
-                    //         img {
-                    //             width: 1.125rem;
-                    //             height: 1.125rem;
-                    //         }
-                    //     }
-                    // }
                 }
             }
 
@@ -632,6 +602,11 @@
                 overflow: hidden;
                 border-radius: 50%;
                 position: absolute;
+                transition: opacity 0.22s ease-in-out;
+
+                &:hover {
+                    opacity: 1;
+                }
             }
         }
     }
@@ -899,6 +874,11 @@
                                             white-space: nowrap;
                                             border-radius: 50%;
 
+                                            &:hover {
+                                                background-color: rgba(255, 255, 255, 0.1);
+                                                border-color: #fff;
+                                            }
+
                                             .add-to-my-list-icon {
                                                 width: 1.125rem;
                                                 height: 1.125rem;
@@ -955,6 +935,16 @@
                         transition-property: background-color, border-color;
                         transition-duration: 0ms;
                         transition-timing-function: cubic-bezier(0.4, 0, 0.68, 0.06);
+
+                        &:hover {
+                            background: rgb(84, 84, 84);
+                            border-color: rgb(255, 255, 255);
+                        }
+
+                        &:active {
+                            background: rgb(84, 84, 84);
+                            border-color: rgb(255, 255, 255);
+                        }
 
                         .section-divider-icon {
                             width: 1.125rem;
@@ -1049,8 +1039,8 @@
 }
 
 .details-base-button {
-    border: 1px solid rgba(255, 255, 255, 0.7);
     background-color: rgba(42, 42, 42, .6);
+    border: 1px solid rgba(255, 255, 255, 0.7);
     border-color: hsla(0, 0%, 100%, .5);
     border-width: 2px;
     color: white;
@@ -1068,12 +1058,43 @@
     white-space: nowrap;
     border-radius: 50%;
 
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-color: #fff;
+    }
+
     img {
         width: 1.125rem;
         height: 1.125rem;
     }
 }
 
+.details-secondary {
+    
+    &:focus {
+        background-color: #2a2a2a;
+        
+        &::before {
+            border-radius: 50%;
+            box-sizing: content-box;
+            content: "";
+            display: block;
+            height: 100%;
+            width: 100%;
+            border: 2px solid white;
+            padding: 2px;
+            position: absolute;
+            left: -4px;
+            top: -4px;
+            
+            pointer-events: none;
+        }
+    }
+    
+    &:active {
+        background-color: rgb(199, 200, 204, .8);
+    }
+}
 
 
 

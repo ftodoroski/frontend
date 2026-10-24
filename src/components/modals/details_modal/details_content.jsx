@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import '../../../../assets/stylesheets/overlays.scss'
 import { useSelector } from "react-redux";
 import { selectSuggestedPrograms, selectTargetProgramDescription, selectTargetProgramDirector, selectTargetProgramGenreIds, selectTargetProgramProductionCompany, selectTargetProgramRating, selectTargetProgramReleaseYear, selectTargetProgramRuntime, selectTargetProgramScore, selectTargetProgramSeasons, selectTargetProgramTitle, selectTargetProgramType } from "../../../features/ui/media_overlay_slice";
@@ -8,6 +8,7 @@ import SimilarCard from "./similar_card";
 import DownChevron from '../../../../assets/images/browse_icons/down_chevron.svg'
 import extractGenreNames from "../../../util/mappers/extract_genre_names";
 import { selectAllGenres } from "../../../features/entities/genres_slice";
+import UpChevron from '../../../../assets/images/browse_icons/up_chevron.svg'
 
 
 const DetailsContent = () => {
@@ -24,6 +25,17 @@ const DetailsContent = () => {
     const programScore = useSelector(selectTargetProgramScore)
     const programGenreIds = useSelector(selectTargetProgramGenreIds)
     const genres = useSelector(selectAllGenres)
+
+    const [isMoreLikeThisExpanded, setIsMoreLikeThisExpanded] = useState(false)
+
+    const moreLikeThisSectionContainerStyle = {
+        maxHeight: isMoreLikeThisExpanded ? undefined : '42em', 
+        overflow: isMoreLikeThisExpanded ? undefined : 'hidden', 
+    }
+
+    const moreLikeThisDividerStyle = {
+        margin: isMoreLikeThisExpanded ? undefined : '-6em auto auto',
+    }
 
     return (
         <div className="details-modal-info-wrapper">
@@ -59,7 +71,7 @@ const DetailsContent = () => {
                     <h3 className="more-like-this-header">More Like This</h3>
 
                     {/* Add inline css for both of these section-container and section-divider */}
-                    <div className="section-container">
+                    <div className="section-container" style={moreLikeThisSectionContainerStyle}>
                         <div className="more-like-this-container">
                             {similarPrograms.map((program) => (
                                 <SimilarCard key={program.id} program={program} />
@@ -67,9 +79,17 @@ const DetailsContent = () => {
                         </div>
                     </div>
 
-                    <div className="section-divider">
-                        <button className="section-divider-button">
-                            <img className="section-divider-icon" src={DownChevron} alt="Expand" />
+                    <div className="section-divider" style={moreLikeThisDividerStyle}>
+                        <button 
+                            className="section-divider-button"
+                            // onClick={() => isMoreLikeThisExpanded ? setIsMoreLikeThisExpanded(false) : setIsMoreLikeThisExpanded(true)}
+                            onClick={() => setIsMoreLikeThisExpanded(!isMoreLikeThisExpanded)}
+                        >
+                            <img 
+                                className="section-divider-icon" 
+                                src={isMoreLikeThisExpanded ? UpChevron : DownChevron} 
+                                alt="Expand" 
+                            />
                         </button>
                     </div>
                 </div>
