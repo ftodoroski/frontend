@@ -1098,4 +1098,82 @@
 
 
 
+// Need this section so the element is selected properly. Refactor it to be alone like this when putting it in the proper file
+// ***************************************************************
+.thumbs-rating-container {
+    position: relative;
 
+    .thumbs-selection-overlay {
+        .thumbs-selection-container {
+            width: 11em;
+            background-color: rgb(35, 35, 35);
+            border-radius: 3em;
+            box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 2px 0px, rgba(0, 0, 0, 0.5) 0px 8px 16px 0px;
+            display: flex;
+            padding: 0.8em;
+            justify-content: space-between;
+            align-items: center;
+
+            .reaction-container {
+                margin: 0px 0.2em;
+                position: relative;
+
+                >div {
+                    .reaction-button {
+                        align-items: center;
+                        appearance: none;
+                        display: flex;
+                        justify-content: center;
+                        opacity: 1;
+                        position: relative;
+                        user-select: none;
+                        will-change: background-color, color;
+                        word-break: break-word;
+                        white-space: nowrap;
+                        border: none;
+                        font-family: inherit;
+                        cursor: pointer;
+                        outline: none;
+                        border-radius: 50%;
+                        width: 2.2em;
+                        height: 2.2em;
+                        background-color: transparent;
+                        color: white;
+                        padding: 0rem;
+
+                        &:hover {
+                            background-color: rgba(128, 128, 128, 0.2) !important;
+                        }
+
+                        >img {
+                            width: 100% !important;
+                            height: 100% !important;
+                        }
+
+                        .animate {
+                            animation: thumbBounce 0.5s ease-out forwards;
+
+                            @keyframes thumbBounce {
+                                0% {
+                                    transform: translateY(0) scale(2);
+                                }
+
+                                30% {
+                                    transform: translateY(-6px) scale(2);
+                                }
+
+                                60% {
+                                    transform: translateY(2px) scale(2);
+                                }
+
+                                100% {
+                                    transform: translateY(0) scale(2);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

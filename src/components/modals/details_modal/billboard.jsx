@@ -8,6 +8,7 @@ import defaultLikeIcon from  '../../../../assets/images/browse_icons/like_icon.s
 import MuteSoundIcon from '../../../../assets/images/browse_icons/mute_volume_icon.svg'
 import VolumeIcon from '../../../../assets/images/browse_icons/volume_icon.svg'
 import CheckmarkIcon from '../../../../assets/images/browse_icons/checkmark_icon.svg'
+import ThumbsRating from "../../buttons/thumbs_rating";
 
 const Billboard = () => {
     const program = useSelector(selectTargetProgram)
@@ -64,7 +65,7 @@ const Billboard = () => {
                                 />
                             </button>
                         </div>
-                        <div className="default-details-supplementary-buttons">
+                        {/* <div className="default-details-supplementary-buttons">
                             <button className="details-base-button details-secondary">
                                 <img
                                     className="default-icon-contain"
@@ -72,7 +73,8 @@ const Billboard = () => {
                                     alt="Thumbs rating button"
                                 />
                             </button>
-                        </div>
+                        </div> */}
+                        {<ThumbsRating />}
                     </div>
                     <div className="h-divider-offset"></div>
                 </div>
