@@ -95,11 +95,7 @@ const ThumbsRating = () => {
             height: anchorHeight
         }    
 
-        openTooltip({ text, anchorRect })
-    }
-
-    const hideTooltip = () => {
-        closeTooltip()
+        openTooltip( anchorRect, text )
     }
     
     const handleReaction = (reactionType) => {
@@ -125,7 +121,7 @@ const ThumbsRating = () => {
 
             setAnimate(true)
             setReactionState(!isCurrentActive);
-            hideTooltip()
+            closeTooltip()
         }
     }
     
@@ -171,7 +167,7 @@ const ThumbsRating = () => {
                     <div
                         className="reaction-container"
                         onMouseEnter={(e) => handleOpenTooltip(e, isDisliked ? 'Rated' : 'Not for me')}
-                        onMouseLeave={hideTooltip}
+                        onMouseLeave={closeTooltip}
                     >
                         <div style={{ opacity: 1, transform: 'none' }}>
                             <button
@@ -191,7 +187,7 @@ const ThumbsRating = () => {
                     <div
                         className="reaction-container"
                         onMouseEnter={(e) => handleOpenTooltip(e, isLiked ? 'Rated' : 'I like this')}
-                        onMouseLeave={hideTooltip}
+                        onMouseLeave={closeTooltip}
                     >
                         <div style={{ opacity: 1, transform: 'none' }}>
                             <button
@@ -211,7 +207,7 @@ const ThumbsRating = () => {
                     <div
                         className="reaction-container"
                         onMouseEnter={(e) => handleOpenTooltip(e, isDoubleLiked ? 'Rated' : 'Love this!')}
-                        onMouseLeave={hideTooltip}
+                        onMouseLeave={closeTooltip}
                     >
                         <div style={{ opacity: 1, transform: 'none' }}>
                             <button

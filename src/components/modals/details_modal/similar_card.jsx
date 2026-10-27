@@ -4,6 +4,7 @@ import { renderDuration } from "../../../util/ui/render_media_time";
 import PlusIcon from '../../../../assets/images/browse_icons/plus_icon.svg'
 import CheckmarkIcon from '../../../../assets/images/browse_icons/checkmark_icon.svg'
 import truncateByWords from "../../../util/ui/truncate_by_words";
+import WatchlistButton from "../../buttons/watchlist_button";
 
 const SimilarCard = ( { program } ) => {
     const MAX_WORDS_SYNOPSIS = 25
@@ -42,11 +43,7 @@ const SimilarCard = ( { program } ) => {
                         </div>
                     </div>
 
-                    <div className="add-to-my-list-container">
-                        <button className="details-base-button details-secondary" onClick={() => setIsAddedToMyList(!isAddedToMyList)}>
-                            <img className="add-to-my-list-icon" src={isAddedToMyList ? CheckmarkIcon : PlusIcon} alt="Add to my list" />
-                        </button>
-                    </div>
+                    {<WatchlistButton />}
                 </div>
                 <p className="title-card-synopsis">{truncateByWords(program.description, MAX_WORDS_SYNOPSIS)}</p>
             </div>

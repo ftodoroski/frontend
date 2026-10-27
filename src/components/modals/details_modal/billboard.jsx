@@ -3,17 +3,14 @@ import { useSelector } from "react-redux";
 import '../../../../assets/stylesheets/overlays.scss'
 import { selectTargetProgram } from "../../../features/ui/media_overlay_slice";
 import PlayIcon from '../../../../assets/images/browse_icons/play_icon.svg'
-import PlusIcon from '../../../../assets/images/browse_icons/plus_icon.svg'
-import defaultLikeIcon from  '../../../../assets/images/browse_icons/like_icon.svg'
 import MuteSoundIcon from '../../../../assets/images/browse_icons/mute_volume_icon.svg'
 import VolumeIcon from '../../../../assets/images/browse_icons/volume_icon.svg'
-import CheckmarkIcon from '../../../../assets/images/browse_icons/checkmark_icon.svg'
 import ThumbsRating from "../../buttons/thumbs_rating";
+import WatchlistButton from "../../buttons/watchlist_button";
 
 const Billboard = () => {
     const program = useSelector(selectTargetProgram)
     const [isMuted, setIsMuted] = useState(true)
-    const [isAddedToMyList, setIsAddedToMyList] = useState(false)
 
     return (
         <div className="details-modal-billboard-container">
@@ -53,27 +50,7 @@ const Billboard = () => {
                                 <span>Play</span>
                             </button>
                         </a>
-                        <div className="default-details-supplementary-buttons">
-                            <button 
-                                className="details-base-button details-secondary"
-                                onClick={() => setIsAddedToMyList(!isAddedToMyList)}
-                            >
-                                <img 
-                                    className="default-icon-contain" 
-                                    src={isAddedToMyList ? CheckmarkIcon : PlusIcon} 
-                                    alt="Add to My List" 
-                                />
-                            </button>
-                        </div>
-                        {/* <div className="default-details-supplementary-buttons">
-                            <button className="details-base-button details-secondary">
-                                <img
-                                    className="default-icon-contain"
-                                    src={defaultLikeIcon}
-                                    alt="Thumbs rating button"
-                                />
-                            </button>
-                        </div> */}
+                        {<WatchlistButton />}
                         {<ThumbsRating />}
                     </div>
                     <div className="h-divider-offset"></div>
