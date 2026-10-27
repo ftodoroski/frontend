@@ -82,8 +82,7 @@ const DetailsContent = () => {
                     <div className="section-divider" style={moreLikeThisDividerStyle}>
                         <button 
                             className="section-divider-button"
-                            // onClick={() => isMoreLikeThisExpanded ? setIsMoreLikeThisExpanded(false) : setIsMoreLikeThisExpanded(true)}
-                            onClick={() => setIsMoreLikeThisExpanded(!isMoreLikeThisExpanded)}
+                            onClick={() => setIsMoreLikeThisExpanded(prev => !prev)}
                         >
                             <img 
                                 className="section-divider-icon" 

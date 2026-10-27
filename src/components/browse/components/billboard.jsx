@@ -107,7 +107,7 @@ const Billboard = () => {
     }
 
     const handleHeroVideoVolume = () => {
-        setMuted(!muted)
+        setMuted(prev => !prev)
     }
 
     const videoPlayerContainer = () => {

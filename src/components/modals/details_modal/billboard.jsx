@@ -56,7 +56,7 @@ const Billboard = () => {
                     <div className="h-divider-offset"></div>
                 </div>
                 <div className="audio-toggle-container">
-                    <button className="details-base-button" onClick={() => setIsMuted(!isMuted)}>
+                    <button className="details-base-button" onClick={() => setIsMuted(prev => !prev)}>
                         <img
                             className="default-icon-contain"
                             src={isMuted ? MuteSoundIcon : VolumeIcon}
