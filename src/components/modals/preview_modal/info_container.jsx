@@ -27,7 +27,7 @@ const InfoContainer = () => {
     const isMovie = programType === 'Movie' ? true : false
 
     const { openTooltip, closeTooltip } = useTooltipOverlay()
-    const { triggerDetailsView, closeDetailsView } = useEntityFocus()
+    const { transitionPreviewToDetails, closeDetailsView } = useEntityFocus()
 
     useEffect(() => {
         return () => {
@@ -54,7 +54,7 @@ const InfoContainer = () => {
 
         document.body.style.overflowY = 'scroll';
 
-        triggerDetailsView(programID)
+        transitionPreviewToDetails(programID)
     }
 
     return (

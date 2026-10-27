@@ -26,7 +26,7 @@ const App = (props) => {
     const store = useSelector(state => state)
     const dispatch = useDispatch()
 
-    const { openDetails } = useMediaOverlay()
+    const { completeDetailsOpen } = useMediaOverlay()
 
     const isAuthenticated = useSelector(selectIsAuthenticated)
     const isLoading = useSelector(selectIsLoading)
@@ -50,7 +50,7 @@ const App = (props) => {
 
         window.scrollTo(0, 0);
 
-        openDetails();
+        completeDetailsOpen();
 
     }, [detailsModalStatus])
 

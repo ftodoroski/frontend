@@ -7,6 +7,7 @@ import { selectAreProgramsLoading } from '../../features/ui/loading_slice';
 import Billboard from './components/billboard';
 import MediaRow from './components/media_row';
 import BrowseDataOrchestrator from './components/browse_data_orchestrator';
+import { useEntityFocus } from '../../hooks/useEntityFocus';
 
 const Browse = () => {
     const dispatch = useDispatch()
@@ -15,6 +16,19 @@ const Browse = () => {
 
     const watchlist = useSelector(selectWatchlist)
     const areProgramsLoading = useSelector(selectAreProgramsLoading)
+
+    const { loadDetailsOnPageMount } = useEntityFocus()
+
+    useEffect(() => {
+        if (location.pathname.includes('/title')) {
+            const programId = location.pathname.split('/').at(-1)
+            
+            if (programId) {
+                loadDetailsOnPageMount(programId)
+            }
+        }
+
+    }, [location.pathname])
 
     useEffect(() => {
         const params = new URLSearchParams(location.search);

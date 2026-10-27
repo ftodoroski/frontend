@@ -1,12 +1,12 @@
 import { useDispatch } from "react-redux"
-import { closed, triggeredPreview, triggeredDetails, preparedDetails } from "./media_overlay_slice"
+import { closed, previewOpened, detailsTriggered, detailsOpened } from "./media_overlay_slice"
 
 
 export const useMediaOverlay = () => {
     const dispatch = useDispatch()
 
     const openPreview = ({ anchorRect, targetProgram, suggestedPrograms }) => {
-        dispatch(triggeredPreview({
+        dispatch(previewOpened({
             isOpen: true,
             modalType: 'preview',
             anchorRect,
@@ -15,25 +15,30 @@ export const useMediaOverlay = () => {
         }))
     }
 
-    const triggerDetails = () => {
-        dispatch(triggeredDetails())
+    const transitionToDetials = () => {
+        dispatch(detailsTriggered())
     }
 
-    const openDetails = () => {
-        dispatch(preparedDetails())
+    const triggerDetailsDirectly = ({  }) => {
+        dispatch(detailsTriggered({
+            // Need to pass in data
+        }))
     }
 
-    // Need to write function for preparedDetails when its all done
+    const completeDetailsOpen = () => {
+        dispatch(detailsOpened())
+    }
 
     const closeOverlay = () => {
         dispatch(closed())
     }
 
     return { 
-        openPreview,
-        triggerDetails,
-        openDetails,
         closeOverlay,
+        openPreview, 
+        transitionToDetials, 
+        triggerDetailsDirectly, 
+        completeDetailsOpen
       }
 }
 
