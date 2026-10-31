@@ -8,6 +8,8 @@ import Billboard from './components/billboard';
 import MediaRow from './components/media_row';
 import BrowseDataOrchestrator from './components/browse_data_orchestrator';
 import { useEntityFocus } from '../../hooks/useEntityFocus';
+import { selectAllPrograms } from '../../features/entities/programs_slice';
+import { lockScreenView } from '../../util/dom/screen_lock';
 
 const Browse = () => {
     const dispatch = useDispatch()
@@ -16,19 +18,25 @@ const Browse = () => {
 
     const watchlist = useSelector(selectWatchlist)
     const areProgramsLoading = useSelector(selectAreProgramsLoading)
+    const programs = useSelector(selectAllPrograms)
 
     const { loadDetailsOnPageMount } = useEntityFocus()
 
     useEffect(() => {
+        if (Object.keys(programs).length === 0) {
+            return;
+        }
+
         if (location.pathname.includes('/title')) {
             const programId = location.pathname.split('/').at(-1)
             
             if (programId) {
+                lockScreenView()
                 loadDetailsOnPageMount(programId)
             }
         }
 
-    }, [location.pathname])
+    }, [location.pathname, programs])
 
     useEffect(() => {
         const params = new URLSearchParams(location.search);

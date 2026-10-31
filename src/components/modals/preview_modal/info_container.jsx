@@ -16,6 +16,7 @@ import { useEntityFocus } from "../../../hooks/useEntityFocus";
 import { renderDuration } from "../../../util/ui/render_media_time";
 import ThumbsRating from '../../buttons/thumbs_rating.jsx'
 import WatchlistButton from "../../buttons/watchlist_button.jsx";
+import { lockScreenView } from "../../../util/dom/screen_lock.js";
 
 const InfoContainer = () => {
     const programID = useSelector(selectTargetProgramID)
@@ -41,20 +42,11 @@ const InfoContainer = () => {
 
     // Maybe i can put this in a hook so its reusable 
     const handleMoreInfoButton = () => {
-        const currentScroll = window.scrollY
+        const currentScrollY = window.scrollY
 
-        const appLayoutGroup = document.querySelector('.app-layout-group');
-        
-        if (appLayoutGroup) {
-            appLayoutGroup.style.overflow = 'hidden';
-            appLayoutGroup.style.position = 'fixed';
-            appLayoutGroup.style.top = `-${currentScroll}px`;
-            appLayoutGroup.style.width = '100%';
-        }
+        lockScreenView(currentScrollY)
 
-        document.body.style.overflowY = 'scroll';
-
-        transitionPreviewToDetails(programID)
+        transitionPreviewToDetails(programID, currentScrollY)
     }
 
     return (

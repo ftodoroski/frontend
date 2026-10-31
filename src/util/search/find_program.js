@@ -1,5 +1,5 @@
-const findProgram = (showcase_id, programs) => {
-    return programs.find((program) => showcase_id === program.id)
+const findProgram = (program_id, programs) => {
+    return programs.find((program) => program_id === program.id)
 }
 
 export default findProgram

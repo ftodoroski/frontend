@@ -19,9 +19,12 @@ export const useMediaOverlay = () => {
         dispatch(detailsTriggered())
     }
 
-    const triggerDetailsDirectly = ({  }) => {
+    const triggerDetailsDirectly = ({ anchorRect, targetProgram, suggestedPrograms }) => {
         dispatch(detailsTriggered({
-            // Need to pass in data
+            isOpen: true,
+            anchorRect,
+            targetProgram,
+            suggestedPrograms,
         }))
     }
 

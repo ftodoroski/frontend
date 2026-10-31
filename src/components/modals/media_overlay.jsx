@@ -24,7 +24,8 @@ const MediaOverlay = () => {
         boxSizing: 'border-box', 
         display: 'flex', 
         justifyContent: 'center', 
-        willChange: 'scroll-position'
+        willChange: 'scroll-position', 
+        pointerEvents: 'none',
     } : {}
 
     return (

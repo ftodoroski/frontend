@@ -52,10 +52,18 @@ const NavBar = () => {
     }, [dispatch, currentUser.userId])
 
     useEffect(() => {
-        document.addEventListener('scroll', () => {
-            setScrollPosition([window.scrollX, window.scrollY])
-        })
-    })
+        if (modalType === 'details') return
+
+        const handleScroll = () => {
+            setScrollPosition([window.scrollX, window.scrollY]);
+        };
+
+        document.addEventListener('scroll', handleScroll)
+
+        return () => {
+            document.removeEventListener('scroll', handleScroll);
+        };
+    }, [modalType])
 
     const toggleSearchBar = () => {
         !searchBar ? setSearchBar('searchbar-active') : setSearchBar('')
@@ -179,7 +187,8 @@ const NavBar = () => {
     return (
         <header className='nav' style={lockScrollStyles}>
             {/* nav content for background */}
-            <nav className='nav-content' style={scrollPosition[1] > 1 || scrollY > 1 ? backgroundStyle : defaultBackgroundStyle}>
+            {/* <nav className='nav-content' style={scrollPosition[1] > 1 || scrollY > 1 ? backgroundStyle : defaultBackgroundStyle}> */}
+            <nav className='nav-content' style={scrollPosition[1] > 1 ? backgroundStyle : defaultBackgroundStyle}>
                 <img src={logo} alt="logo" className="nav-logo" />
 
                 <ul className='primary-nav'>
