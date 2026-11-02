@@ -20,7 +20,7 @@ export function useEntityFocus() {
 
     const programs = useSelector(selectAllPrograms)
 
-    const transitionPreviewToDetails = (programId, currentScrollY) => {
+    const transitionPreviewToDetails = (programId, currentScrollY, anchorPreview) => {
         const newParams = new URLSearchParams(searchParams);
         newParams.set('jbv', programId);
 
@@ -31,11 +31,13 @@ export function useEntityFocus() {
 
         dispatch(scrollUpdated({ x: 0, y: currentScrollY }))
 
-        transitionToDetials()
+        transitionToDetials(anchorPreview)
     }
 
     const loadDetailsOnPageMount = (programId) => {
-        const anchorRect = {
+        // This needs to be dynamic for 2 cases when coming from deep link and billboard more info
+        // also handle the alignment because sometimes i pass it and sometimes i don't
+        const anchorPreview = {
             x: 0,
             y: 0,
             width: 0,
@@ -45,7 +47,7 @@ export function useEntityFocus() {
         const targetProgram = findProgram(Number(programId), programs)
         const suggestedPrograms = generateSuggestedPrograms(targetProgram, programs)
         
-        triggerDetailsDirectly({ anchorRect, targetProgram, suggestedPrograms})
+        triggerDetailsDirectly({ anchorPreview, targetProgram, suggestedPrograms})
     }
     
     const closeDetailsView = ({ targetPath = '/browse', scrollY}) => {

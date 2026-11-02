@@ -17,16 +17,20 @@ export function useHoverIntent(delay = 500) {
 
     const triggerPreviewOverlay = useCallback((persistentEvent, targetProgram) => {
         const rect = persistentEvent.getBoundingClientRect();
-        
-        const anchorRect = {
-            x: rect.left + window.scrollX, 
-            y: rect.top + window.scrollY, 
+
+        const anchorCard = {
+            pageX: rect.left + window.scrollX, 
+            pageY: rect.top + window.scrollY,
+
+            clientLeft: rect.left, 
+            clientTop: rect.top, 
+
             width: rect.width, 
             height: rect.height
         }
         const suggestedPrograms = generateSuggestedPrograms(targetProgram, programs)
         
-        openPreview({ anchorRect, targetProgram, suggestedPrograms })
+        openPreview({ anchorCard, targetProgram, suggestedPrograms })
 
 
     }, [programs, openPreview])

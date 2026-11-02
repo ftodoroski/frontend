@@ -5,6 +5,11 @@ const initialState = {
     isOpen: false, 
     isMuted: true,
     status: 'idle', // 'idle' | 'preparing' | 'open'
+    layoutAnchors: {
+        card: null,
+        preview: null,
+        details: null,
+    }
 }
 
 const mediaOverlaySlice = createSlice({
@@ -14,14 +19,29 @@ const mediaOverlaySlice = createSlice({
     // Naming Conv: Noun + Past Verb (previewOpened) to group alphabetically in autocomplete
     reducers: {
         previewOpened: (state, action) => {
-            return { ...state, ...action.payload }
+            const { anchorCard, ...restOfPayload } = action.payload;
+
+            return { 
+                ...state, 
+                ...restOfPayload, 
+                layoutAnchors: {
+                    ...state.layoutAnchors, 
+                    card: anchorCard
+                },
+            }
         },
         detailsTriggered: (state, action) => {
+            const { anchorPreview, ...restOfPayload } = action.payload;
+
             return {
                 ...state,
-                ...action.payload,
+                ...restOfPayload,
                 modalType: 'details',
-                status: 'preparing'
+                status: 'preparing',
+                layoutAnchors: {
+                    ...state.layoutAnchors, 
+                    preview: anchorPreview
+                },
             }
         },
         detailsOpened: (state) => {
@@ -39,92 +59,32 @@ export default mediaOverlaySlice.reducer
 export const selectIsMediaOverlayOpen = state => state.ui.mediaOverlay.isOpen
 export const selectModalType = state => state.ui.mediaOverlay.modalType
 export const selectDetailsModalStatus = state => state.ui.mediaOverlay.status
-export const selectAnchorRect = state => state.ui.mediaOverlay.anchorRect
+
+const selectLayoutAnchors = (state) => state.ui.mediaOverlay.layoutAnchors
+
+export const selectCardAnchor = (state) => selectLayoutAnchors(state).card
+export const selectPreviewAnchor = (state) => selectLayoutAnchors(state).preview
+export const selectDetailsAnchor = (state) => selectLayoutAnchors(state).details
 
 export const selectTargetProgram = state => state.ui.mediaOverlay.targetProgram
-export const selectTargetProgramID = state => state.ui.mediaOverlay.targetProgram.id
-export const selectTargetProgramType = state => state.ui.mediaOverlay.targetProgram.program_type
-export const selectTargetProgramRating = state => state.ui.mediaOverlay.targetProgram.rating
-export const selectTargetProgramRuntime = state => state.ui.mediaOverlay.targetProgram.runtime
-export const selectTargetProgramSeasons = state => state.ui.mediaOverlay.targetProgram.seasons
-export const selectTargetProgramReleaseYear = state => state.ui.mediaOverlay.targetProgram.yr
-export const selectTargetProgramDescription = state => state.ui.mediaOverlay.targetProgram.description
-export const selectTargetProgramThumbnail = state => state.ui.mediaOverlay.targetProgram.thumbnail
-export const selectTargetProgramTitle = state => state.ui.mediaOverlay.targetProgram.title
-export const selectTargetProgramDirector = state => state.ui.mediaOverlay.targetProgram.director
-export const selectTargetProgramProductionCompany = state => state.ui.mediaOverlay.targetProgram.production_company
-export const selectTargetProgramScore = state => state.ui.mediaOverlay.targetProgram.score
-export const selectTargetProgramGenreIds = state => state.ui.mediaOverlay.targetProgram.genres
+
+export const selectTargetProgramID = state => selectTargetProgram(state).id
+export const selectTargetProgramType = state => selectTargetProgram(state).program_type
+export const selectTargetProgramRating = state => selectTargetProgram(state).rating
+export const selectTargetProgramRuntime = state => selectTargetProgram(state).runtime
+export const selectTargetProgramSeasons = state => selectTargetProgram(state).seasons
+export const selectTargetProgramReleaseYear = state => selectTargetProgram(state).yr
+export const selectTargetProgramDescription = state => selectTargetProgram(state).description
+export const selectTargetProgramThumbnail = state => selectTargetProgram(state).thumbnail
+export const selectTargetProgramTitle = state => selectTargetProgram(state).title
+export const selectTargetProgramDirector = state => selectTargetProgram(state).director
+export const selectTargetProgramProductionCompany = state => selectTargetProgram(state).production_company
+export const selectTargetProgramScore = state => selectTargetProgram(state).score
+export const selectTargetProgramGenreIds = state => selectTargetProgram(state).genres
 
 export const selectSuggestedPrograms = state => state.ui.mediaOverlay.suggestedPrograms
 
 export const selectMediaOverlay = state => state.ui.mediaOverlay
-
-
-
-
-
-
-
-// *******************************************************************************************************
-// import { createSlice } from '@reduxjs/toolkit'
-
-
-// const initialState = {
-//     isOpen: false,
-//     isMuted: true,
-//     status: 'idle', // 'idle' | 'preparing' | 'open'
-// }
-
-// const mediaOverlaySlice = createSlice({
-//     name: 'mediaOverlay',
-//     initialState,
-
-//     // Naming Conv: Noun + Past Verb (previewOpened) to group alphabetically in autocomplete
-//     reducers: {
-//         triggeredPreview: (state, action) => {
-//             return { ...state, ...action.payload }
-//         },
-//         triggeredDetails: (state) => {
-//             state.modalType = 'details'
-//             state.status = 'preparing'
-//         },
-//         preparedDetails: (state) => {
-//             state.status = 'open'
-//         },
-//         closed: () => {
-//             return initialState
-//         },
-//     },
-// })
-
-// export const { triggeredPreview, closed, triggeredDetails, preparedDetails } = mediaOverlaySlice.actions
-// export default mediaOverlaySlice.reducer
-
-// export const selectIsMediaOverlayOpen = state => state.ui.mediaOverlay.isOpen
-// export const selectModalType = state => state.ui.mediaOverlay.modalType
-// export const selectDetailsModalStatus = state => state.ui.mediaOverlay.status
-// export const selectAnchorRect = state => state.ui.mediaOverlay.anchorRect
-
-// export const selectTargetProgram = state => state.ui.mediaOverlay.targetProgram
-// export const selectTargetProgramID = state => state.ui.mediaOverlay.targetProgram.id
-// export const selectTargetProgramType = state => state.ui.mediaOverlay.targetProgram.program_type
-// export const selectTargetProgramRating = state => state.ui.mediaOverlay.targetProgram.rating
-// export const selectTargetProgramRuntime = state => state.ui.mediaOverlay.targetProgram.runtime
-// export const selectTargetProgramSeasons = state => state.ui.mediaOverlay.targetProgram.seasons
-// export const selectTargetProgramReleaseYear = state => state.ui.mediaOverlay.targetProgram.yr
-// export const selectTargetProgramDescription = state => state.ui.mediaOverlay.targetProgram.description
-// export const selectTargetProgramThumbnail = state => state.ui.mediaOverlay.targetProgram.thumbnail
-// export const selectTargetProgramTitle = state => state.ui.mediaOverlay.targetProgram.title
-// export const selectTargetProgramDirector = state => state.ui.mediaOverlay.targetProgram.director
-// export const selectTargetProgramProductionCompany = state => state.ui.mediaOverlay.targetProgram.production_company
-// export const selectTargetProgramScore = state => state.ui.mediaOverlay.targetProgram.score
-// export const selectTargetProgramGenreIds = state => state.ui.mediaOverlay.targetProgram.genres
-
-// export const selectSuggestedPrograms = state => state.ui.mediaOverlay.suggestedPrograms
-
-// export const selectMediaOverlay = state => state.ui.mediaOverlay
-
 
 
 

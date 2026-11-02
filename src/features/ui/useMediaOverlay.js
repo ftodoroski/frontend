@@ -5,24 +5,27 @@ import { closed, previewOpened, detailsTriggered, detailsOpened } from "./media_
 export const useMediaOverlay = () => {
     const dispatch = useDispatch()
 
-    const openPreview = ({ anchorRect, targetProgram, suggestedPrograms }) => {
+    const openPreview = ({ anchorCard, targetProgram, suggestedPrograms }) => {
         dispatch(previewOpened({
             isOpen: true,
             modalType: 'preview',
-            anchorRect,
+            anchorCard,
             targetProgram,
             suggestedPrograms
         }))
     }
 
-    const transitionToDetials = () => {
-        dispatch(detailsTriggered())
+    // Need to add preview anchor coordinates
+    const transitionToDetials = (anchorPreview) => {        
+
+        dispatch(detailsTriggered({ anchorPreview }))
     }
 
-    const triggerDetailsDirectly = ({ anchorRect, targetProgram, suggestedPrograms }) => {
+    // Need to add default or zero preview achor coordinates
+    const triggerDetailsDirectly = ({ anchorPreview, targetProgram, suggestedPrograms }) => {
         dispatch(detailsTriggered({
             isOpen: true,
-            anchorRect,
+            anchorPreview,
             targetProgram,
             suggestedPrograms,
         }))

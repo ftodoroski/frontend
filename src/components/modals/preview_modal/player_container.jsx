@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
-import { selectTargetProgram, selectAnchorRect } from "../../../features/ui/media_overlay_slice";
+import { selectTargetProgram, selectCardAnchor } from "../../../features/ui/media_overlay_slice";
 import "../../../../assets/stylesheets/overlays.scss"
 import muteVolumeIcon from '../../../../assets/images/browse_icons/mute_volume_icon.svg'
 import volumeIcon from '../../../../assets/images/browse_icons/volume_icon.svg'
@@ -8,7 +8,7 @@ import volumeIcon from '../../../../assets/images/browse_icons/volume_icon.svg'
 
 const PlayerContainer = () => {
     const program = useSelector(selectTargetProgram)
-    const anchorRect = useSelector(selectAnchorRect)
+    const cardAnchor = useSelector(selectCardAnchor)
 
     const [isClipReadyToPlay, setIsClipReadyToPlay] = useState(false)
     const [isMuted, setIsMuted] = useState(true)
@@ -110,7 +110,7 @@ const PlayerContainer = () => {
         <video 
             ref={videoRef}
             src={`${program.thumbclip}`}
-            width={(anchorRect.width * 1.45)} 
+            width={(cardAnchor.width * 1.45)} 
             height="220"
             preload="auto"
             muted={isMuted}

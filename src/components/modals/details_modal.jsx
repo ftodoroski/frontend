@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import '../../../assets/stylesheets/overlays.scss'
 import Billboard from "./details_modal/billboard";
 import CloseIcon from '../../../assets/images/browse_icons/close_icon.svg'
@@ -11,10 +11,27 @@ import { selectScrollY } from "../../features/ui/scroll_slice";
 const DetailsModal = () => {
     const { closeDetailsView } = useEntityFocus()
 
-    const scrollY = useSelector(selectScrollY)    
+    const scrollY = useSelector(selectScrollY)
+
+    const [showState, setShowState] = useState(false)
+
+    useEffect(() => {
+        const rafId = requestAnimationFrame(() => {
+            setShowState(true);
+        });
+        return () => cancelAnimationFrame(rafId);
+        
+    }, [])
+
+    const modalStyle = {
+        transformOrigin: '50% 0%',
+        transform: !showState ? `scale(.3)` : 'scale(1)',
+        transition: 'transform 3s linear',
+        pointerEvents: 'auto', 
+    }
 
     return (
-        <div className="details-modal-container" style={{ pointerEvents: 'auto' }}>
+        <div className="details-modal-container" style={modalStyle}>
             <Billboard />
 
             <div 

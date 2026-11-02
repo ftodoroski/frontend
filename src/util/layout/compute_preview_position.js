@@ -1,5 +1,5 @@
 const computePreviewPosition = (anchorRect) => {
-    let { x, y, width, height } = anchorRect
+    let { pageX, pageY, width, height } = anchorRect
 
     // Viewport measurements
     const viewportWidth = document.documentElement.clientWidth
@@ -16,9 +16,9 @@ const computePreviewPosition = (anchorRect) => {
     const program = {
         width, 
         height, 
-        top: y, 
-        left: x, 
-        right: x + width
+        top: pageY, 
+        left: pageX, 
+        right: pageX + width
     }
 
     // Modal layout constants

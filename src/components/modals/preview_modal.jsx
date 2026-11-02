@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { selectAnchorRect, selectIsMediaOverlayOpen, selectMediaOverlay } from "../../features/ui/media_overlay_slice";
+import { selectCardAnchor, selectIsMediaOverlayOpen, selectMediaOverlay } from "../../features/ui/media_overlay_slice";
 import { useMediaOverlay } from "../../features/ui/useMediaOverlay";
 import computePreviewPosition from "../../util/layout/compute_preview_position";
 import '../../../assets/stylesheets/overlays.scss'
@@ -9,11 +9,14 @@ import InfoContainer from "./preview_modal/info_container";
 
 
 const PreviewModal = () => {
-    const anchorRect = useSelector(selectAnchorRect)
+    const cardAnchor = useSelector(selectCardAnchor)
     const { closeOverlay } = useMediaOverlay()
-    const { top, left, alignment } = computePreviewPosition(anchorRect)
+    
+    const { top, left, alignment } = computePreviewPosition(cardAnchor)
     const [showState, setShowState] = useState(false)
     const [isClosing, setIsClosing] = useState(false)
+
+    const containerRef = useRef(null);
 
     // Testing
     const mediaOverlayState = useSelector(selectMediaOverlay)
@@ -38,11 +41,11 @@ const PreviewModal = () => {
         borderRadius: '6px',
         backgroundColor: 'transparent',
         boxShadow: 'rgba(0, 0, 0, 0.75) 0px 3px 10px',
-        width: (anchorRect.width * 1.45),
+        width: (cardAnchor.width * 1.45),
         // height: 334,
         fontSize: '16px',
         color: '#fff',
-        transform: !showState ? `scale(${(anchorRect.width / ((anchorRect.width * 1.45)))})` : 'scale(1)',
+        transform: !showState ? `scale(${(cardAnchor.width / ((cardAnchor.width * 1.45)))})` : 'scale(1)',
         transition: 'opacity 117ms linear, transform 117ms linear',
         transformOrigin: `${getTransformOriginX[alignment]}% 50%`,   
         willChange: 'transform',
@@ -60,13 +63,14 @@ const PreviewModal = () => {
 
     return (
         <div 
+            ref={containerRef}
             className="preview-modal-container" 
             style={modalStyle} 
             onMouseLeave={handleMouseLeave}
             onTransitionEnd={handleTransitionEnd}
         >
             <PlayerContainer />
-            <InfoContainer />
+            <InfoContainer parentRef={containerRef} alignment={alignment}/>
         </div>
     )
 }
