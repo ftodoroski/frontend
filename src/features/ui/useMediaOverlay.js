@@ -16,7 +16,7 @@ export const useMediaOverlay = () => {
     }
 
     // Need to add preview anchor coordinates
-    const transitionToDetials = (anchorPreview) => {        
+    const transitionToDetails = (anchorPreview) => {        
 
         dispatch(detailsTriggered({ anchorPreview }))
     }
@@ -42,7 +42,7 @@ export const useMediaOverlay = () => {
     return { 
         closeOverlay,
         openPreview, 
-        transitionToDetials, 
+        transitionToDetails, 
         triggerDetailsDirectly, 
         completeDetailsOpen
       }

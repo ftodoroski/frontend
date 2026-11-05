@@ -60,7 +60,7 @@ const InfoContainer = ({ parentRef, alignment }) => {
         }
         
 
-        lockScreenView(currentScrollY)
+        // lockScreenView(currentScrollY)
         transitionPreviewToDetails(programID, currentScrollY, anchorPreview)
     }
 

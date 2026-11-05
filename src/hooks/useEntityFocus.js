@@ -7,13 +7,13 @@ import { scrollReset, scrollUpdated } from "../features/ui/scroll_slice";
 import { selectAllPrograms } from "../features/entities/programs_slice";
 import { generateSuggestedPrograms } from "../util/recommendations/recommendation_engine";
 import findProgram from "../util/search/find_program";
-import { unlockScreenView } from "../util/dom/screen_lock";
+import { lockScreenView, unlockScreenView } from "../util/dom/screen_lock";
 
 
 export function useEntityFocus() {
     const [searchParams, setSearchParams] = useSearchParams()
 
-    const { transitionToDetials, triggerDetailsDirectly, closeOverlay } = useMediaOverlay()
+    const { transitionToDetails, triggerDetailsDirectly, closeOverlay } = useMediaOverlay()
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -21,17 +21,48 @@ export function useEntityFocus() {
     const programs = useSelector(selectAllPrograms)
 
     const transitionPreviewToDetails = (programId, currentScrollY, anchorPreview) => {
-        const newParams = new URLSearchParams(searchParams);
-        newParams.set('jbv', programId);
+        // const newParams = new URLSearchParams(searchParams);
+        // newParams.set('jbv', programId);
 
-        setSearchParams(newParams, {
-            replace: false,              
-            preventScrollReset: true
+        // setSearchParams(newParams, {
+        //     replace: false,
+        //     preventScrollReset: true
+        // });
+
+        // dispatch(scrollUpdated({ x: 0, y: currentScrollY }))
+
+        // transitionToDetails(anchorPreview)
+
+        if (!document.startViewTransition) {
+            lockScreenView(currentScrollY);
+
+            const newParams = new URLSearchParams(searchParams);
+            newParams.set('jbv', programId);
+            setSearchParams(newParams, { replace: false, preventScrollReset: true });
+
+            dispatch(scrollUpdated({ x: 0, y: currentScrollY }));
+            transitionToDetails(anchorPreview);
+            return;
+        }
+
+        // 2. The View Transition API magic
+        document.startViewTransition(() => {
+            // Freeze frame is taken right HERE before any elements move!
+
+            // Lock the screen container baseline
+            lockScreenView(currentScrollY);
+
+            // Update the URL parameters
+            const newParams = new URLSearchParams(searchParams);
+            newParams.set('jbv', programId);
+            setSearchParams(newParams, { replace: false, preventScrollReset: true });
+
+            // Update Redux state to swap components
+            dispatch(scrollUpdated({ x: 0, y: currentScrollY }));
+            transitionToDetails(anchorPreview);
         });
 
-        dispatch(scrollUpdated({ x: 0, y: currentScrollY }))
 
-        transitionToDetials(anchorPreview)
     }
 
     const loadDetailsOnPageMount = (programId) => {

@@ -35,8 +35,8 @@ const PreviewModal = () => {
     
     const modalStyle = {
         position: 'absolute',
-        top,
-        left,
+        top: top,
+        left: left,
         opacity: !showState ? 0 : 1,
         borderRadius: '6px',
         backgroundColor: 'transparent',

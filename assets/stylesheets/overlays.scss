@@ -1,3 +1,11 @@
+.preview-modal-container {
+    view-transition-name: active-media-modal;
+}
+
+.details-modal-container {
+    view-transition-name: active-media-modal;
+}
+
 .media-overlay-container {
     position: absolute;
     top: 0;
