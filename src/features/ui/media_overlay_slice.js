@@ -5,6 +5,7 @@ const initialState = {
     isOpen: false, 
     isMuted: true,
     status: 'idle', // 'idle' | 'preparing' | 'open'
+    isTransitionFinished: false,
     layoutAnchors: {
         card: null,
         preview: null,
@@ -38,6 +39,7 @@ const mediaOverlaySlice = createSlice({
                 ...restOfPayload,
                 modalType: 'details',
                 status: 'preparing',
+                isTransitionFinished: false,
                 layoutAnchors: {
                     ...state.layoutAnchors, 
                     preview: anchorPreview
@@ -47,18 +49,22 @@ const mediaOverlaySlice = createSlice({
         detailsOpened: (state) => {
             state.status = 'open'
         },
+        detailsTransitionCompleted: (state) => {
+            state.isTransitionFinished = true;
+        },
         closed: () => {
             return initialState
         }, 
     },
 })
 
-export const { closed, previewOpened, detailsTriggered, detailsOpened } = mediaOverlaySlice.actions
+export const { closed, previewOpened, detailsTriggered, detailsOpened, detailsTransitionCompleted } = mediaOverlaySlice.actions
 export default mediaOverlaySlice.reducer
 
 export const selectIsMediaOverlayOpen = state => state.ui.mediaOverlay.isOpen
 export const selectModalType = state => state.ui.mediaOverlay.modalType
 export const selectDetailsModalStatus = state => state.ui.mediaOverlay.status
+export const selectIsTransitionFinished = state => state.ui.mediaOverlay.isTransitionFinished
 
 const selectLayoutAnchors = (state) => state.ui.mediaOverlay.layoutAnchors
 
@@ -83,6 +89,8 @@ export const selectTargetProgramScore = state => selectTargetProgram(state).scor
 export const selectTargetProgramGenreIds = state => selectTargetProgram(state).genres
 
 export const selectSuggestedPrograms = state => state.ui.mediaOverlay.suggestedPrograms
+
+export const selectTargetElement = state => state.ui.mediaOverlay.targetElement
 
 export const selectMediaOverlay = state => state.ui.mediaOverlay
 

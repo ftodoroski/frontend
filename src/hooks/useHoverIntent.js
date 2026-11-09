@@ -17,6 +17,7 @@ export function useHoverIntent(delay = 500) {
 
     const triggerPreviewOverlay = useCallback((persistentEvent, targetProgram) => {
         const rect = persistentEvent.getBoundingClientRect();
+        const targetElement = persistentEvent.targetElement
 
         const anchorCard = {
             pageX: rect.left + window.scrollX, 
@@ -30,8 +31,7 @@ export function useHoverIntent(delay = 500) {
         }
         const suggestedPrograms = generateSuggestedPrograms(targetProgram, programs)
         
-        openPreview({ anchorCard, targetProgram, suggestedPrograms })
-
+        openPreview({ anchorCard, targetProgram, suggestedPrograms, targetElement })
 
     }, [programs, openPreview])
 
@@ -40,7 +40,8 @@ export function useHoverIntent(delay = 500) {
 
         const currentTarget = e.currentTarget
         const persistentEvent = {
-            getBoundingClientRect: () => currentTarget.getBoundingClientRect()
+            getBoundingClientRect: () => currentTarget.getBoundingClientRect(), 
+            targetElement: currentTarget,
         }
 
         timerRef.current = setTimeout(() => {

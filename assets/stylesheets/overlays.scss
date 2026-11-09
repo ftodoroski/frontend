@@ -6,6 +6,36 @@
     view-transition-name: active-media-modal;
 }
 
+.details-modal-container,
+.view-transition-exit-target {
+    view-transition-name: active-media-modal !important;
+}
+
+.details-modal-container.is-deep-link {
+    view-transition-name: deep-link-media-modal !important;
+
+    transition: opacity 1000ms ease-out, transform 1000ms ease-out;
+    
+    opacity: 1;
+    transform: scale(1);
+}
+
+@starting-style {
+    .details-modal-container.is-deep-link {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+}
+
+::view-transition-new(deep-link-media-modal):only-child {
+    animation: none;
+}
+
+::view-transition-old(deep-link-media-modal):only-child {
+    animation-duration: 500ms;
+    animation-timing-function: ease-out;
+}
+
 .media-overlay-container {
     position: absolute;
     top: 0;
@@ -47,6 +77,8 @@
             top: 0;
             left: 0;
             z-index: 30;
+
+            opacity: 1;
 
             transition: opacity 200ms ease-in-out;
         }
@@ -508,13 +540,14 @@
             width: 100%;
 
             .background {
-                opacity: 1;     // This one needs to be put in the Billboard Component
+                opacity: 1;
                 background-size: cover;
                 height: 100%;
                 left: 0;
                 position: absolute;
                 top: 0;
                 width: 100%;
+                transition: opacity 200ms ease-in-out;
             }
         }
 

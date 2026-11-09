@@ -1,17 +1,19 @@
 import React, { useCallback, useEffect } from "react";
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useMediaOverlay } from "../features/ui/useMediaOverlay";
-import { selectMediaOverlay } from "../features/ui/media_overlay_slice";
+import { detailsTransitionCompleted, selectMediaOverlay, selectTargetElement } from "../features/ui/media_overlay_slice";
 import { useDispatch, useSelector } from "react-redux";
 import { scrollReset, scrollUpdated } from "../features/ui/scroll_slice";
 import { selectAllPrograms } from "../features/entities/programs_slice";
 import { generateSuggestedPrograms } from "../util/recommendations/recommendation_engine";
 import findProgram from "../util/search/find_program";
 import { lockScreenView, unlockScreenView } from "../util/dom/screen_lock";
+import { flushSync } from "react-dom";
 
 
 export function useEntityFocus() {
     const [searchParams, setSearchParams] = useSearchParams()
+    const cardTargetElement = useSelector(selectTargetElement)
 
     const { transitionToDetails, triggerDetailsDirectly, closeOverlay } = useMediaOverlay()
 
@@ -21,73 +23,95 @@ export function useEntityFocus() {
     const programs = useSelector(selectAllPrograms)
 
     const transitionPreviewToDetails = (programId, currentScrollY, anchorPreview) => {
-        // const newParams = new URLSearchParams(searchParams);
-        // newParams.set('jbv', programId);
+        const newParams = new URLSearchParams(searchParams);
+        newParams.set('jbv', programId);
+        setSearchParams(newParams, { replace: false, preventScrollReset: true });
 
-        // setSearchParams(newParams, {
-        //     replace: false,
-        //     preventScrollReset: true
-        // });
-
-        // dispatch(scrollUpdated({ x: 0, y: currentScrollY }))
-
-        // transitionToDetails(anchorPreview)
-
-        if (!document.startViewTransition) {
-            lockScreenView(currentScrollY);
-
-            const newParams = new URLSearchParams(searchParams);
-            newParams.set('jbv', programId);
-            setSearchParams(newParams, { replace: false, preventScrollReset: true });
-
-            dispatch(scrollUpdated({ x: 0, y: currentScrollY }));
-            transitionToDetails(anchorPreview);
-            return;
-        }
-
-        // 2. The View Transition API magic
-        document.startViewTransition(() => {
-            // Freeze frame is taken right HERE before any elements move!
-
-            // Lock the screen container baseline
-            lockScreenView(currentScrollY);
-
-            // Update the URL parameters
-            const newParams = new URLSearchParams(searchParams);
-            newParams.set('jbv', programId);
-            setSearchParams(newParams, { replace: false, preventScrollReset: true });
-
-            // Update Redux state to swap components
-            dispatch(scrollUpdated({ x: 0, y: currentScrollY }));
-            transitionToDetails(anchorPreview);
-        });
-
-
+        // Yield the thread for one micro-tick to reduce lag
+        setTimeout(() => {
+            // Fallback for older browsers
+            if (!document.startViewTransition) {
+                lockScreenView(currentScrollY);
+                dispatch(scrollUpdated({ x: 0, y: currentScrollY }));
+                transitionToDetails(anchorPreview);
+                dispatch(detailsTransitionCompleted());
+                return;
+            }
+    
+            const transition = document.startViewTransition(() => {
+                flushSync(() => {
+                    lockScreenView(currentScrollY);    
+                    dispatch(scrollUpdated({ x: 0, y: currentScrollY }));
+                    transitionToDetails(anchorPreview);
+                })
+            });
+    
+            transition.finished.then(() => {
+                dispatch(detailsTransitionCompleted());
+            }).catch((err) => {
+                console.log("Transition was skipped or interrupted", err);
+                dispatch(detailsTransitionCompleted()); // Defensive backup
+            });
+        }, 0)
     }
 
     const loadDetailsOnPageMount = (programId) => {
-        // This needs to be dynamic for 2 cases when coming from deep link and billboard more info
-        // also handle the alignment because sometimes i pass it and sometimes i don't
-        const anchorPreview = {
-            x: 0,
-            y: 0,
-            width: 0,
-            height: 0,
-        }
-
         const targetProgram = findProgram(Number(programId), programs)
         const suggestedPrograms = generateSuggestedPrograms(targetProgram, programs)
-        
-        triggerDetailsDirectly({ anchorPreview, targetProgram, suggestedPrograms})
+
+        // Yield the thread for one micro-tick to reduce lag
+        setTimeout(() => {
+            // Fallback for older browsers
+            if (!document.startViewTransition) {
+                lockScreenView()
+                triggerDetailsDirectly({ targetProgram, suggestedPrograms })
+                return 
+            }
+
+            const transition = document.startViewTransition(() => {
+                flushSync(() => {
+                    lockScreenView()
+                    triggerDetailsDirectly({ targetProgram, suggestedPrograms })
+                });
+            });
+
+            transition.finished.then(() => {
+                dispatch(detailsTransitionCompleted());
+            }).catch((err) => {
+                console.log("Transition was skipped or interrupted", err);
+                dispatch(detailsTransitionCompleted()); // Defensive backup
+            });
+        }, 0);        
     }
     
     const closeDetailsView = ({ targetPath = '/browse', scrollY}) => {
+        // Fallback for older browsers
+        if (!document.startViewTransition) {
+            closeOverlay();
+            navigate(targetPath);
+            unlockScreenView(scrollY);
+            dispatch(scrollReset());
+            return;
+        }
+    
+        const transition = document.startViewTransition(() => {
+            if (cardTargetElement) {
+                cardTargetElement.classList.add('view-transition-exit-target');
+            }
 
-        closeOverlay()
-        navigate(targetPath)
-        unlockScreenView(scrollY)
-        dispatch(scrollReset())
+            closeOverlay();
+            navigate(targetPath);
+            unlockScreenView(scrollY);
+            dispatch(scrollReset());
+        });
+
+        transition.finished.then(() => {
+            if (cardTargetElement) {
+                cardTargetElement.classList.remove('view-transition-exit-target');
+            }
+        });
     }
+
 
     return {
         transitionPreviewToDetails, 

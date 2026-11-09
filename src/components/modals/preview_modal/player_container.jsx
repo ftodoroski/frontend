@@ -57,7 +57,7 @@ const PlayerContainer = () => {
         <img 
             src={program.thumbnail} 
             alt={program.title}
-            style={isClipReadyToPlay ? {opacity: 0} : {}}
+            style={{ opacity: isClipReadyToPlay ? 0 : 1 }}
         />
     )
 

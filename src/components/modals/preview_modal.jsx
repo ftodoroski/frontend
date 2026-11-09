@@ -70,7 +70,7 @@ const PreviewModal = () => {
             onTransitionEnd={handleTransitionEnd}
         >
             <PlayerContainer />
-            <InfoContainer parentRef={containerRef} alignment={alignment}/>
+            <InfoContainer parentRef={containerRef} />
         </div>
     )
 }

@@ -16,9 +16,9 @@ import { useEntityFocus } from "../../../hooks/useEntityFocus";
 import { renderDuration } from "../../../util/ui/render_media_time";
 import ThumbsRating from '../../buttons/thumbs_rating.jsx'
 import WatchlistButton from "../../buttons/watchlist_button.jsx";
-import { lockScreenView } from "../../../util/dom/screen_lock.js";
+import { forceFreezeFrameOverlay } from "../../../util/dom/force_freeze_frame_overlay.js";
 
-const InfoContainer = ({ parentRef, alignment }) => {
+const InfoContainer = ({ parentRef }) => {
     const programID = useSelector(selectTargetProgramID)
     const programType = useSelector(selectTargetProgramType)
     const programRating = useSelector(selectTargetProgramRating)
@@ -28,7 +28,7 @@ const InfoContainer = ({ parentRef, alignment }) => {
     const isMovie = programType === 'Movie' ? true : false
 
     const { openTooltip, closeTooltip } = useTooltipOverlay()
-    const { transitionPreviewToDetails, closeDetailsView } = useEntityFocus()
+    const { transitionPreviewToDetails } = useEntityFocus()
 
     useEffect(() => {
         return () => {
@@ -45,6 +45,8 @@ const InfoContainer = ({ parentRef, alignment }) => {
         const currentScrollY = window.scrollY
         const rect = parentRef.current.getBoundingClientRect()
 
+        forceFreezeFrameOverlay(parentRef.current);
+
         const anchorPreview = {
             pageX: rect.left + window.scrollX,
             pageY: rect.top + window.scrollY,
@@ -54,13 +56,8 @@ const InfoContainer = ({ parentRef, alignment }) => {
 
             width: rect.width,
             height: rect.height,
-
-            // Make the alignment obj inside of preview_modal.jsx accessible everywhere abstarct it in its own file
-            alignment
         }
         
-
-        // lockScreenView(currentScrollY)
         transitionPreviewToDetails(programID, currentScrollY, anchorPreview)
     }
 

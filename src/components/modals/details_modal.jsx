@@ -6,43 +6,38 @@ import DetailsContent from "./details_modal/details_content";
 import { useEntityFocus } from "../../hooks/useEntityFocus";
 import { useSelector } from "react-redux";
 import { selectScrollY } from "../../features/ui/scroll_slice";
-import { selectPreviewAnchor } from "../../features/ui/media_overlay_slice";
-import computePreviewPosition from "../../util/layout/compute_preview_position";
+import { useLocation } from "react-router-dom";
 
 
 const DetailsModal = () => {
+    const location = useLocation();
+
     const { closeDetailsView } = useEntityFocus()
 
     const scrollY = useSelector(selectScrollY)
-    const previewAnchor = useSelector(selectPreviewAnchor)
-
-    const [showState, setShowState] = useState(false)
+    
+    const isDeepLink = location.pathname.includes("/title/");
+    const [showState, setShowState] = useState(isDeepLink)
 
     useEffect(() => {
+        if (isDeepLink) return
+
         const rafId = requestAnimationFrame(() => {
             setShowState(true);
         });
         return () => cancelAnimationFrame(rafId);
         
-    }, [])
+    }, [isDeepLink])
 
-    // 314.5 is the width of the details modal when its scale is .37
     const modalStyle = {
         transformOrigin: '50% 0%',
         opacity: !showState ? 0 : 1,
-        // transform: !showState ? 
-        //     `translateX(${previewAnchor.clientLeft - ((document.documentElement.clientWidth - 314.5) / 2)}px) translateY(0px) scale(.37) translateZ(0px)` :
-        //     `translateX(0px) translateY(-${(previewAnchor.clientTop) - 32}px) scale(1) translateZ(0px)`,
-        // transition: 'transform 400ms linear, opacity 25ms ease-out',
-        // transition: 'transform 500ms linear',
         pointerEvents: 'auto',
-        // top: `${previewAnchor.clientTop}px`,
-        // willChange: 'transform, opacity',
         willChange: 'opacity',
     }
 
     return (
-        <div className="details-modal-container" style={modalStyle}>
+        <div className={`details-modal-container ${isDeepLink ? 'is-deep-link' : ''}`} style={modalStyle}>
             <Billboard />
 
             <div 
