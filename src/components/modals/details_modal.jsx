@@ -7,12 +7,15 @@ import { useEntityFocus } from "../../hooks/useEntityFocus";
 import { useSelector } from "react-redux";
 import { selectScrollY } from "../../features/ui/scroll_slice";
 import { useLocation } from "react-router-dom";
+import { usePixelScrollTrigger } from "../../util/dom/hooks/usePixelScrollTrigger";
+
 
 
 const DetailsModal = () => {
     const location = useLocation();
 
     const { closeDetailsView } = useEntityFocus()
+    const [_, isPastBoundary ] = usePixelScrollTrigger(150)
 
     const scrollY = useSelector(selectScrollY)
     
@@ -37,7 +40,10 @@ const DetailsModal = () => {
     }
 
     return (
-        <div className={`details-modal-container ${isDeepLink ? 'is-deep-link' : ''}`} style={modalStyle}>
+        <div 
+            className={`details-modal-container ${isDeepLink ? 'is-deep-link' : ''}`} 
+            style={modalStyle}
+        >
             <Billboard />
 
             <div 

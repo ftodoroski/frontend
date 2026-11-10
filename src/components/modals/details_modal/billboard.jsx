@@ -7,15 +7,44 @@ import MuteSoundIcon from '../../../../assets/images/browse_icons/mute_volume_ic
 import VolumeIcon from '../../../../assets/images/browse_icons/volume_icon.svg'
 import ThumbsRating from "../../buttons/thumbs_rating";
 import WatchlistButton from "../../buttons/watchlist_button";
+import { usePixelScrollTrigger } from "../../../util/dom/hooks/usePixelScrollTrigger";
 
 const Billboard = () => {
     const program = useSelector(selectTargetProgram)
     const isTransitionFinished = useSelector(selectIsTransitionFinished)
 
+    const [_, isPastBoundary ] = usePixelScrollTrigger(200)
+
     const videoRef = useRef(null)
+    const isPlayingRef = useRef(isPlaying);
+    const hasFinishedRef = useRef(hasFinished);
 
     const [isMuted, setIsMuted] = useState(true)
-    const [isThumbclipPlaying, setIsThumbclipPlaying] = useState(false)
+    const [isPlaying, setIsPlaying] = useState(false)
+    const [hasFinished, setHasFinished] = useState(false)
+
+
+    isPlayingRef.current = isPlaying;
+    hasFinishedRef.current = hasFinished;
+
+    useEffect(() => {
+        const videoElement = videoRef.current;
+        if (!videoElement || hasFinishedRef.current) return;
+
+        const isScrollingAway = isPastBoundary && isPlayingRef.current;
+        const isScrollingBack = !isPastBoundary && !isPlayingRef.current;
+
+        if (isScrollingAway) {
+            setIsPlaying(false);
+            videoElement.pause();
+        } else if (isScrollingBack) {
+            setIsPlaying(true);
+            videoElement.play().catch((error) => {
+                console.warn("Playback was prevented or interrupted:", error);
+                setIsPlaying(false);
+            });
+        }
+    }, [isPastBoundary]);
 
     useEffect(() => {
         let timerRef = null;
@@ -25,7 +54,7 @@ const Billboard = () => {
             timerRef = setTimeout(() => {
                 videoElement.play()
                 .then(() => {
-                    setIsThumbclipPlaying(true)
+                    setIsPlaying(true)
                 })
                 .catch((error) => {
                     console.log("Autoplay blocked or interrupted:", error)
@@ -55,8 +84,12 @@ const Billboard = () => {
                         src={`${program.thumbclip}`}
                         muted={isMuted}
                         preload="metadata"
-                        onEnded={() => setIsThumbclipPlaying(false)}
-                        style={{ opacity: isThumbclipPlaying ? 1 : 0 }}
+                        onEnded={() => {
+                            setHasFinished(true)
+                            hasFinishedRef.current = true
+                            setIsPlaying(false)
+                        }}
+                        style={{ opacity: isPlaying ? 1 : 0 }}
                     ></video>
                 </div>
             </div>
@@ -67,7 +100,7 @@ const Billboard = () => {
                     className="background" 
                     src={program.background} 
                     alt={`${program.title} background`}
-                    style={{ opacity: isThumbclipPlaying ? 0 : 1 }}
+                    style={{ opacity: isPlaying ? 0 : 1 }}
                 />
             </div>
 

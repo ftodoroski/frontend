@@ -27,13 +27,24 @@
     }
 }
 
+@keyframes modal-exit-scale {
+    from {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    to {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+}
+
 ::view-transition-new(deep-link-media-modal):only-child {
     animation: none;
 }
 
 ::view-transition-old(deep-link-media-modal):only-child {
-    animation-duration: 500ms;
-    animation-timing-function: ease-out;
+    animation: modal-exit-scale 500ms ease-out both;
 }
 
 .media-overlay-container {
