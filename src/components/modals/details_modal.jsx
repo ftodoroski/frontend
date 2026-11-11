@@ -7,15 +7,12 @@ import { useEntityFocus } from "../../hooks/useEntityFocus";
 import { useSelector } from "react-redux";
 import { selectScrollY } from "../../features/ui/scroll_slice";
 import { useLocation } from "react-router-dom";
-import { usePixelScrollTrigger } from "../../util/dom/hooks/usePixelScrollTrigger";
-
 
 
 const DetailsModal = () => {
     const location = useLocation();
 
     const { closeDetailsView } = useEntityFocus()
-    const [_, isPastBoundary ] = usePixelScrollTrigger(150)
 
     const scrollY = useSelector(selectScrollY)
     
@@ -49,7 +46,7 @@ const DetailsModal = () => {
             <div 
                 className="details-modal-close-container" 
                 title="close" 
-                onClick={() => closeDetailsView({ scrollY })}
+                onClick={() => closeDetailsView({ scrollY, isDeepLink })}
             >
                 <img src={CloseIcon} alt="Close modal" />
             </div>

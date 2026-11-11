@@ -84,13 +84,23 @@ export function useEntityFocus() {
         }, 0);        
     }
     
-    const closeDetailsView = ({ targetPath = '/browse', scrollY}) => {
-        // Fallback for older browsers
-        if (!document.startViewTransition) {
+    const closeDetailsView = ({ targetPath = '/browse', scrollY, isDeepLink} = {}) => {
+        if (isDeepLink) {
+            window.scrollTo({ top: 0})
+        }
+
+        const hasPreviousHistory = window.history.state && window.history.state.idx > 0
+
+        const performClose = () => {
             closeOverlay();
             navigate(targetPath);
             unlockScreenView(scrollY);
             dispatch(scrollReset());
+        }
+
+        // Fallback for older browsers
+        if (!document.startViewTransition) {
+            performClose()
             return;
         }
     
@@ -99,10 +109,9 @@ export function useEntityFocus() {
                 cardTargetElement.classList.add('view-transition-exit-target');
             }
 
-            closeOverlay();
-            navigate(targetPath);
-            unlockScreenView(scrollY);
-            dispatch(scrollReset());
+            flushSync(() => {
+                performClose();
+            })
         });
 
         transition.finished.then(() => {
