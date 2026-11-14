@@ -11,17 +11,17 @@
     view-transition-name: active-media-modal !important;
 }
 
-.details-modal-container.is-deep-link {
+.details-modal-container.is-standalone {
     view-transition-name: deep-link-media-modal !important;
 
     transition: opacity 1000ms ease-out, transform 1000ms ease-out;
-    
+
     opacity: 1;
     transform: scale(1);
 }
 
 @starting-style {
-    .details-modal-container.is-deep-link {
+    .details-modal-container.is-standalone {
         opacity: 0;
         transform: scale(0.8);
     }

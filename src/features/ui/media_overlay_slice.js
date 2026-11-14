@@ -74,7 +74,7 @@ export const selectDetailsAnchor = (state) => selectLayoutAnchors(state).details
 
 export const selectTargetProgram = state => state.ui.mediaOverlay.targetProgram
 
-export const selectTargetProgramID = state => selectTargetProgram(state).id
+export const selectTargetProgramID = state => selectTargetProgram(state)?.id
 export const selectTargetProgramType = state => selectTargetProgram(state).program_type
 export const selectTargetProgramRating = state => selectTargetProgram(state).rating
 export const selectTargetProgramRuntime = state => selectTargetProgram(state).runtime

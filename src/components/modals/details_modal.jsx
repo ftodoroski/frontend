@@ -6,18 +6,29 @@ import DetailsContent from "./details_modal/details_content";
 import { useEntityFocus } from "../../hooks/useEntityFocus";
 import { useSelector } from "react-redux";
 import { selectScrollY } from "../../features/ui/scroll_slice";
-import { useLocation } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
+import { selectCardAnchor, selectIsMediaOverlayOpen, selectModalType } from "../../features/ui/media_overlay_slice";
 
 
 const DetailsModal = () => {
     const location = useLocation();
+    const [ searchParams, _ ] = useSearchParams()
 
     const { closeDetailsView } = useEntityFocus()
 
     const scrollY = useSelector(selectScrollY)
+    const modalType = useSelector(selectModalType)
+    const isModalOverlayOpen = useSelector(selectIsMediaOverlayOpen)
+    const anchorCard = useSelector(selectCardAnchor)
     
-    const isDeepLink = location.pathname.includes("/title/");
+    const isDeepLink = location.pathname.includes("/title/")
     const [showState, setShowState] = useState(isDeepLink)
+
+    const isBrowseRoute = location.pathname === '/browse';
+    const hasJbvParam = searchParams.has('jbv');
+    const isDetailsOpen = modalType === 'details' && isModalOverlayOpen
+    const hasNoAnchorOnBrowse = isBrowseRoute && !anchorCard && (hasJbvParam || isDetailsOpen)
+    const isStandalone = isDeepLink || hasNoAnchorOnBrowse
 
     useEffect(() => {
         if (isDeepLink) return
@@ -38,7 +49,7 @@ const DetailsModal = () => {
 
     return (
         <div 
-            className={`details-modal-container ${isDeepLink ? 'is-deep-link' : ''}`} 
+            className={`details-modal-container ${isStandalone ? 'is-standalone' : ''}`} 
             style={modalStyle}
         >
             <Billboard />

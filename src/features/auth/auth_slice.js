@@ -76,6 +76,7 @@ export default authSlice.reducer;
 export const selectCurrentUserId = state => state.auth.user?.userId
 export const selectUser = state => state.auth.user
 export const selectCurrentProfile = state => state.auth.user?.profile
+export const selectShowcaseId = state => state.auth.user?.profile.showcase_id
 export const selectIsAuthenticated = state => state.auth.isAuthenticated
 export const selectIsLoading = state => state.auth.isLoading
 

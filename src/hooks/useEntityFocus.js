@@ -55,7 +55,7 @@ export function useEntityFocus() {
         }, 0)
     }
 
-    const loadDetailsOnPageMount = (programId) => {
+    const loadDetailsOnPageMount = (programId, scrollY) => {
         const targetProgram = findProgram(Number(programId), programs)
         const suggestedPrograms = generateSuggestedPrograms(targetProgram, programs)
 
@@ -63,14 +63,14 @@ export function useEntityFocus() {
         setTimeout(() => {
             // Fallback for older browsers
             if (!document.startViewTransition) {
-                lockScreenView()
+                lockScreenView(scrollY)
                 triggerDetailsDirectly({ targetProgram, suggestedPrograms })
                 return 
             }
 
             const transition = document.startViewTransition(() => {
                 flushSync(() => {
-                    lockScreenView()
+                    lockScreenView(scrollY)
                     triggerDetailsDirectly({ targetProgram, suggestedPrograms })
                 });
             });
@@ -84,17 +84,21 @@ export function useEntityFocus() {
         }, 0);        
     }
     
-    const closeDetailsView = ({ targetPath = '/browse', scrollY, isDeepLink} = {}) => {
-        if (isDeepLink) {
-            window.scrollTo({ top: 0})
-        }
-
-        const hasPreviousHistory = window.history.state && window.history.state.idx > 0
+    const closeDetailsView = ({ targetPath = '/browse', scrollY = 0, isDeepLink = false } = {}) => {
+        const finalScrollY = isDeepLink ? 0 : scrollY;
 
         const performClose = () => {
             closeOverlay();
-            navigate(targetPath);
-            unlockScreenView(scrollY);
+
+            const isAlreadyAtTarget =
+                window.location.pathname === targetPath &&
+                !new URLSearchParams(window.location.search).has('jbv');
+
+            if (!isAlreadyAtTarget) {
+                navigate(targetPath);
+            }
+
+            unlockScreenView(finalScrollY);
             dispatch(scrollReset());
         }
 

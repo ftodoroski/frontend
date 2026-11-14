@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useReducer, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useNavigate, Link } from 'react-router-dom';
+import { useLocation, useNavigate, Link, useSearchParams } from 'react-router-dom';
 import '../../../../assets/stylesheets/browse.scss'
 import playIcon from '../../../../assets/images/browse_icons/play_icon.svg'
 import infoIcon from '../../../../assets/images/browse_icons/info_icon.svg'
@@ -9,12 +9,15 @@ import volumeOnIcon from '../../../../assets/images/browse_icons/volume_icon.svg
 import replayIcon from '../../../../assets/images/browse_icons/replay_icon.svg'
 import findProgram from '../../../util/search/find_program'
 import { selectAllPrograms } from '../../../features/entities/programs_slice';
-import { selectCurrentProfile } from '../../../features/auth/auth_slice';
+import { selectCurrentProfile, selectShowcaseId } from '../../../features/auth/auth_slice';
 
 
 const Billboard = () => {
+    const [searchParams, setSearchParams] = useSearchParams()
+
     const programs = useSelector(selectAllPrograms)
     const currentProfile = useSelector(selectCurrentProfile)
+    const showcaseId = useSelector(selectShowcaseId)
 
     const [opacity, setOpacity] = useState(1)
     const [autoPlay, setAutoPlay] = useState(true)
@@ -108,6 +111,12 @@ const Billboard = () => {
 
     const handleHeroVideoVolume = () => {
         setMuted(prev => !prev)
+    }
+
+    const handleMoreInfo = () => {
+        const newParams = new URLSearchParams(searchParams);
+        newParams.set('jbv', showcaseId);
+        setSearchParams(newParams, { replace: false, preventScrollReset: true });
     }
 
     const videoPlayerContainer = () => {
@@ -242,7 +251,10 @@ const Billboard = () => {
                                             alt="Information"
                                         />
                                         <div className='billboard-button-space'></div>
-                                        <div className='billboard-button-text'>More Info</div>
+                                        <div 
+                                            className='billboard-button-text'
+                                            onClick={handleMoreInfo}
+                                        >More Info</div>
                                     </button>
                                 </div>
                             </div>

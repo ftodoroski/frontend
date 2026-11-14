@@ -1,5 +1,5 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { Route, Routes } from "react-router-dom";
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import WatchPage from './video/watch_page';
 import NavBar from './navbar/navbar'
 import Footer from './footer'
@@ -25,6 +25,8 @@ import { useMediaOverlay } from '../features/ui/useMediaOverlay';
 const App = (props) => {
     const store = useSelector(state => state)
     const dispatch = useDispatch()
+    const location = useLocation()
+    const navigate = useNavigate()
 
     const { completeDetailsOpen } = useMediaOverlay()
 
@@ -58,6 +60,33 @@ const App = (props) => {
         modalType === 'details' ? setIsDetailsOpen(true) : setIsDetailsOpen(false)
 
     }, modalType)
+
+    useEffect(() => {
+        if ('scrollRestoration' in window.history) {
+            window.history.scrollRestoration = 'manual';
+        }
+
+        const handleBeforeUnload = () => {
+            window.scrollTo(0, 0);
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+    }, []);
+
+    useEffect(() => {
+        if (location.pathname === '/browse') {
+            const titleNum = new URLSearchParams(location.search).get('jbv');
+            if (titleNum) {
+                window.scrollTo(0, 0);
+                navigate(`/title/${titleNum}`, { replace: true });
+            }
+        }
+    }, []);
+
+    useLayoutEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    }, [location.pathname]);
     
     return (
         <>
