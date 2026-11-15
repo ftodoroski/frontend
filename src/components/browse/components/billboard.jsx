@@ -10,22 +10,21 @@ import replayIcon from '../../../../assets/images/browse_icons/replay_icon.svg'
 import findProgram from '../../../util/search/find_program'
 import { selectAllPrograms } from '../../../features/entities/programs_slice';
 import { selectCurrentProfile, selectShowcaseId } from '../../../features/auth/auth_slice';
+import { usePixelScrollTrigger } from '../../../util/dom/hooks/usePixelScrollTrigger';
+import { selectIsMediaOverlayOpen } from '../../../features/ui/media_overlay_slice';
 
 
 const Billboard = () => {
     const [searchParams, setSearchParams] = useSearchParams()
 
+    const [_, isPastBoundary ] = usePixelScrollTrigger(450)
+
     const programs = useSelector(selectAllPrograms)
     const currentProfile = useSelector(selectCurrentProfile)
     const showcaseId = useSelector(selectShowcaseId)
+    const isMediaOverlayOpen = useSelector(selectIsMediaOverlayOpen)
 
-    const [opacity, setOpacity] = useState(1)
-    const [autoPlay, setAutoPlay] = useState(true)
-    // Instead of muted you can refactor to toggleAudio
-    const [muted, setMuted] = useState(true)
     const [defaultWrapperSize, setDefaultWrapperSize] = useState(true)
-    // Need better names just writing so the functionality is there
-    const [videoDonePlaying, setVideoDonePlaying] = useState(false)
 
     const [showcaseProgram, setShowcaseProgram] = useState({})
 
@@ -33,12 +32,77 @@ const Billboard = () => {
         return obj && Object.keys(obj).length > 0;
     };
 
+    const [isMuted, setIsMuted] = useState(true)
+    const [isPlaying, setIsPlaying] = useState(false)
+    const [hasFinished, setHasFinished] = useState(false)
+    
+    const videoRef = useRef(null)
+    const isPlayingRef = useRef(isPlaying);
+    const hasFinishedRef = useRef(hasFinished);
+
+    isPlayingRef.current = isPlaying;
+    hasFinishedRef.current = hasFinished;
+    
+    // scrolling away and/or modal is opened
     useEffect(() => {
-        if (programs.length > 0 && currentProfile) {
-            setShowcaseProgram((findProgram(currentProfile.showcase_id, programs)))        
+        const videoElement = videoRef.current;
+        if (!videoElement || hasFinishedRef.current) return;
+        let timerRef = null
+
+        const isScrollingAway = isPastBoundary && isPlayingRef.current;
+        const isScrollingBack = !isPastBoundary && !isPlayingRef.current && !isMediaOverlayOpen;
+
+        if (isScrollingAway || isMediaOverlayOpen) {
+            setIsPlaying(false);
+            videoElement.pause();
+        } else if (isScrollingBack) {
+
+            timerRef = setTimeout(() => {
+                setIsPlaying(true);
+                videoElement.play().catch((error) => {
+                    console.warn("Playback was prevented or interrupted:", error);
+                    setIsPlaying(false);
+                });
+            }, 1200)
         }
 
-    }, [programs, currentProfile])
+        return () => {
+            if (timerRef) clearTimeout(timerRef);
+        }
+
+    }, [isPastBoundary, isMediaOverlayOpen]);
+
+    // Start of video timer
+    useEffect(() => {
+        let timerRef = null;
+        const videoElement = videoRef.current;
+
+        if (videoElement && !isPastBoundary && !isMediaOverlayOpen) {
+            timerRef = setTimeout(() => {
+                videoElement.play()
+                    .then(() => {
+                        setIsPlaying(true)
+                    })
+                    .catch((error) => {
+                        console.log("Autoplay blocked or interrupted:", error)
+                    });
+            }, 2000)
+        }
+
+        return () => {
+            if (timerRef) clearTimeout(timerRef);
+
+            if (videoElement) {
+                videoElement.pause();
+            }
+        }
+    }, [showcaseProgram, isMediaOverlayOpen])
+
+    useEffect(() => {
+        if (!programs?.length || !currentProfile || !showcaseId) return;
+
+        setShowcaseProgram((findProgram(showcaseId, programs)))
+    }, [programs, currentProfile, showcaseId])
 
     // Put these 3 in their own file
     const defaultWrapperStyle = {
@@ -76,15 +140,9 @@ const Billboard = () => {
         'transition-delay': '5000ms',
     }
 
+    // Resize logo and text
     useEffect(() => {
-        const startVideoTimer = setTimeout(() => {
-            setOpacity(0)
-        }, 2000)
-        return () => clearTimeout(startVideoTimer)
-    }, [])
-
-    useEffect(() => {
-        if (!videoDonePlaying) {
+        if (!hasFinished) {
             const logoAndTextTimer = setTimeout(() => {
                 setDefaultWrapperSize(false)
             }, 4000)
@@ -95,22 +153,26 @@ const Billboard = () => {
             }, 1000)
             return () => clearTimeout(resizeLogoAndTextTimer)
         }
-    }, [videoDonePlaying])
+    }, [hasFinished])
 
     const handleEndOfVideo = () => {
-        setVideoDonePlaying(true)
-        setOpacity(1)
-        setAutoPlay(false)
+        setHasFinished(true)
+        setIsPlaying(false)
     }
 
-    const handleRestartVideo = () => {
-        setVideoDonePlaying(false)
-        setOpacity(0)
-        setAutoPlay(true)
+    // Rename to handleReplay
+    const handleReplay = () => {
+        const video = videoRef.current;
+        if (!video) return;
+
+        video.currentTime = 0;
+        video.play();
+        setHasFinished(false)
+        setIsPlaying(true)
     }
 
     const handleHeroVideoVolume = () => {
-        setMuted(prev => !prev)
+        setIsMuted(prev => !prev)
     }
 
     const handleMoreInfo = () => {
@@ -119,15 +181,17 @@ const Billboard = () => {
         setSearchParams(newParams, { replace: false, preventScrollReset: true });
     }
 
-    const videoPlayerContainer = () => {
+    const renderPlayerContainer = () => {
         return (
             <div className='video-player-container'>
                 <div className='video-player-section'>
                     { isNotEmpty(showcaseProgram) &&
                         <video
-                            autoPlay={autoPlay}
-                            muted={muted}
+                            ref={videoRef}
+                            // autoPlay={autoPlay}
+                            muted={isMuted}
                             onEnded={handleEndOfVideo}
+                            style={{opacity: isPlaying ? 1 : 0}}
                         >
                             <source
                                 src={showcaseProgram?.thumbclip}
@@ -142,55 +206,68 @@ const Billboard = () => {
         )
     }
 
+    const renderAudioButton = () => {
+        return (
+            <span className='action-button'>
+                <button
+                    className='audio-button'
+                    onClick={handleHeroVideoVolume}
+                >
+                    <img
+                        className='volume'
+                        src={isMuted ? muteVolumeIcon : volumeOnIcon}
+                        alt="mute volume"
+                    />
+                </button>
+            </span>
+        )
+    }
+
+    const renderReplayButton = () => {
+        return (
+            <span className='action-button'>
+                <button
+                    className='audio-button'
+                    onClick={handleReplay}
+                >
+                    {/* volume class needs to be changed or the one above to reflect that this style is used for volume and replay - a more general name */}
+                    <img
+                        className='volume'
+                        src={replayIcon} alt="replay"
+                    />
+                </button>
+            </span>
+        )
+    }
+
     return (
         <div className='volatile-billboard-animations-container'>
             <div className='billboard-row'>
                 <div className='billboard'>
                     <div className='billboard-motion'>
-                        {!videoDonePlaying && videoPlayerContainer()}
+                        {renderPlayerContainer()}
 
                         <div className='motion-background-component'>
                             <div className='hero-image-wrapper'>
-                                <img
+
+
+                                
+                                {showcaseProgram?.background && <img
                                     className='static-hero-image'
-                                    src={isNotEmpty(showcaseProgram) ? showcaseProgram.background : ''}
-                                    alt={isNotEmpty(showcaseProgram) ? showcaseProgram.title : ''}
-                                    style={{ opacity: opacity }}
-                                />
+                                    src={showcaseProgram.background}
+                                    alt={showcaseProgram.title}
+                                    style={{ opacity: isPlaying ? 0 : 1 }}
+                                />}
+
+
+
                                 <div className='side-vignette-layer'></div>
                                 <div className='bottom-vignette-layer'></div>
                             </div>
 
                             <div className='embedded-button-layer'>
-                                {!opacity &&
-                                    <span className='action-button'>
-                                        <button
-                                            className='audio-button'
-                                            onClick={handleHeroVideoVolume}
-                                        >
-                                            {/* ternary for toggling audio */}
-                                            <img
-                                                className='volume'
-                                                src={muted ? muteVolumeIcon : volumeOnIcon}
-                                                alt="mute volume"
-                                            />
-                                        </button>
-                                    </span>
-                                }
-                                {!autoPlay &&
-                                    <span className='action-button'>
-                                        <button
-                                            className='audio-button'
-                                            onClick={handleRestartVideo}
-                                        >
-                                            {/* volume class needs to be changed or the one above to reflect that this style is used for volume and replay - a more general name */}
-                                            <img
-                                                className='volume'
-                                                src={replayIcon} alt="replay"
-                                            />
-                                        </button>
-                                    </span>
-                                }
+                                {hasFinished ? renderReplayButton() : renderAudioButton()}
+
                                 <span className='maturity-rating'>
                                     <span className='maturity-number'>{isNotEmpty(showcaseProgram) ? showcaseProgram.rating : ''}</span>
                                 </span>
@@ -244,17 +321,17 @@ const Billboard = () => {
                                         <div className='billboard-button-text'>Play</div>
                                     </button>
 
-                                    <button className='more-info'>
+                                    <button 
+                                        className='more-info'
+                                        onClick={handleMoreInfo}
+                                    >
                                         <img
                                             className='billboard-button-icon'
                                             src={infoIcon}
                                             alt="Information"
                                         />
                                         <div className='billboard-button-space'></div>
-                                        <div 
-                                            className='billboard-button-text'
-                                            onClick={handleMoreInfo}
-                                        >More Info</div>
+                                        <div className='billboard-button-text'>More Info</div>
                                     </button>
                                 </div>
                             </div>
@@ -267,51 +344,3 @@ const Billboard = () => {
 }
 
 export default Billboard
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -15,15 +15,15 @@ const Billboard = () => {
 
     const [_, isPastBoundary ] = usePixelScrollTrigger(200)
 
-    const videoRef = useRef(null)
-    const isPlayingRef = useRef(isPlaying);
-    const hasFinishedRef = useRef(hasFinished);
-
     const [isMuted, setIsMuted] = useState(true)
     const [isPlaying, setIsPlaying] = useState(false)
     const [hasFinished, setHasFinished] = useState(false)
 
+    const videoRef = useRef(null)
+    const isPlayingRef = useRef(isPlaying);
+    const hasFinishedRef = useRef(hasFinished);
 
+    
     isPlayingRef.current = isPlaying;
     hasFinishedRef.current = hasFinished;
 
