@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import WatchPage from './video/watch_page';
+import WatchPage from './watch/watch_page';
 import NavBar from './navbar/navbar'
 import Footer from './footer'
 import HomePage from './homepage/homepage'
@@ -96,7 +96,7 @@ const App = (props) => {
             {console.log(store)}
             <div className='app-layout-group' >
                 <Routes> 
-                    <Route path='/watch/:profileID' element={<WatchPage />} />
+                    <Route path='/watch/:programId' element={<WatchPage />} />
                 </Routes>
 
                 {/* Navbar */}
